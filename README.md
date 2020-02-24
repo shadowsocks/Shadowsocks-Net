@@ -14,13 +14,13 @@ Shadowsocks-Net是使用C#（.NET Core）开发的Shadowsocks。包含服务器�
 ## 版本
 Shadowsocks-Net计划有多个发布版本，功能特性比较见下表。
 
-|版本                     |ss-local        |ss-remote       |local http[^1] |混淆|规则过滤|服务器选择策略|图形用户界面|
+|版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
 |Minimal（cross-platform）|√              | √             |               |√  |        |              |            |
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
-[^1]:local http即本地的http代理服务。
+
 
 #### 加密算法
 Shadowsocks-Net默认提供了：
@@ -152,11 +152,10 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 <br/>
 
 
-*[//]: ## License
 
 <br/>
 <br/>
 
 [libev版]:https://github.com/shadowsocks/shadowsocks-libev
 [shadowsocks-windows]: https://github.com/shadowsocks/shadowsocks-windows
-[shadowsocks_net_arch]:https://github.com/shadowsocks/Shadowsocks-Net/ssarch.png
+[shadowsocks_net_arch]: https://github.com/shadowsocks/Shadowsocks-Net/blob/master/ssarch.png?
