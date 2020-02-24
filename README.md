@@ -134,7 +134,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 
 ## FAQ
 1. 与现有[shadowsocks-windows]有什么不同？
-    1. Shadowsocks-Net主要为了完成对[shadowsocks-windows]的重构，程序的重新设计。使之更容易阅读代码，快速上手，方便修改和扩展功能。
+    1. Shadowsocks-Net主要为了完成对[shadowsocks-windows]的重构，程序的重新设计。使阅读代码更容易，快速上手，方便修改和扩展功能。
     2. Shadowsocks-Net的Windows版界面计划更简洁一些。
 2. 客户端与现有的服务端是否兼容？
     1. 兼容。Shadowsocks-Net目前只是在现有实现上增加了混淆支持。
