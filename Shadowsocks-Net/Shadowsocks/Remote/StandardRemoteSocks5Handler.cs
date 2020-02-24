@@ -27,12 +27,12 @@ namespace Shadowsocks.Remote
 
     class StandardRemoteSocks5Handler : ISocks5Handler
     {
-        public void HandelUdp(IClient udpClient)
+        public async Task HandleTcp(IClient tcpClient)
         {
             throw new NotImplementedException();
         }
 
-        public void HandleTcp(IClient tcpClient)
+        public async Task HandelUdp(IClient udpClient)
         {
             throw new NotImplementedException();
         }

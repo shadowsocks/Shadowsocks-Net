@@ -22,27 +22,70 @@ namespace Shadowsocks.Local
 {
     using Infrastructure;
     using Infrastructure.Sockets;
+    using Infrastructure.Pipe;
+
 
     class StandardLocalSocks5Handler : ISocks5Handler
     {
         //accept->add
         //error->remove
         //expire->remove
-        ClientCollection<TcpClient1> _clients = new ClientCollection<TcpClient1>();
+        // ClientCollection<TcpClient1> _tcpClients = new ClientCollection<TcpClient1>();
         //TcpServer tcpServer
 
         //tcp lost->remove udp
-
-
         //pipe broken -> remove
-        public void HandleTcp(IClient tcpClient)
+
+        List<DefaultPipe> _pipes = new List<DefaultPipe>();
+
+
+
+        public async Task HandleTcp(IClient tcpClient)
         {
-            throw new NotImplementedException();
+            if (null != tcpClient)
+            {
+                //negotiate
+                //connect, pipe
+
+
+                tcpClient.Closing += Client_Closing;
+
+                //var relayCllient= await TcpClient1.ConnectAsync()
+                //wait for response
+                //Cipher
+                //Filter
+                //
+
+                DefaultPipe pip = null;// new DefaultPipe(tcpClient)
+
+                pip.OnBroken += Pip_OnBroken;
+                //pip.ApplyFilter()
+                pip.Pipe();
+            }
         }
 
-        public void HandelUdp(IClient udpClient)
+
+
+        public async Task HandelUdp(IClient udpClient)
         {
-            throw new NotImplementedException();
+            if (null != udpClient)
+            {
+                //authentication
+                //pipe
+            }
+        }
+
+        private void Client_Closing(object sender, ClientEventArgs e)
+        {
+            e.Client.Closing -= this.Client_Closing;
+            //do something
+        }
+
+
+        private void Pip_OnBroken(object sender, PipeEventArgs e)
+        {
+            e.Pipe.OnBroken -= this.Pip_OnBroken;
+            this._pipes.Remove(e.Pipe as DefaultPipe);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Shadowsocks.Remote
 {
     using Infrastructure;
     using Infrastructure.Sockets;
+    using Infrastructure.Pipe;
 
     /// <summary>
     /// This one runs on server.
@@ -24,6 +25,14 @@ namespace Shadowsocks.Remote
     {
         ILogger _logger = null;
         RemoteServerConfig _remoteServerConfig = null;
+
+        TcpServer _tcpServer = null;
+        UdpServer _udpServer = null;
+
+        CancellationTokenSource _cancellationStop = null;
+
+        ISocks5Handler _socks5Handler = null;
+
 
         //server 拉闸，结束accept和所有Tunnel双向数据流
         public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger<RemoteServer> logger = null)
