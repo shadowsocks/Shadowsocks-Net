@@ -19,6 +19,9 @@ namespace Shadowsocks.Tunnel
     using Infrastructure.Sockets;
 
 
+
+    //https://www.ietf.org/rfc/rfc1928.txt
+
     /*
     # SOCKS5 UDP Request
     # +----+------+------+----------+----------+----------+
@@ -50,21 +53,40 @@ namespace Shadowsocks.Tunnel
 
 
      */
+
+    /// <summary>
+    /// Applies to clients at both ends of the tunnel.
+    /// </summary>
     public class UdpPackingFilter : PipeFilter
     {
+
         public UdpPackingFilter(IClient udpClient, ILogger logger = null)
                : base(udpClient, 10, logger)
         {
 
         }
-        public override PipeFilterResult AfterReading(PipeFilterContext filterContext)
+
+        //Applies to clients at both ends of the tunnel.
+
+        public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
-            throw new NotImplementedException();
+            SmartBuffer packetSocks5 = SmartBuffer.Rent(1500);
+            ctx.Memory.CopyTo(packetSocks5.Memory.Slice(2 + 1));
+            var p = packetSocks5.Memory.Span;
+            p[0] = 0x0;
+            p[1] = 0x0;
+            p[2] = 0x0;
+            packetSocks5.SignificantLength = ctx.Memory.Length + 2 + 1;
+            return new PipeFilterResult(ctx.Client, packetSocks5, true);
+
         }
 
-        public override PipeFilterResult BeforeWriting(PipeFilterContext filterContext)
+        public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
         {
-            throw new NotImplementedException();
+            SmartBuffer packetSs = SmartBuffer.Rent(1500);
+            ctx.Memory.Slice(3).CopyTo(packetSs.Memory);
+            packetSs.SignificantLength = ctx.Memory.Length - 3;
+            return new PipeFilterResult(ctx.Client, packetSs, true);
         }
     }
 }

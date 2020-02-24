@@ -9,8 +9,9 @@ using System.Text;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     /// <summary>
-    /// Don't put too much logic in PipeFilter, although you can do it.
-    /// Don't do too much except process data.
+    /// 1.Don't put too much logic in PipeFilter, although you can do it.
+    /// 2.Don't do too much except process data.
+    /// 3.Always copy data.
     /// </summary>
     public interface IPipeFilter 
     {
