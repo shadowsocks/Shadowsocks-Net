@@ -12,15 +12,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 
-namespace Shadowsocks
+namespace Shadowsocks.Local
 {
     using Infrastructure;
     using Infrastructure.Pipe;
     using Infrastructure.Sockets;
 
-
-
-    //https://www.ietf.org/rfc/rfc1928.txt
 
     /*
     # SOCKS5 UDP Request
@@ -55,12 +52,12 @@ namespace Shadowsocks
      */
 
     /// <summary>
-    /// Applies to clients at both ends of the tunnel.
+    /// Applies to UDP relay client on local side.
     /// </summary>
-    public class UdpPackingFilter : PipeFilter
+    public class LocalUdpRelayPackingFilter : PipeFilter
     {
 
-        public UdpPackingFilter(IClient udpClient, ILogger logger = null)
+        public LocalUdpRelayPackingFilter(IClient udpClient, ILogger logger = null)
                : base(udpClient, 20, logger)
         {
 
