@@ -2,12 +2,9 @@
 
 Shadowsocks-Net是使用C#（.NET Core）开发的Shadowsocks。包含服务器端和客户端，核心功能完整，跨平台。
 
-#### Shadowsocks-Net完成： 
+Shadowsocks-Net完成： 
 1. [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows) 的工程重构（基本已重写）。
 2. [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows) 中核心功能到Linux平台的移植（使用.NET Standard / .NET Core）。
-
-#### Shadowsocks-Net目标：
-运用C#语言和.NET平台，开发好玩、易读、易扩展的Shadowsocks。
 
 <br/>
 
@@ -135,7 +132,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 ## FAQ
 1. 与现有[shadowsocks-windows]有什么不同？
     1. Shadowsocks-Net主要为了完成对[shadowsocks-windows]的重构，程序的重新设计。使阅读代码更容易，快速上手，方便修改和扩展功能。
-    2. Shadowsocks-Net的Windows版界面计划更简洁一些。
+    2. Shadowsocks-Net的Windows版功能可能更精简一些。
 2. 客户端与现有的服务端是否兼容？
     1. 兼容。Shadowsocks-Net目前只是在现有实现上增加了混淆支持。
 <br/>
@@ -148,7 +145,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 <br/>
 
 ## Contribute
-还有很多代码可以被添加。
+还有很多代码等待添加。
 <br/>
 
 
