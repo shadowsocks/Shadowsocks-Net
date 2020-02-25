@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shadowsocks\Shadowsocks.csproj" />
   </ItemGroup>
 
 </Project>
