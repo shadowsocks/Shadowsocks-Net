@@ -157,6 +157,16 @@ namespace Shadowsocks.Local
                         break;
                     case 0x3://udp assoc
                         {
+                            response.Memory.Span.Fill(0);
+                            response.Memory.Span[3] = (byte)(AddressFamily.InterNetworkV6 == client.LocalEndPoint.AddressFamily ? 0x4 : 0x1);
+                            var addrBytes = client.LocalEndPoint.Address.GetAddressBytes();
+                            var portBytes = BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short)client.LocalEndPoint.Port));
+                            response.Memory.Span[4] = (byte)addrBytes.Length;
+                            addrBytes.AsMemory().CopyTo(response.Memory.Slice(5, addrBytes.Length));
+                            portBytes.AsMemory().CopyTo(response.Memory.Slice(5 + addrBytes.Length));
+
+                            await client.WriteAsync(response.Memory.Slice(5 + addrBytes.Length + 2), cancellationToken);
+
                             //TODO
                             client.Closing += this.Client_Closing;
                         }
@@ -226,7 +236,7 @@ namespace Shadowsocks.Local
 
             pipe.ApplyFilter(filter)
                 .ApplyFilter(filter2);
-            
+
             pipe.OnBroken += this.Pip_OnBroken;
             this._pipes.Add(pipe);
             pipe.Pipe();
