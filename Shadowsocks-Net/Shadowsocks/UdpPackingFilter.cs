@@ -73,9 +73,7 @@ namespace Shadowsocks.Tunnel
             SmartBuffer packetSocks5 = SmartBuffer.Rent(1500);
             ctx.Memory.CopyTo(packetSocks5.Memory.Slice(2 + 1));
             var p = packetSocks5.Memory.Span;
-            p[0] = 0x0;
-            p[1] = 0x0;
-            p[2] = 0x0;
+            p.Slice(0, 3).Fill(0x0);
             packetSocks5.SignificantLength = ctx.Memory.Length + 2 + 1;
             return new PipeFilterResult(ctx.Client, packetSocks5, true);
 
