@@ -48,13 +48,103 @@ namespace Shadowsocks.Remote
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Start()
         {
-            throw new NotImplementedException();
+            Stop();
+
+            _cancellationStop ??= new CancellationTokenSource();
+            // _socks5Handler ??= new StandardLocalSocks5Handler();//TODO
+
+            _tcpServer.Listen();
+            _udpServer.Listen();
+
+            if (_tcpServer.IsRunning)
+            {
+                Task.Run(async () =>
+                {
+                    await ProcessTcp(_cancellationStop.Token);
+                });
+            }
+            if (_tcpServer.IsRunning && _udpServer.IsRunning)
+            {
+                Task.Run(async () =>
+                {
+                    await ProcessUdp(_cancellationStop.Token);
+                });
+            }
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            if (null != _cancellationStop)
+            {
+                _cancellationStop.Cancel();
+                _cancellationStop = null;
+            }
+
+            _tcpServer.StopListen();
+            _udpServer.StopListen();
+
+            if (null != _socks5Handler)
+            {
+                _socks5Handler.Dispose();
+                _socks5Handler = null;
+            }
         }
         #endregion
+
+        async Task ProcessTcp(CancellationToken cancellationToken)
+        {
+            if (_tcpServer.IsRunning)
+            {
+                var client = await _tcpServer.Accept();
+                if (null != client)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        client.Close();
+                        return;
+                    }
+                    if (null != _socks5Handler)
+                    {
+                        var t = Task.Run(async () =>
+                        {
+                            await _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
+                        }, this._cancellationStop.Token);
+                    }
+                }
+                else
+                {
+                    _logger?.LogInformation("ProcessTcp null = client");
+                }
+
+                if (cancellationToken.IsCancellationRequested) { return; }
+                await ProcessTcp(cancellationToken);
+            }
+
+
+        }
+
+        async Task ProcessUdp(CancellationToken cancellationToken)
+        {
+            if (_udpServer.IsRunning)
+            {
+                var client = await _udpServer.Accept();
+                if (null != client)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        client.Close();
+                        return;
+                    }
+                    var t = Task.Run(async () =>
+                    {
+                        await _socks5Handler.HandleUdp(client, this._cancellationStop.Token);
+                    }, this._cancellationStop.Token);
+
+                }
+                if (cancellationToken.IsCancellationRequested) { return; }
+                await ProcessUdp(cancellationToken);
+            }
+
+        }
     }
 }
