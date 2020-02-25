@@ -107,6 +107,24 @@ namespace ShadowsocksTest
                 var p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
                 Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
             }
+
+            aes = new AEAD_AES_192_GCM("password2");
+            for (int i = 0; i < 1000; i++)
+            {
+                RandomNumberGenerator.Fill(raw);
+                var c = aes.EncryptTcp(raw);
+                var p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+            }
+
+            aes = new AEAD_AES_256_GCM("password3");
+            for (int i = 0; i < 1000; i++)
+            {
+                RandomNumberGenerator.Fill(raw);
+                var c = aes.EncryptTcp(raw);
+                var p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+            }
         }
     }
 }
