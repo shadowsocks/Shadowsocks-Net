@@ -136,7 +136,10 @@ namespace Shadowsocks.Local
                             {
                                 var relayStream = new MemoryWriter(relayRequest.Memory);
                                 var clientRequest = request;
-                                relayStream.Write(clientRequest.Memory.Slice(3, 1 + 1 + clientRequest.Memory.Span[4] + 2));//addr
+                                byte atyp = clientRequest.Memory.Span[3];
+                                int sliceLen = 0x1 == atyp ? 1 + 4 + 2 : 1 + 16 + 2;
+                                sliceLen = 0x3 == atyp ? 1 + 1 + clientRequest.Memory.Span[4] + 2 : sliceLen;
+                                relayStream.Write(clientRequest.Memory.Slice(3, sliceLen));//addr
                                 relayRequest.SignificantLength = relayStream.Position;
 
                                 relayRequest.SignificantLength += //payload
@@ -234,7 +237,7 @@ namespace Shadowsocks.Local
             var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as IShadowsocksStreamCipher;
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
 
-            PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
+            PipeFilter filter = new Cipher.CipherUdpFilter(relayClient, cipher, _logger);
             PipeFilter filter2 = new LocalUdpRelayPackingFilter(relayClient, _logger);
 
             pipe.ApplyFilter(filter)
