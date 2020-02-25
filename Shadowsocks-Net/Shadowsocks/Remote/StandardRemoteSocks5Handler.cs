@@ -27,12 +27,19 @@ namespace Shadowsocks.Remote
 
     class StandardRemoteSocks5Handler : ISocks5Handler
     {
-        public async Task HandleTcp(IClient tcpClient)
+
+
+        public async Task HandleTcp(IClient tcpClient, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await Task.CompletedTask;
         }
 
-        public async Task HandelUdp(IClient udpClient)
+        public async Task HandleUdp(IClient udpClient, CancellationToken cancellationToken = default)
+        {
+            await Task.CompletedTask;
+        }
+
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

@@ -16,9 +16,13 @@ namespace Shadowsocks
 {
     using Infrastructure;
     using Infrastructure.Sockets;
-    public interface ISocks5Handler
+
+    /// <summary>
+    /// More like a module
+    /// </summary>
+    public interface ISocks5Handler :IDisposable
     {
-        Task HandleTcp(IClient tcpClient);
-        Task HandelUdp(IClient udpClient);
+        Task HandleTcp(IClient tcpClient, CancellationToken cancellationToken = default);
+        Task HandleUdp(IClient udpClient, CancellationToken cancellationToken = default);
     }
 }
