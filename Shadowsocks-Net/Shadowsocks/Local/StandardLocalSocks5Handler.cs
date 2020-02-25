@@ -222,7 +222,7 @@ namespace Shadowsocks.Local
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
 
             PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
-            UdpPackingFilter filter2 = new UdpPackingFilter(relayClient, _logger);
+            PipeFilter filter2 = new UdpPackingFilter(relayClient, _logger);
 
             pipe.ApplyFilter(filter)
                 .ApplyFilter(filter2);
