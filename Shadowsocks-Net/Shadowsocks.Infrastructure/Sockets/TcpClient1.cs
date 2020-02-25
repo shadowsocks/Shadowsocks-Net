@@ -28,7 +28,7 @@ namespace Shadowsocks.Infrastructure.Sockets
         /// <param name="logger"></param>
         /// <returns>null if error.</returns>
         /// <exception cref="">no exception</exception>
-        public static async Task<TcpClient1> ConnectAsync(IPEndPoint remoteEndPoint, ILogger logger = null)
+        public static async Task<TcpClient1> ConnectAsync(EndPoint remoteEndPoint, ILogger logger = null)
         {
             Throw.IfNull(() => remoteEndPoint);
             try

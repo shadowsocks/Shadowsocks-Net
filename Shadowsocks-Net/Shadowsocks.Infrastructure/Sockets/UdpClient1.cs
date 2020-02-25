@@ -30,7 +30,7 @@ namespace Shadowsocks.Infrastructure.Sockets
         /// <param name="remoteEndPoint"></param>
         /// <param name="logger"></param>
         /// <returns>null if error.</returns>
-        public static async Task<UdpClient1> ConnectAsync(IPEndPoint remoteEndPoint, ILogger logger = null)
+        public static async Task<UdpClient1> ConnectAsync(EndPoint remoteEndPoint, ILogger logger = null)
         {
             Throw.IfNull(() => remoteEndPoint);
             try
