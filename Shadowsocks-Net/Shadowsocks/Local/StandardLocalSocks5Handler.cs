@@ -174,8 +174,15 @@ namespace Shadowsocks.Local
         {
             if (null == client) { return; }
 
-            //authentication
-            //pipe
+            //authentication //TODO udp assoc
+
+            var relayClient = await UdpClient1.ConnectAsync(this._remoteServerEndPoint, _logger);
+            if (null == relayClient)
+            {
+                _logger?.LogInformation($"unable to relay udp");
+                client.Close();
+            }
+            await PipeUdp(client, relayClient, cancellationToken);
 
         }
 
@@ -207,9 +214,19 @@ namespace Shadowsocks.Local
             }
         }
 
-        async Task PipeUdp(IClient client, IClient relayClient)
-        {
 
+        async Task PipeUdp(IClient client, IClient relayClient, CancellationToken cancellationToken)
+        {
+            //authentication //TODO udp assoc
+            var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as IShadowsocksStreamCipher;
+            DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+            PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
+            pipe.ApplyFilter(filter);
+            pipe.OnBroken += this.Pip_OnBroken;
+            this._pipes.Add(pipe);
+            pipe.Pipe();
+
+            await Task.CompletedTask;
         }
 
         void Cleanup()

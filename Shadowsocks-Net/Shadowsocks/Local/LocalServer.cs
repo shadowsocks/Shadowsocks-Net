@@ -25,10 +25,8 @@ namespace Shadowsocks.Local
         ILogger<LocalServer> _logger = null;
 
         LocalServerConfig _localServerConfig = null;
-
         TcpServer _tcpServer = null;
         UdpServer _udpServer = null;
-
         CancellationTokenSource _cancellationStop = null;
 
         ISocks5Handler _socks5Handler = null;
