@@ -220,8 +220,13 @@ namespace Shadowsocks.Local
             //authentication //TODO udp assoc
             var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as IShadowsocksStreamCipher;
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+
             PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
-            pipe.ApplyFilter(filter);
+            UdpPackingFilter filter2 = new UdpPackingFilter(relayClient, _logger);
+
+            pipe.ApplyFilter(filter)
+                .ApplyFilter(filter2);
+            
             pipe.OnBroken += this.Pip_OnBroken;
             this._pipes.Add(pipe);
             pipe.Pipe();

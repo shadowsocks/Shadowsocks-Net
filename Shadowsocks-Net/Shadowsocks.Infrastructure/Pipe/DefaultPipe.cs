@@ -91,19 +91,20 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
-        public void ApplyFilter(PipeFilter filter)//TODO lock
+        public DefaultPipe ApplyFilter(PipeFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
 
             if (filter.Client == ClientA && !_filtersA.Contains(filter))
             {
                 _filtersA.Add(filter);
-                return;
+                return this;
             }
             if (filter.Client == ClientB && !_filtersB.Contains(filter))
             {
                 _filtersB.Add(filter);
             }
+            return this;
         }
 
 

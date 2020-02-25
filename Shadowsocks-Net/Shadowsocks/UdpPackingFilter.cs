@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 
-namespace Shadowsocks.Tunnel
+namespace Shadowsocks
 {
     using Infrastructure;
     using Infrastructure.Pipe;
@@ -61,7 +61,7 @@ namespace Shadowsocks.Tunnel
     {
 
         public UdpPackingFilter(IClient udpClient, ILogger logger = null)
-               : base(udpClient, 10, logger)
+               : base(udpClient, 20, logger)
         {
 
         }
