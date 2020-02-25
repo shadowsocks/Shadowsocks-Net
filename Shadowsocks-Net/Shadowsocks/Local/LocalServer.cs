@@ -47,7 +47,7 @@ namespace Shadowsocks.Local
             Stop();
 
             _cancellationStop ??= new CancellationTokenSource();
-            _socks5Handler ??= new StandardLocalSocks5Handler();
+           // _socks5Handler ??= new StandardLocalSocks5Handler();//TODO
 
             _tcpServer.Listen();
             _udpServer.Listen();

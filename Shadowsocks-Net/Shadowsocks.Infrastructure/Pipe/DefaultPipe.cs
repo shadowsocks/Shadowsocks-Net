@@ -74,14 +74,10 @@ namespace Shadowsocks.Infrastructure.Pipe
         public void Pipe()
         {
             UnPipe();
-            if (null == _cancellation)
-            {
-                _cancellation = new CancellationTokenSource();
-                var tA2B = Task.Run(async () => { await PipeA2B(_cancellation.Token); }, _cancellation.Token);
-                var tB2A = Task.Run(async () => { await PipeB2A(_cancellation.Token); }, _cancellation.Token);
-                //TODO ...
 
-            }
+            _cancellation ??= new CancellationTokenSource();
+            var tA2B = Task.Run(async () => { await PipeA2B(_cancellation.Token); }, _cancellation.Token);
+            var tB2A = Task.Run(async () => { await PipeB2A(_cancellation.Token); }, _cancellation.Token);
 
         }
 
