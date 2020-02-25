@@ -33,7 +33,7 @@ namespace Shadowsocks.Cipher
             {
                 if (!ctx.Memory.IsEmpty)
                 {
-                    var bufferPlain = _cipher.DecryptUdp(ctx.Memory.Slice(0, ctx.MemoryLength));
+                    var bufferPlain = _cipher.DecryptUdp(ctx.Memory);
                     if (null != bufferPlain && bufferPlain.SignificantLength > 0)
                     {
                         r = new PipeFilterResult(this.Client, bufferPlain, true);
@@ -58,7 +58,7 @@ namespace Shadowsocks.Cipher
             {
                 if (!ctx.Memory.IsEmpty)
                 {
-                    var bufferCipher = _cipher.EncryptUdp(ctx.Memory.Slice(0, ctx.MemoryLength));
+                    var bufferCipher = _cipher.EncryptUdp(ctx.Memory);
                     r = new PipeFilterResult(this.Client, bufferCipher, true);
                 }
                 else
