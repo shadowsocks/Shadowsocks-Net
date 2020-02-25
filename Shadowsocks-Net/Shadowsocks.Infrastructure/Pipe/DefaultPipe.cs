@@ -293,7 +293,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             foreach (var f in filters)
             {
                 _logger?.LogInformation($"DefaultPipe DoFilter_AfterReading {f.ToString()}...");
-                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory, buffer.SignificantLength);
+                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory.Slice(0, buffer.SignificantLength));
                 try
                 {
                     rt = f.AfterReading(ctx);
@@ -325,7 +325,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             foreach (var f in filters)
             {
                 _logger?.LogInformation($"DefaultPipe DoFilter_BeforeWriting {f.ToString()}...");
-                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory, buffer.SignificantLength);
+                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory.Slice(0,buffer.SignificantLength));
                 try
                 {
                     rt = f.BeforeWriting(ctx);

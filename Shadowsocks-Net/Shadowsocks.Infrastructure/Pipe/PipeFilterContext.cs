@@ -14,13 +14,11 @@ namespace Shadowsocks.Infrastructure.Pipe
     {
         public readonly IClient Client;
         public readonly ReadOnlyMemory<byte> Memory;
-        public readonly int MemoryLength;
 
-        public PipeFilterContext(IClient client, ReadOnlyMemory<byte> memory = default, int memoryLength = 0)
+        public PipeFilterContext(IClient client, ReadOnlyMemory<byte> memory = default)
         {
             Client = client;
-            Memory = memory;
-            MemoryLength = memoryLength;
+            Memory = memory;           
         }
     }
 }
