@@ -58,7 +58,7 @@ namespace Shadowsocks.Remote
     /// </summary>
     class RemoteUdpRelayPackingFilter : PipeFilter
     {
-
+        MemoryWriter _memoryWriter = null;
         public RemoteUdpRelayPackingFilter(IClient udpClient, ILogger logger = null)
                : base(udpClient, 20, logger)
         {
@@ -70,12 +70,21 @@ namespace Shadowsocks.Remote
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
             SmartBuffer toLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
-            //var writer=new
+            _memoryWriter ??= new MemoryWriter(toLocal.Memory);
+            _memoryWriter.ResetMemory(toLocal.Memory);
 
+            var addrBytes = ctx.Client.EndPoint.Address.GetAddressBytes();
+            var portBytes= BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short) ctx.Client.EndPoint.Port));
+            Span<byte> b2 = stackalloc byte[2];
+            b2[0] = (byte)(AddressFamily.InterNetworkV6 == ctx.Client.EndPoint.Address.AddressFamily ? 0x4 : 0x1);
+            b2[1] = (byte)addrBytes.Length;
+            _memoryWriter.Write(b2);
+            _memoryWriter.Write(addrBytes.AsSpan());
+            _memoryWriter.Write(portBytes.AsSpan());
+            _memoryWriter.Write(ctx.Memory.Slice(0, Math.Min(ctx.Memory.Length, _memoryWriter.Length - _memoryWriter.Position)));
+            toLocal.SignificantLength = _memoryWriter.Position;
 
-
-          
-            return default;
+            return new PipeFilterResult(ctx.Client, toLocal, true); ;
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)

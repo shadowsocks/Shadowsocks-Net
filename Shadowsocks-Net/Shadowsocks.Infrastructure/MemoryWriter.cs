@@ -37,11 +37,9 @@ namespace Shadowsocks.Infrastructure
         Memory<byte> _mem = default;
         public MemoryWriter(Memory<byte> memory)
         {
-            _mem = memory;
-            _pos = 0;
+            ResetMemory(memory);
         }
-
-       
+      
         public void Write(Memory<byte> buffer)
         {
             if (_mem.IsEmpty) { throw new NullReferenceException("_mem"); ; }
@@ -70,6 +68,12 @@ namespace Shadowsocks.Infrastructure
             int w = Math.Min(buffer.Length, _mem.Length - _pos);
             buffer.CopyTo(_mem.Slice(_pos, w).Span);
             _pos += w;
+        }
+
+        public void ResetMemory(Memory<byte> memory)
+        {
+            this._mem = memory;
+            this._pos = 0;
         }
 
     }
