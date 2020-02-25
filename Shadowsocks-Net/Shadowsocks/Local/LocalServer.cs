@@ -16,6 +16,7 @@ namespace Shadowsocks.Local
 {
     using Infrastructure;
     using Infrastructure.Sockets;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// This one runs on client device.
@@ -40,6 +41,8 @@ namespace Shadowsocks.Local
         }
 
         #region IShadowsocksServer
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Start()
         {
             Stop();

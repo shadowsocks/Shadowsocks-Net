@@ -17,6 +17,7 @@ namespace Shadowsocks.Remote
     using Infrastructure;
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// This one runs on server.
@@ -34,7 +35,6 @@ namespace Shadowsocks.Remote
         ISocks5Handler _socks5Handler = null;
 
 
-        //server 拉闸，结束accept和所有Tunnel双向数据流
         public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger<RemoteServer> logger = null)
         {
             this._remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
@@ -44,6 +44,8 @@ namespace Shadowsocks.Remote
 
 
         #region IShadowsocksServer
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Start()
         {
             throw new NotImplementedException();
