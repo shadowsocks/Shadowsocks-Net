@@ -18,21 +18,15 @@ using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 
-
 namespace Shadowsocks.Helper
 {
-    public class CipherLoader
+    public class ObfuscatorLoader
     {
-        public static Dictionary<string, Type> LoadCiphers()
+        public static Dictionary<string, Type> LoadObfuscators()
         {
-            //var ciphers = from t in Assembly.GetExecutingAssembly().GetTypes()
-            //              where t.IsSubclassOf(typeof(Cipher.ShadowsocksCipher)) && t.GetCustomAttribute<Cipher.CipherAttribute>() != null
-            //              select new KeyValuePair<string, Type>(t.GetCustomAttribute<Cipher.CipherAttribute>().Name, t);
-            //return new Dictionary<string, Type>(ciphers);
-
             var ciphers = from t in Assembly.GetExecutingAssembly().GetTypes()
-                          where t.IsSubclassOf(typeof(Cipher.ShadowsocksCipher))
-                          let attr = t.GetCustomAttribute<Cipher.CipherAttribute>()
+                          //where t.IsSubclassOf(typeof(Obfuscation.))
+                          let attr = t.GetCustomAttribute<Obfuscation.ObfuscatorAttribute>()
                           where attr != null
                           select new KeyValuePair<string, Type>(attr.Name, t);
             return new Dictionary<string, Type>(ciphers);
