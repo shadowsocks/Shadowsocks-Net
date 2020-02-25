@@ -64,9 +64,7 @@ namespace Shadowsocks.Remote
         {
 
         }
-
-        //Applies to clients at both ends of the tunnel.
-
+       
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
             SmartBuffer toLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
