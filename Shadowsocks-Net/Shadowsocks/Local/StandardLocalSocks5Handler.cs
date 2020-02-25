@@ -3,6 +3,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
@@ -30,6 +31,7 @@ namespace Shadowsocks.Local
         ILogger _logger = null;
 
         List<DefaultPipe> _pipes = null;
+        object _pipesReadWriteLock = new object();
 
         Type _cipherType = null;
         string _cipherPassword = null;
@@ -223,7 +225,7 @@ namespace Shadowsocks.Local
                 DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
                 PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
                 pipe.ApplyFilter(filter);
-                pipe.OnBroken += this.Pip_OnBroken;
+                pipe.OnBroken += this.Pipe_OnBroken;
                 this._pipes.Add(pipe);
                 pipe.Pipe();
 
@@ -243,8 +245,12 @@ namespace Shadowsocks.Local
             pipe.ApplyFilter(filter)
                 .ApplyFilter(filter2);
 
-            pipe.OnBroken += this.Pip_OnBroken;
-            this._pipes.Add(pipe);
+            pipe.OnBroken += this.Pipe_OnBroken;
+
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Add(pipe);
+            }
             pipe.Pipe();
 
             await Task.CompletedTask;
@@ -271,15 +277,18 @@ namespace Shadowsocks.Local
             //TODO disassoc udp
         }
 
-        private void Pip_OnBroken(object sender, PipeEventArgs e)
+        private void Pipe_OnBroken(object sender, PipeEventArgs e)
         {
             var p = e.Pipe as DefaultPipe;
-            p.OnBroken -= this.Pip_OnBroken;
+            p.OnBroken -= this.Pipe_OnBroken;
             p.UnPipe();
             p.ClientA.Close();
             p.ClientB.Close();
 
-            this._pipes.Remove(p);
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Remove(p);
+            }
         }
 
 
