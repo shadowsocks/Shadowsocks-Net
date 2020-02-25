@@ -157,15 +157,18 @@ namespace Shadowsocks.Local
                         break;
                     case 0x3://udp assoc
                         {
-                            response.Memory.Span.Fill(0);
-                            response.Memory.Span[3] = (byte)(AddressFamily.InterNetworkV6 == client.LocalEndPoint.AddressFamily ? 0x4 : 0x1);
+                            var responseWriter = new MemoryWriter(response.Memory);
+
+                            byte adtp = (byte)(AddressFamily.InterNetworkV6 == client.LocalEndPoint.AddressFamily ? 0x4 : 0x1);
                             var addrBytes = client.LocalEndPoint.Address.GetAddressBytes();
                             var portBytes = BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short)client.LocalEndPoint.Port));
-                            response.Memory.Span[4] = (byte)addrBytes.Length;
-                            addrBytes.AsMemory().CopyTo(response.Memory.Slice(5, addrBytes.Length));
-                            portBytes.AsMemory().CopyTo(response.Memory.Slice(5 + addrBytes.Length));
+                            byte addrlen = (byte)addrBytes.Length;
 
-                            await client.WriteAsync(response.Memory.Slice(5 + addrBytes.Length + 2), cancellationToken);
+                            responseWriter.WriteByte(0x5, 0x0, 0x0, 0x0, adtp, addrlen);
+                            responseWriter.Write(addrBytes.AsSpan());
+                            responseWriter.Write(portBytes.AsSpan());
+                            response.SignificantLength = responseWriter.Position;
+                            await client.WriteAsync(response.Memory.Slice(0, response.SignificantLength), cancellationToken);
 
                             //TODO
                             client.Closing += this.Client_Closing;

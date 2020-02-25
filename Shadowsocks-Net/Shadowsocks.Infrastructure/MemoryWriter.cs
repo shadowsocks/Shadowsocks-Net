@@ -23,9 +23,9 @@ namespace Shadowsocks.Infrastructure
     {
 
         public ReadOnlyMemory<byte> Memory => _mem;
-        public  int Length => _mem.Length;
+        public int Length => _mem.Length;
 
-        public  int Position
+        public int Position
         {
             get { return _pos; }
             set { if (value >= 0 && value < _mem.Length) { _pos = (int)value; } }
@@ -39,7 +39,7 @@ namespace Shadowsocks.Infrastructure
         {
             ResetMemory(memory);
         }
-      
+
         public void Write(Memory<byte> buffer)
         {
             if (_mem.IsEmpty) { throw new NullReferenceException("_mem"); ; }
@@ -67,6 +67,23 @@ namespace Shadowsocks.Infrastructure
 
             int w = Math.Min(buffer.Length, _mem.Length - _pos);
             buffer.CopyTo(_mem.Slice(_pos, w).Span);
+            _pos += w;
+        }
+        public void WriteByte(byte @byte)
+        {
+            if (_mem.IsEmpty) { throw new NullReferenceException("_mem"); ; }
+            if (_pos >= _mem.Length) { throw new EndOfStreamException("end of stream"); }
+
+            _mem.Span[_pos] = @byte;
+            ++_pos;
+        }
+        public void WriteByte(params byte[] bytes)
+        {
+            if (_mem.IsEmpty) { throw new NullReferenceException("_mem"); ; }
+            if (_pos >= bytes.Length) { throw new EndOfStreamException("end of stream"); }
+
+            int w = Math.Min(bytes.Length, _mem.Length - _pos);
+            bytes.AsSpan().CopyTo(_mem.Slice(_pos, w).Span);
             _pos += w;
         }
 
