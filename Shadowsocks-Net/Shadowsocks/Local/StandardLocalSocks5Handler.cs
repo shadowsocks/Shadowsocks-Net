@@ -226,7 +226,10 @@ namespace Shadowsocks.Local
                 PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
                 pipe.ApplyFilter(filter);
                 pipe.OnBroken += this.Pipe_OnBroken;
-                this._pipes.Add(pipe);
+                lock (_pipesReadWriteLock)
+                {
+                    this._pipes.Add(pipe);
+                }
                 pipe.Pipe();
 
             }
@@ -261,8 +264,14 @@ namespace Shadowsocks.Local
             foreach (var p in this._pipes)
             {
                 p.UnPipe();
+                p.ClientA.Close();
+                p.ClientB.Close();
             }
-            this._pipes.Clear();
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Clear();
+            }
+
         }
         public void Dispose()
         {
