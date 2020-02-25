@@ -92,5 +92,21 @@ namespace ShadowsocksTest
             }
 
         }
+
+
+        [TestMethod]
+        public void AesGcmTest2()
+        {
+            IShadowsocksAeadCipher aes = new AEAD_AES_128_GCM("password");
+            byte[] raw = new byte[1024];
+
+            for (int i = 0; i < 1000; i++)
+            {
+                RandomNumberGenerator.Fill(raw);
+                var c = aes.EncryptTcp(raw);
+                var p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+            }
+        }
     }
 }
