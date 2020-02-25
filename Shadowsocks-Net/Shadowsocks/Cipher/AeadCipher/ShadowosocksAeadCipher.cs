@@ -350,8 +350,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                 NonceValue = 0U;
                 Nonce = new byte[LEN_NONCE];
 
-                var tmp = BitConverter.GetBytes(NonceValue);
-                if (!BitConverter.IsLittleEndian) { Array.Reverse(tmp); }
+                var tmp = BitConverter.GetBytes(NonceValue);                
                 Buffer.BlockCopy(tmp, 0, Nonce, 0, tmp.Length);
 
                 Key = new byte[keyLen];
@@ -381,8 +380,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             public void IncreaseNonce()
             {
                 ++NonceValue;
-                var tmp = BitConverter.GetBytes(NonceValue);
-                if (!BitConverter.IsLittleEndian) { Array.Reverse(tmp); }
+                var tmp = BitConverter.GetBytes(NonceValue);             
                 Buffer.BlockCopy(tmp, 0, Nonce, 0, tmp.Length);
 
             }
