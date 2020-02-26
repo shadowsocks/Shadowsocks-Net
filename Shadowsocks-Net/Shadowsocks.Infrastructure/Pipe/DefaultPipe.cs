@@ -165,7 +165,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     }
                 }//end FilterB
 
-                int written = await ClientB.WriteAsync(buffer.Memory, cancellationToken);
+                int written = await ClientB.WriteAsync(buffer.Memory.Slice(0, buffer.SignificantLength), cancellationToken);
                 _logger?.LogInformation($"DefaultPipe Pipe A to B {written} bytes.");
                 if (written < 0)
                 {
@@ -254,7 +254,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     }
                 }//end FilterA
 
-                int written = await ClientA.WriteAsync(buffer.Memory, cancellationToken);//Pipe
+                int written = await ClientA.WriteAsync(buffer.Memory.Slice(0, buffer.SignificantLength), cancellationToken);//Pipe
                 _logger?.LogInformation($"DefaultPipe Pipe B to A {written} bytes.");
                 if (written < 0)
                 {

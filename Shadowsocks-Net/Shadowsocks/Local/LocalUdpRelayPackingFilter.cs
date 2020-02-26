@@ -62,26 +62,24 @@ namespace Shadowsocks.Local
         {
 
         }
-
-        //Applies to clients at both ends of the tunnel.
-
+        
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
-            SmartBuffer packetSocks5 = SmartBuffer.Rent(1500);
-            ctx.Memory.CopyTo(packetSocks5.Memory.Slice(2 + 1));
-            var p = packetSocks5.Memory.Span;
+            SmartBuffer toApplication = SmartBuffer.Rent(1500);
+            ctx.Memory.CopyTo(toApplication.Memory.Slice(2 + 1));
+            var p = toApplication.Memory.Span;
             p.Slice(0, 3).Fill(0x0);
-            packetSocks5.SignificantLength = ctx.Memory.Length + 2 + 1;
-            return new PipeFilterResult(ctx.Client, packetSocks5, true);
+            toApplication.SignificantLength = ctx.Memory.Length + 2 + 1;
+            return new PipeFilterResult(ctx.Client, toApplication, true);
 
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
         {
-            SmartBuffer packetSs = SmartBuffer.Rent(1500);
-            ctx.Memory.Slice(3).CopyTo(packetSs.Memory);
-            packetSs.SignificantLength = ctx.Memory.Length - 3;
-            return new PipeFilterResult(ctx.Client, packetSs, true);
+            SmartBuffer toRemote = SmartBuffer.Rent(1500);
+            ctx.Memory.Slice(3).CopyTo(toRemote.Memory);
+            toRemote.SignificantLength = ctx.Memory.Length - 3;
+            return new PipeFilterResult(ctx.Client, toRemote, true);
         }
     }
 }

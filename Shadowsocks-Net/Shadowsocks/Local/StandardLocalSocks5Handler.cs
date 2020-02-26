@@ -191,7 +191,7 @@ namespace Shadowsocks.Local
         }
 
 
-        public async Task HandleUdp(IClient client, CancellationToken cancellationToken = default)
+        public async Task HandleUdp(IClient client, CancellationToken cancellationToken)
         {
             if (null == client) { return; }
 
@@ -202,6 +202,7 @@ namespace Shadowsocks.Local
             {
                 _logger?.LogInformation($"unable to relay udp");
                 client.Close();
+                return;
             }
             await PipeUdp(client, relayClient, cancellationToken);
 
