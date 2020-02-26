@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Buffers;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Caching.Memory;
@@ -105,7 +106,6 @@ namespace Shadowsocks.Remote
                             return;
                         }
 
-
                     }
                     else
                     {
@@ -121,8 +121,70 @@ namespace Shadowsocks.Remote
             await Task.CompletedTask;
         }
 
-        public async Task HandleUdp(IClient udpClient, CancellationToken cancellationToken = default)
+        public async Task HandleUdp(IClient client, CancellationToken cancellationToken = default)
         {
+            if (null == client) { return; }
+            using (SmartBuffer localRequestCipher = SmartBuffer.Rent(1500))
+            {
+                localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
+                //decrypt
+                var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as Cipher.IShadowsocksStreamCipher;
+                using (var localReqestPlain = cipher.DecryptUdp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
+                {
+                    if (0 == localRequestCipher.SignificantLength)
+                    {//decrypt failed, available options: 1.leave it. 2.close connection. 3.add to blocklist.
+
+                        _logger?.LogWarning($"StandardRemoteSocks5Handler HandleUdp decrypt failed, client=[{client.EndPoint.ToString()}]");
+                        client.Close();//->local pipe broken-> local pipe close.
+                        return;
+                    }
+                    IPAddress targetIP = IPAddress.Any; //TODO target address check
+                    if (ShadowsocksAddress.TryResolve(localReqestPlain.Memory, out ShadowsocksAddress ssaddr))//resolve target address
+                    {
+                        if (0x3 == ssaddr.ATYP)//a domain name
+                        {
+                            var ips = await _dnsCache.ResolveHost(Encoding.UTF8.GetString(ssaddr.Address.ToArray()));
+                            if (ips != null && ips.Length > 0) { targetIP = ips[0]; }
+                        }
+                        else
+                        {
+                            targetIP = new IPAddress(ssaddr.Address.Span);
+                        }
+                        if (IPAddress.Any != targetIP)//got target IP
+                        {
+                            IPEndPoint ipeTarget = new IPEndPoint(targetIP, ssaddr.Port);
+                            var targetClient = await UdpClient1.ConnectAsync(ipeTarget, _logger);
+                            if (null != targetClient)
+                            {
+                                await targetClient.WriteAsync(localReqestPlain.Memory.Slice(ssaddr.RawMemory.Length), cancellationToken);
+
+                                await PipeUdp(client, targetClient, cipher, cancellationToken);
+                            }
+                            else
+                            {
+                                _logger?.LogInformation($"StandardRemoteSocks5Handler HandleUdp unable to connect target [{ipeTarget.ToString()}]. client=[{client.EndPoint.ToString()}]");
+                                client.Close();
+                                return;
+                            }
+                        }
+                        else//resolve target address failed.
+                        {
+                            _logger?.LogWarning($"StandardRemoteSocks5Handler HandleUdp invalid target addr. client=[{client.EndPoint.ToString()}]");
+                            client.Close();
+                            return;
+                        }
+
+                    }
+                    else
+                    {
+                        _logger?.LogWarning($"StandardRemoteSocks5Handler HandleUdp resolve target addr failed. client=[{client.EndPoint.ToString()}]");
+                        client.Close();
+                        return;
+                    }
+                }
+            }
+
+
             await Task.CompletedTask;
         }
 
@@ -148,6 +210,31 @@ namespace Shadowsocks.Remote
             p.Pipe();
             await Task.CompletedTask;
         }
+
+        async Task PipeUdp(IClient client, IClient relayClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
+        {
+            DefaultPipe p = new DefaultPipe(client, relayClient, 1500, _logger);
+            p.OnBroken += Pipe_OnBroken;
+
+            Cipher.CipherUdpFilter filter1 = new Cipher.CipherUdpFilter(client, cipher, _logger);
+            RemoteUdpRelayPackingFilter filter2 = new RemoteUdpRelayPackingFilter(relayClient, _logger);
+            p.ApplyFilter(filter1)
+                .ApplyFilter(filter2);
+            //if (addFilters.Length > 0)
+            //{
+            //    foreach (var f in addFilters)
+            //    {
+            //        p.ApplyFilter(f);
+            //    }
+            //}
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Add(p);
+            }
+            p.Pipe();
+            await Task.CompletedTask;
+        }
+
 
         private void Pipe_OnBroken(object sender, PipeEventArgs e)
         {
