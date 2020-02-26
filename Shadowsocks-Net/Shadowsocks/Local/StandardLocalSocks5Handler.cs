@@ -138,16 +138,21 @@ namespace Shadowsocks.Local
                             {
                                 var relayStream = new MemoryWriter(relayRequest.Memory);
                                 var clientRequest = request;
-                                byte atyp = clientRequest.Memory.Span[3];
-                                int sliceLen = 0x1 == atyp ? 1 + 4 + 2 : 1 + 16 + 2;
-                                sliceLen = 0x3 == atyp ? 1 + 1 + clientRequest.Memory.Span[4] + 2 : sliceLen;
-                                relayStream.Write(clientRequest.Memory.Slice(3, sliceLen));//addr
-                                relayRequest.SignificantLength = relayStream.Position;
+                                if (ShadowsocksAddress.TryResolveLength(clientRequest.Memory.Slice(3), out int ssaddrlen))
+                                {
+                                    relayStream.Write(clientRequest.Memory.Slice(3, ssaddrlen));//addr
+                                    relayRequest.SignificantLength = relayStream.Position;
 
-                                relayRequest.SignificantLength += //payload
-                                    await client.ReadAsync(relayRequest.Memory.Slice(relayRequest.SignificantLength), cancellationToken);
+                                    relayRequest.SignificantLength += //payload
+                                        await client.ReadAsync(relayRequest.Memory.Slice(relayRequest.SignificantLength), cancellationToken);
 
-                                await PipeTcp(client, relayClient, relayRequest, cancellationToken);//pipe
+                                    await PipeTcp(client, relayClient, relayRequest, cancellationToken);//pipe
+                                }
+                                else
+                                {
+                                    _logger?.LogWarning("resolve target addr failed.");
+                                    client.Close();
+                                }
 
                             }
                         }
@@ -162,18 +167,16 @@ namespace Shadowsocks.Local
                         break;
                     case 0x3://udp assoc
                         {
-                            var responseWriter = new MemoryWriter(response.Memory);
-
-                            byte adtp = (byte)(AddressFamily.InterNetworkV6 == client.LocalEndPoint.AddressFamily ? 0x4 : 0x1);
-                            var addrBytes = client.LocalEndPoint.Address.GetAddressBytes();
-                            var portBytes = BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short)client.LocalEndPoint.Port));
-                            byte addrlen = (byte)addrBytes.Length;
-
-                            responseWriter.WriteByte(0x5, 0x0, 0x0, 0x0, adtp, addrlen);
-                            responseWriter.Write(addrBytes.AsSpan());
-                            responseWriter.Write(portBytes.AsSpan());
-                            response.SignificantLength = responseWriter.Position;
-                            await client.WriteAsync(response.Memory.Slice(0, response.SignificantLength), cancellationToken);
+                            if (ShadowsocksAddress.TrySerailizeTo(
+                                (byte)(AddressFamily.InterNetworkV6 == client.LocalEndPoint.AddressFamily ? 0x4 : 0x1),
+                                client.LocalEndPoint.Address.GetAddressBytes(),
+                                (ushort)client.LocalEndPoint.Port,
+                                response.Memory,
+                                out int written))
+                            {
+                                response.SignificantLength = written;
+                                await client.WriteAsync(response.Memory.Slice(0, response.SignificantLength), cancellationToken);
+                            }
 
                             //TODO
                             client.Closing += this.Client_Closing;
