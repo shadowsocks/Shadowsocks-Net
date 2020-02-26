@@ -58,40 +58,54 @@ namespace Shadowsocks.Remote
     /// </summary>
     class RemoteUdpRelayPackingFilter : PipeFilter
     {
-        MemoryWriter _memoryWriter = null;
+
         public RemoteUdpRelayPackingFilter(IClient udpClient, ILogger logger = null)
                : base(udpClient, 20, logger)
         {
 
         }
-       
+
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
             SmartBuffer toLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
-            _memoryWriter ??= new MemoryWriter(toLocal.Memory);
-            _memoryWriter.ResetMemory(toLocal.Memory);
 
-            var addrBytes = ctx.Client.EndPoint.Address.GetAddressBytes();
-            var portBytes= BitConverter.GetBytes((ushort)IPAddress.HostToNetworkOrder((short) ctx.Client.EndPoint.Port));
-            Span<byte> b2 = stackalloc byte[2];
-            b2[0] = (byte)(AddressFamily.InterNetworkV6 == ctx.Client.EndPoint.Address.AddressFamily ? 0x4 : 0x1);
-            b2[1] = (byte)addrBytes.Length;
-            _memoryWriter.Write(b2);
-            _memoryWriter.Write(addrBytes.AsSpan());
-            _memoryWriter.Write(portBytes.AsSpan());
-            _memoryWriter.Write(ctx.Memory.Slice(0, Math.Min(ctx.Memory.Length, _memoryWriter.Length - _memoryWriter.Position)));
-            toLocal.SignificantLength = _memoryWriter.Position;
+            
+            if (ShadowsocksAddress.TrySerailizeTo(
+                               (byte)(AddressFamily.InterNetworkV6 == ctx.Client.EndPoint.AddressFamily ? 0x4 : 0x1),
+                               ctx.Client.EndPoint.Address.GetAddressBytes(),
+                               (ushort)ctx.Client.EndPoint.Port,
+                               toLocal.Memory.Slice(4),
+                               out int written))
+            {
+                toLocal.SignificantLength = 4+ written;
+                int payloadToCopy = Math.Min(toLocal.Memory.Length  - toLocal.SignificantLength, ctx.Memory.Length);
+                ctx.Memory.Slice(0, payloadToCopy).CopyTo(toLocal.Memory.Slice(toLocal.SignificantLength));
+                toLocal.SignificantLength += payloadToCopy;
 
-            return new PipeFilterResult(ctx.Client, toLocal, true); ;
+                toLocal.Memory.Span[0]=0x5;
+                toLocal.Memory.Span.Slice(1, 3).Fill(0x0);
+
+                return new PipeFilterResult(ctx.Client, toLocal, true); ;
+            }
+
+            return new PipeFilterResult(ctx.Client, toLocal, false); ;
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
         {
             SmartBuffer toTarget = SmartBuffer.Rent(ctx.Memory.Length);
-            int payloadOffset = 1 + 1 + ctx.Memory.Span[1] + 2;
-            ctx.Memory.Slice(payloadOffset).CopyTo(toTarget.Memory);
-            toTarget.SignificantLength = ctx.Memory.Length - payloadOffset;
-            return new PipeFilterResult(ctx.Client, toTarget, true);
+            if (ShadowsocksAddress.TryResolveLength(ctx.Memory, out int targetAddrLen))
+            {
+                ctx.Memory.Slice(targetAddrLen).CopyTo(toTarget.Memory);
+                toTarget.SignificantLength = ctx.Memory.Length - targetAddrLen;
+                return new PipeFilterResult(ctx.Client, toTarget, true);
+            }
+            else
+            {
+                return new PipeFilterResult(ctx.Client, toTarget, false);
+            }
+
+
         }
     }
 }
