@@ -204,7 +204,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                         var payloadLenBytes = len.Memory.Slice(0, len.SignificantLength);
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp payloadLenBytes ={payloadLenBytes.ToArray().ToHexString()}.");
                         // payloadLen = (ushort)System.Net.IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(payloadLenBytes.Span));
-                        BinaryPrimitives.TryReadUInt16BigEndian(payloadLenBytes.Span, out payloadLen);                         
+                        BinaryPrimitives.TryReadUInt16BigEndian(payloadLenBytes.Span, out payloadLen);
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted payloadLen={payloadLen}.");
                     }
                     if (payloadLen <= 0)
@@ -354,15 +354,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             {
                 NonceValue = 0U;
                 Nonce = new byte[LEN_NONCE];
-
-                if (BitConverter.IsLittleEndian)
-                {
-                    BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
-                }
-                else
-                {
-                    BinaryPrimitives.TryWriteUInt32BigEndian(Nonce, NonceValue);
-                }
+                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
 
                 Key = new byte[keyLen];
                 Salt = new byte[saltLen];
@@ -391,16 +383,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             public void IncreaseNonce()
             {
                 ++NonceValue;
-
-                if (BitConverter.IsLittleEndian)
-                {
-                    BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
-                }
-                else
-                {
-                    BinaryPrimitives.TryWriteUInt32BigEndian(Nonce, NonceValue);
-                }
-
+                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
             }
         }
 
