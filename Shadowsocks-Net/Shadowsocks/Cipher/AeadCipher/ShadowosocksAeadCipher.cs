@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 using System.Buffers;
+using System.Buffers.Binary;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -103,7 +104,9 @@ namespace Shadowsocks.Cipher.AeadCipher
 
                 //payload length.                                   
                 {
-                    byte[] payloadLenBytes = BitConverter.GetBytes((ushort)(System.Net.IPAddress.HostToNetworkOrder((short)chunkLen)));
+                    byte[] payloadLenBytes = new byte[2];//ushort
+                    BinaryPrimitives.TryWriteUInt16BigEndian(payloadLenBytes, (ushort)chunkLen);
+                    //byte[] payloadLenBytes = BitConverter.GetBytes((ushort)(System.Net.IPAddress.HostToNetworkOrder((short)chunkLen)));
                     _logger?.LogInformation($"ShadowosocksAeadCipher EncryptTcp  chunklen={chunkLen}, payloadLenBytes={payloadLenBytes.ToHexString()}.");
                     using (var payloadLenC = this.EncryptChunk(payloadLenBytes, _tcpCtx加密.Key, _tcpCtx加密.Nonce))
                     {
@@ -197,9 +200,11 @@ namespace Shadowsocks.Cipher.AeadCipher
                             decrypteFailed = true;
                             break;
                         }
+
                         var payloadLenBytes = len.Memory.Slice(0, len.SignificantLength);
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp payloadLenBytes ={payloadLenBytes.ToArray().ToHexString()}.");
-                        payloadLen = (ushort)System.Net.IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(payloadLenBytes.Span));
+                        // payloadLen = (ushort)System.Net.IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(payloadLenBytes.Span));
+                        BinaryPrimitives.TryReadUInt16BigEndian(payloadLenBytes.Span, out payloadLen);                         
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted payloadLen={payloadLen}.");
                     }
                     if (payloadLen <= 0)
@@ -350,8 +355,14 @@ namespace Shadowsocks.Cipher.AeadCipher
                 NonceValue = 0U;
                 Nonce = new byte[LEN_NONCE];
 
-                var tmp = BitConverter.GetBytes(NonceValue);
-                Buffer.BlockCopy(tmp, 0, Nonce, 0, tmp.Length);
+                if (BitConverter.IsLittleEndian)
+                {
+                    BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+                }
+                else
+                {
+                    BinaryPrimitives.TryWriteUInt32BigEndian(Nonce, NonceValue);
+                }
 
                 Key = new byte[keyLen];
                 Salt = new byte[saltLen];
@@ -381,9 +392,14 @@ namespace Shadowsocks.Cipher.AeadCipher
             {
                 ++NonceValue;
 
-                var tmp = BitConverter.IsLittleEndian ? BitConverter.GetBytes(NonceValue)
-                    : BitConverter.GetBytes((uint)System.Net.IPAddress.NetworkToHostOrder((int)NonceValue));
-                Buffer.BlockCopy(tmp, 0, Nonce, 0, tmp.Length);
+                if (BitConverter.IsLittleEndian)
+                {
+                    BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+                }
+                else
+                {
+                    BinaryPrimitives.TryWriteUInt32BigEndian(Nonce, NonceValue);
+                }
 
             }
         }
