@@ -25,6 +25,11 @@ namespace Shadowsocks.Infrastructure
         IMemoryCache _cache = null;
 
         public LruCache()
+            : this(TimeSpan.FromSeconds(30))
+        {
+
+        }
+        public LruCache(TimeSpan expirationScanFrequency)
         {
             var option = new MemoryCacheOptions();
             option.CompactionPercentage = .7D;
