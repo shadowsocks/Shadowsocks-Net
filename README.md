@@ -75,7 +75,32 @@ public interface IPipeFilter
     PipeFilterResult AfterReading(PipeFilterContext filterContext);
 }
 ```
-Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。所以也可以使用过滤器来解析自定义协议，实现`IPipeFilter`接口即可添加处理逻辑，不需要阅读全部代码。
+Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议，实现`IPipeFilter`接口即可添加处理逻辑，不需要阅读全部代码。
+
+下面这个过滤器每次在发送之前向数据开头插入四个字节`0x12, 0x34, 0xAB, 0xCD`，相应地读取时跳过了开头四个字节：
+```c#
+class TestPipeFilter : PipeFilter
+{
+    public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
+    {
+        byte[] data = ctx.Memory.ToArray();
+        byte[] newData = new byte[data.Length + 4];
+        data[0] = 0x12;
+        data[1] = 0x34;
+        data[2] = 0xAB;
+        data[3] = 0xCD;
+        Array.Copy(data, 0, newData, 4, data.Length);
+        return new PipeFilterResult(ctx.Client, newData, ...);
+    }
+
+    public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+    {
+        byte[] data = ctx.Memory.ToArray();
+        byte[] newDat = data.Skip(4).ToArray();
+        return new PipeFilterResult(ctx.Client, newData, ...);
+    }
+}
+```
 
 <br/>
 
