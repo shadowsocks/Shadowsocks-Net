@@ -36,10 +36,14 @@ namespace Shadowsocks.Remote
 
         Type _cipherType = null;
         string _cipherPassword = null;
-        public StandardRemoteSocks5Handler(Type cipherType, string cipherPassword, ILogger logger = null)
+
+        DnsCache _dnsCache = null;
+        public StandardRemoteSocks5Handler(Type cipherType, string cipherPassword, DnsCache dnsCache, ILogger logger = null)
         {
             _cipherType = Throw.IfNull(() => cipherType);
             _cipherPassword = Throw.IfNullOrEmpty(() => cipherPassword);
+            _dnsCache = Throw.IfNull(() => dnsCache);
+
             _logger = logger;
         }
         ~StandardRemoteSocks5Handler()
@@ -48,14 +52,115 @@ namespace Shadowsocks.Remote
         }
 
 
-        public async Task HandleTcp(IClient tcpClient, CancellationToken cancellationToken = default)
+        public async Task HandleTcp(IClient client, CancellationToken cancellationToken = default)
         {
+            if (null == client) { return; }
+            using (SmartBuffer localRequestCipher = SmartBuffer.Rent(Defaults.ReceiveBufferSize))
+            {
+                localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
+                //decrypt
+                var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as Cipher.IShadowsocksStreamCipher;
+                using (var localReqestPlain = cipher.DecryptTcp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
+                {
+                    if (0 == localRequestCipher.SignificantLength)
+                    {//decrypt failed, available options: 1.leave it. 2.close connection. 3.add to blocklist.
+
+                        _logger?.LogWarning($"StandardRemoteSocks5Handler HandleTcp decrypt failed, client=[{client.EndPoint.ToString()}]");
+                        client.Close();//->local pipe broken-> local pipe close.
+                        return;
+                    }
+                    IPAddress targetIP = IPAddress.Any; //TODO target address check
+                    if (ShadowsocksAddress.TryResolve(localReqestPlain.Memory, out ShadowsocksAddress ssaddr))//resolve target address
+                    {
+                        if (0x3 == ssaddr.ATYP)//a domain name
+                        {
+                            var ips = await _dnsCache.ResolveHost(Encoding.UTF8.GetString(ssaddr.Address.ToArray()));
+                            if (ips != null && ips.Length > 0) { targetIP = ips[0]; }
+                        }
+                        else
+                        {
+                            targetIP = new IPAddress(ssaddr.Address.Span);
+                        }
+                        if (IPAddress.Any != targetIP)//got target IP
+                        {
+                            IPEndPoint ipeTarget = new IPEndPoint(targetIP, ssaddr.Port);
+                            var targetClient = await TcpClient1.ConnectAsync(ipeTarget, _logger);
+                            if (null != targetClient)
+                            {
+                                await targetClient.WriteAsync(localReqestPlain.Memory.Slice(ssaddr.RawMemory.Length), cancellationToken);
+
+                                await PipeTcp(client, targetClient, cipher, cancellationToken);
+                            }
+                            else
+                            {
+                                _logger?.LogInformation($"StandardRemoteSocks5Handler HandleTcp unable to connect target [{ipeTarget.ToString()}]. client=[{client.EndPoint.ToString()}]");
+                                client.Close();
+                                return;
+                            }
+                        }
+                        else//resolve target address failed.
+                        {
+                            _logger?.LogWarning($"StandardRemoteSocks5Handler HandleTcp invalid target addr. client=[{client.EndPoint.ToString()}]");
+                            client.Close();
+                            return;
+                        }
+
+
+                    }
+                    else
+                    {
+                        _logger?.LogWarning($"StandardRemoteSocks5Handler HandleTcp resolve target addr failed. client=[{client.EndPoint.ToString()}]");
+                        client.Close();
+                        return;
+                    }
+
+                }
+
+            }
+
             await Task.CompletedTask;
         }
 
         public async Task HandleUdp(IClient udpClient, CancellationToken cancellationToken = default)
         {
             await Task.CompletedTask;
+        }
+
+
+        async Task PipeTcp(IClient client, IClient relayClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
+        {
+            DefaultPipe p = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+            p.OnBroken += Pipe_OnBroken;
+
+            Cipher.CipherTcpFilter filter1 = new Cipher.CipherTcpFilter(client, cipher, _logger);
+            p.ApplyFilter(filter1);
+            //if (addFilters.Length > 0)
+            //{
+            //    foreach (var f in addFilters)
+            //    {
+            //        p.ApplyFilter(f);
+            //    }
+            //}
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Add(p);
+            }
+            p.Pipe();
+            await Task.CompletedTask;
+        }
+
+        private void Pipe_OnBroken(object sender, PipeEventArgs e)
+        {
+            var p = e.Pipe as DefaultPipe;
+            p.OnBroken -= this.Pipe_OnBroken;
+            p.UnPipe();
+            p.ClientA.Close();
+            p.ClientB.Close();
+
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Remove(p);
+            }
         }
 
         void Cleanup()
