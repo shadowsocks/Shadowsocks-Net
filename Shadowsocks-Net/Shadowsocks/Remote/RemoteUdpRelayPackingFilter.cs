@@ -69,7 +69,7 @@ namespace Shadowsocks.Remote
         {
             SmartBuffer toLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
 
-            
+
             if (ShadowsocksAddress.TrySerailizeTo(
                                (byte)(AddressFamily.InterNetworkV6 == ctx.Client.EndPoint.AddressFamily ? 0x4 : 0x1),
                                ctx.Client.EndPoint.Address.GetAddressBytes(),
@@ -77,12 +77,12 @@ namespace Shadowsocks.Remote
                                toLocal.Memory.Slice(4),
                                out int written))
             {
-                toLocal.SignificantLength = 4+ written;
-                int payloadToCopy = Math.Min(toLocal.Memory.Length  - toLocal.SignificantLength, ctx.Memory.Length);
+                toLocal.SignificantLength = 4 + written;
+                int payloadToCopy = Math.Min(toLocal.Memory.Length - toLocal.SignificantLength, ctx.Memory.Length);
                 ctx.Memory.Slice(0, payloadToCopy).CopyTo(toLocal.Memory.Slice(toLocal.SignificantLength));
                 toLocal.SignificantLength += payloadToCopy;
 
-                toLocal.Memory.Span[0]=0x5;
+                toLocal.Memory.Span[0] = 0x5;
                 toLocal.Memory.Span.Slice(1, 3).Fill(0x0);
 
                 return new PipeFilterResult(ctx.Client, toLocal, true); ;
