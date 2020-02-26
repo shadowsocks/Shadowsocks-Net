@@ -15,7 +15,7 @@ namespace ShadowsocksTest
     public class AEADCipherTest
     {
         [TestMethod]
-        public void AesGcmTest()
+        public void AesGcmBasics()
         {
             byte[] raw = new byte[1024];
             RandomNumberGenerator.Fill(raw);
@@ -32,8 +32,8 @@ namespace ShadowsocksTest
                 Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
 
                 RandomNumberGenerator.Fill(raw);
-                 c = aes.EncryptTcp(raw);
-                 p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                c = aes.EncryptTcp(raw);
+                p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
                 Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
 
                 RandomNumberGenerator.Fill(raw);
@@ -95,7 +95,7 @@ namespace ShadowsocksTest
 
 
         [TestMethod]
-        public void AesGcmTest2()
+        public void AesGcm1000Rounds()
         {
             IShadowsocksAeadCipher aes = new AEAD_AES_128_GCM("password");
             byte[] raw = new byte[1024];
@@ -126,5 +126,30 @@ namespace ShadowsocksTest
                 Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
             }
         }
+
+        [TestMethod]
+        public void AesGcmBigBlock()
+        {
+            IShadowsocksAeadCipher aes = new AEAD_AES_128_GCM("password");
+            byte[] raw = new byte[ShadowosocksAeadCipher.LEN_TCP_MAX_CHUNK * 3 + 100];
+
+            {
+                RandomNumberGenerator.Fill(raw);
+                var c = aes.EncryptTcp(raw);
+                var p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+
+                RandomNumberGenerator.Fill(raw);
+                c = aes.EncryptTcp(raw);
+                p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+
+                RandomNumberGenerator.Fill(raw);
+                c = aes.EncryptTcp(raw);
+                p = aes.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
+                Assert.IsTrue(p.Memory.Slice(0, p.SignificantLength).Span.SequenceEqual(raw.AsSpan()));
+            }
+        }
+
     }
 }
