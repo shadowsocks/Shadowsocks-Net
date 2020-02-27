@@ -45,7 +45,7 @@ namespace Shadowsocks.Local
         public byte Timeout { set; get; }
 
         [JsonPropertyName("category")]
-        public byte Category { set; get; }
+        public string Category { set; get; }
 
 
         static Dictionary<string, Type> cipherTypeCache = null;
@@ -55,12 +55,8 @@ namespace Shadowsocks.Local
         }
         static Server()
         {
-            if (null == cipherTypeCache)
-            {
-                cipherTypeCache = Helper.CipherLoader.LoadCiphers();
-            }
+           
         }
-
 
         public async Task<IPEndPoint> GetIPEndPoint()
         {
@@ -88,6 +84,10 @@ namespace Shadowsocks.Local
         {
             try
             {
+                if (null == cipherTypeCache)
+                {
+                    cipherTypeCache = Helper.CipherLoader.LoadCiphers();
+                }
                 if (cipherTypeCache.ContainsKey(this.Cipher))//ToLower()
                 {
                     return Activator.CreateInstance(cipherTypeCache[this.Cipher], this.Password) as Cipher.IShadowsocksStreamCipher;
