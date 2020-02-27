@@ -123,7 +123,9 @@ namespace Shadowsocks.Infrastructure.Sockets
         TcpClient1 Accept(Socket sock)
         {
             sock.LingerState = new LingerOption(true, 5);
-            sock.NoDelay = true;
+            sock.NoDelay = false;
+            sock.SendTimeout = _config.SendTimeout;
+            sock.ReceiveTimeout = _config.ReceiveTimeout;
 
             TcpClient1 tcpClient1 = new TcpClient1(sock, this._logger);
             return tcpClient1;

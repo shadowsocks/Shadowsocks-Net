@@ -14,11 +14,13 @@ namespace Shadowsocks.Infrastructure.Sockets
 {
     public class ServerConfig
     {
-        public IPEndPoint BindPoint { set; get; }//TODO bind failed.
+        public IPEndPoint BindPoint { set; get; }
 
-        public int? MaxNumClient { set; get; } // 100;
+        public int? MaxNumClient { set; get; }
 
+        public int SendTimeout { set; get; } = 5000;
 
+        public int ReceiveTimeout { set; get; } = 5000;
         public ServerConfig()
         {
             MaxNumClient ??= Defaults.MaxNumClient;

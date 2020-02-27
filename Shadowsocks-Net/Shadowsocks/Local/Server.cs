@@ -41,8 +41,8 @@ namespace Shadowsocks.Local
         [JsonPropertyName("obfs")]
         public string Obfuscator { set; get; }
 
-        [JsonPropertyName("timeout")]
-        public byte Timeout { set; get; }
+        //[JsonPropertyName("timeout")]
+        //public byte Timeout { set; get; }
 
         [JsonPropertyName("category")]
         public string Category { set; get; }
