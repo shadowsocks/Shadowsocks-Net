@@ -22,19 +22,19 @@ namespace Shadowsocks.Local
 {
     public class LocalServerConfig
     {
-        [JsonPropertyName("socks5_port")]
+        //[JsonPropertyName("socks5_port")]
         public int Socks5Port { set; get; }
 
 
-        [JsonPropertyName("http_port")]
+        //[JsonPropertyName("http_port")]
         public int HttpPort { set; get; }
 
 
-        [JsonPropertyName("use_ipv6")]
+        //[JsonPropertyName("use_ipv6")]
         public bool UseIPv6Address { set; get; }
 
 
-        [JsonPropertyName("use_loopback")]
+        //[JsonPropertyName("use_loopback")]
         public bool UseLoopbackAddress { set; get; }
 
 

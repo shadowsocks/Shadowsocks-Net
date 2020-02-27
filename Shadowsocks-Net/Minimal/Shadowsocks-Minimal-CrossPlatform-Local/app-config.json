@@ -1,4 +1,12 @@
 {
+  "Proxy": {
+    "Socks5Port": 2080,
+    "HttpPort": 8080,
+    "UseIPv6Address": false,
+    "UseLoopbackAddress": true
+  },
+
+
   "Logging": {
     "LogLevel": {
       "Default": "Debug",
@@ -7,7 +15,7 @@
     },
     "Console": {
       "IncludeScopes": true,
-      "LogLevel": {        
+      "LogLevel": {
         "Default": "Information"
       }
     }

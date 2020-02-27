@@ -16,6 +16,8 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System.Diagnostics;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Buffers;
 using System.IO;
 
@@ -23,54 +25,43 @@ using Argument.Check;
 
 namespace Shadowsocks_Minimal_Crossplatform_Local
 {
-
-    using System.Security.Cryptography;
+    using Shadowsocks;
+    using Shadowsocks.Local;
     using Shadowsocks.Infrastructure;
     using Shadowsocks.Infrastructure.Sockets;
-    using Shadowsocks.Cipher.AeadCipher;
-
-
+    
     class LocalServer
     {
         static async Task Main(string[] args)
         {
-            Init();
-
-
-
-            await Task.CompletedTask;
-            Console.WriteLine("press key to exit");
-            Console.ReadKey();
-        }
-
-
-        public static ILogger logger = null;
-        static void Init()
-        {
             var config = new ConfigurationBuilder()
-                //.SetBasePath(System.IO.Directory.GetCurrentDirectory())
-                .AddJsonFile("app-config.json", optional: true, reloadOnChange: true)
-                .Build();
+               .AddJsonFile("app-config.json", optional: true, reloadOnChange: true)
+               .Build();
+            var localConfig = config.GetSection("Proxy").Get<LocalServerConfig>();
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning)
-                    .AddFilter("LoggingConsoleApp.Program", LogLevel.Debug)
-                //.AddNLog(config);
-                .AddConsole();
-                // .AddDebug();
-                //.AddEventLog();
+                    .AddConsole();  //.AddNLog(config); //.AddDebug();//.AddEventLog();
             });
-            //https://github.com/NLog/NLog/wiki/Getting-started-with-.NET-Core-2---Console-application#33-update-your-main
-            //logger = loggerFactory.CreateLogger<Program>();
             logger = loggerFactory.CreateLogger("SSLocal");
+
+            await Task.CompletedTask;
+            Console.CancelKeyPress += Console_CancelKeyPress;
+            Console.WriteLine("press key to exit");
+            Console.ReadKey();
         }
 
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
 
+        }
+
+        public static ILogger logger = null;
 
     }
 
-  
+
 }

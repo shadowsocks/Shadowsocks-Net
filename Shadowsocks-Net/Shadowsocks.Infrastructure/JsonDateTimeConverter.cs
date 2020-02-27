@@ -7,12 +7,11 @@ using System.Text.Json.Serialization;
 
 namespace Shadowsocks.Infrastructure.Serialization
 {
-    //https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-how-to
+    //https://docs.microsoft.com/zh-cn/dotnet/standard/serialization/system-text-json-how-to    
     public class DateTimeConverter : JsonConverter<DateTime>
     {
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            //Debug.Assert(typeToConvert == typeof(DateTime));
             return DateTime.Parse(reader.GetString());
         }
 

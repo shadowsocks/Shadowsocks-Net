@@ -25,14 +25,15 @@ namespace Shadowsocks.Remote
     public sealed class RemoteServer : IShadowsocksServer
     {
         ILogger _logger = null;
+        CancellationTokenSource _cancellationStop = null;
+
         RemoteServerConfig _remoteServerConfig = null;
 
         TcpServer _tcpServer = null;
         UdpServer _udpServer = null;
 
-        CancellationTokenSource _cancellationStop = null;
-
         ISocks5Handler _socks5Handler = null;
+        DnsCache _dnsCache = null;
 
 
         public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger<RemoteServer> logger = null)
@@ -47,6 +48,8 @@ namespace Shadowsocks.Remote
             };
             _tcpServer = new TcpServer(serverConfig, _logger);
             _udpServer = new UdpServer(serverConfig, _logger);
+
+            _dnsCache = new DnsCache(_logger);
         }
 
 
@@ -59,7 +62,7 @@ namespace Shadowsocks.Remote
             Stop();
 
             _cancellationStop ??= new CancellationTokenSource();
-            // _socks5Handler ??= new StandardLocalSocks5Handler();//TODO
+            _socks5Handler ??= new StandardRemoteSocks5Handler(this._remoteServerConfig, _dnsCache, _logger);
 
             _tcpServer.Listen();
             _udpServer.Listen();
