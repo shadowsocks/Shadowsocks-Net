@@ -135,14 +135,8 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (null == _listener)
             {
-                if (_config.UseLoopbackAddress)
-                {
-                    this.EndPoint = new IPEndPoint((_config.UseIPv6Address && Socket.OSSupportsIPv6) ? IPAddress.IPv6Loopback : IPAddress.Loopback, _config.Port);
-                }
-                else
-                {
-                    this.EndPoint = new IPEndPoint((_config.UseIPv6Address && Socket.OSSupportsIPv6) ? IPAddress.IPv6Any : IPAddress.Any, _config.Port);
-                }
+                this.EndPoint = this._config.BindPoint;
+               
                 _listener = new TcpListener(this.EndPoint);
                 _listener.ExclusiveAddressUse = false;
             }

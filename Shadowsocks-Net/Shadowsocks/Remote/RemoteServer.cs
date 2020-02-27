@@ -37,8 +37,16 @@ namespace Shadowsocks.Remote
 
         public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger<RemoteServer> logger = null)
         {
-            this._remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
-            this._logger = logger;
+            _remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
+            _logger = logger;
+
+            ServerConfig serverConfig = new ServerConfig()
+            {
+                BindPoint = _remoteServerConfig.GetIPEndPoint(),
+                MaxNumClient = Defaults.MaxNumClient
+            };
+            _tcpServer = new TcpServer(serverConfig, _logger);
+            _udpServer = new UdpServer(serverConfig, _logger);
         }
 
 

@@ -14,16 +14,14 @@ namespace Shadowsocks.Infrastructure.Sockets
 {
     public class ServerConfig
     {
-        public int Port { set; get; }
+        public IPEndPoint BindPoint { set; get; }//TODO bind failed.
 
-        public IPEndPoint IPEndPoint { set; get; }//TODO bind failed.
-        public bool UseIPv6Address { set; get; }
-        public bool UseLoopbackAddress { set; get; }
-
+        public int? MaxNumClient { set; get; } // 100;
 
 
         public ServerConfig()
         {
+            MaxNumClient ??= Defaults.MaxNumClient;
         }
     }
 }

@@ -2,7 +2,6 @@
  * Shadowsocks-Net https://github.com/shadowsocks/Shadowsocks-Net
  */
 
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
@@ -15,8 +14,8 @@ using System.Net.Sockets;
 using System.Buffers;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Caching.Memory;
 using Argument.Check;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Shadowsocks.Infrastructure.Sockets
 {
@@ -200,14 +199,8 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (null == _listenerClient)
             {
-                if (_config.UseLoopbackAddress)
-                {
-                    this.EndPoint = new IPEndPoint((_config.UseIPv6Address && Socket.OSSupportsIPv6) ? IPAddress.IPv6Loopback : IPAddress.Loopback, _config.Port);
-                }
-                else
-                {
-                    this.EndPoint = new IPEndPoint((_config.UseIPv6Address && Socket.OSSupportsIPv6) ? IPAddress.IPv6Any : IPAddress.Any, _config.Port);
-                }
+                this.EndPoint = _config.BindPoint;
+
                 _listenerClient = new UdpClient();
                 _listenerClient.ExclusiveAddressUse = false;
                 _listenerClient.DontFragment = true;

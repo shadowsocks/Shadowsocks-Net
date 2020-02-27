@@ -10,13 +10,16 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using System.Runtime.CompilerServices;
 using Argument.Check;
 
 namespace Shadowsocks.Local
 {
     using Infrastructure;
     using Infrastructure.Sockets;
-    using System.Runtime.CompilerServices;
+    using Infrastructure.Http;
+
+
 
     /// <summary>
     /// This one runs on client device.
@@ -26,18 +29,35 @@ namespace Shadowsocks.Local
         ILogger<LocalServer> _logger = null;
 
         LocalServerConfig _localServerConfig = null;
-        TcpServer _tcpServer = null;
-        UdpServer _udpServer = null;
         CancellationTokenSource _cancellationStop = null;
 
+        TcpServer _tcpServer = null;
+        UdpServer _udpServer = null;
+        HttpProxySever _httpProxyServer = null;
+
+
         ISocks5Handler _socks5Handler = null;
+        IServerLoader _serverLoader = null;
 
-        public LocalServer(LocalServerConfig localServerConfig, ILogger<LocalServer> logger = null)
+        public LocalServer(LocalServerConfig localServerConfig, IServerLoader serverLoader, ILogger<LocalServer> logger = null)
         {
-            this._localServerConfig = Throw.IfNull(() => localServerConfig);
-            this._logger = logger;
+            _localServerConfig = Throw.IfNull(() => localServerConfig);
+            _serverLoader = Throw.IfNull(() => serverLoader);
+            _logger = logger;
 
-            //TODO config map/load.
+            ServerConfig serverConfig = new ServerConfig()
+            {
+                BindPoint = _localServerConfig.GetSocks5IPEndPoint(),
+                MaxNumClient = Defaults.MaxNumClient
+            };
+            _tcpServer = new TcpServer(serverConfig, _logger);
+            _udpServer = new UdpServer(serverConfig, _logger);
+
+            HttpProxySeverConfig httpProxySeverConfig = new HttpProxySeverConfig()
+            {
+                BindPoint = _localServerConfig.GetHttpIPEndPoint()
+            };
+            _httpProxyServer = new HttpProxySever(httpProxySeverConfig, _logger);
         }
 
         #region IShadowsocksServer
@@ -48,7 +68,7 @@ namespace Shadowsocks.Local
             Stop();
 
             _cancellationStop ??= new CancellationTokenSource();
-           // _socks5Handler ??= new StandardLocalSocks5Handler();//TODO
+            _socks5Handler ??= new StandardLocalSocks5Handler(_serverLoader, _logger);//TODO
 
             _tcpServer.Listen();
             _udpServer.Listen();

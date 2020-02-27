@@ -35,16 +35,13 @@ namespace Shadowsocks.Remote
         List<DefaultPipe> _pipes = null;
         object _pipesReadWriteLock = new object();
 
-        Type _cipherType = null;
-        string _cipherPassword = null;
+        RemoteServerConfig _remoteServerConfig = null;
 
         DnsCache _dnsCache = null;
-        public StandardRemoteSocks5Handler(Type cipherType, string cipherPassword, DnsCache dnsCache, ILogger logger = null)
+        public StandardRemoteSocks5Handler(RemoteServerConfig remoteServerConfig, DnsCache dnsCache, ILogger logger = null)
         {
-            _cipherType = Throw.IfNull(() => cipherType);
-            _cipherPassword = Throw.IfNullOrEmpty(() => cipherPassword);
+            _remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
             _dnsCache = Throw.IfNull(() => dnsCache);
-
             _logger = logger;
         }
         ~StandardRemoteSocks5Handler()
@@ -60,7 +57,7 @@ namespace Shadowsocks.Remote
             {
                 localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
                 //decrypt
-                var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as Cipher.IShadowsocksStreamCipher;
+                var cipher = _remoteServerConfig.CreateCipher();
                 using (var localReqestPlain = cipher.DecryptTcp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
                 {
                     if (0 == localRequestCipher.SignificantLength)
@@ -128,7 +125,7 @@ namespace Shadowsocks.Remote
             {
                 localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
                 //decrypt
-                var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as Cipher.IShadowsocksStreamCipher;
+                var cipher = _remoteServerConfig.CreateCipher();
                 using (var localReqestPlain = cipher.DecryptUdp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
                 {
                     if (0 == localRequestCipher.SignificantLength)
