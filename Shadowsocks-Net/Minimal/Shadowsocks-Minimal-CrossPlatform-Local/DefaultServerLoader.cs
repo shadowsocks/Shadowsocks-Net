@@ -39,20 +39,21 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
             {
                 lock (_readwriteLock)
                 {
-                    //var options = new JsonSerializerOptions
-                    //{
-                    //    WriteIndented = true,
-                    //    IgnoreReadOnlyProperties = true,
-                    //    IgnoreNullValues = true,
-                    //    ReadCommentHandling = JsonCommentHandling.Skip,
-                    //    AllowTrailingCommas = true,
-                    //    //PropertyNameCaseInsensitive = false;
-                    //    //Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)//, (UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                    //};
+                    var options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        //IgnoreReadOnlyProperties = true,
+                        //IgnoreNullValues = true,
+                        ReadCommentHandling = JsonCommentHandling.Skip,
+                        AllowTrailingCommas = true,
+                        //PropertyNameCaseInsensitive = false;
+                        //Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)//, (UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                    };
                     //options.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
                     try
                     {
-                        _servers = JsonSerializer.Deserialize<List<Server>>(File.ReadAllText("servers.json"));
+                        _servers = JsonSerializer.Deserialize<List<Server>>(
+                            File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "servers.json")), options);
                     }
                     catch { return null; }
                 }

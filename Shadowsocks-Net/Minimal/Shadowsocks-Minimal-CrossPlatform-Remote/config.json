@@ -1,0 +1,8 @@
+{
+  //"server_host": null,
+  "server_port": 6666,
+  "use_ipv6": false,
+  "timeout": 5,
+  "password": "password1",
+  "method": "aes-128-gcm"
+}

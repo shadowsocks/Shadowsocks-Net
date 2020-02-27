@@ -38,6 +38,9 @@
     <None Update="app-config.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

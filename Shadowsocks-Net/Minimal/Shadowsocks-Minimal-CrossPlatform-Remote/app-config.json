@@ -7,7 +7,7 @@
     },
     "Console": {
       "IncludeScopes": true,
-      "LogLevel": {        
+      "LogLevel": {
         "Default": "Information"
       }
     }
