@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shadowsocks.Local.Socks5
+namespace Shadowsocks.Local
 {
     public enum Socks5Stage
     {
