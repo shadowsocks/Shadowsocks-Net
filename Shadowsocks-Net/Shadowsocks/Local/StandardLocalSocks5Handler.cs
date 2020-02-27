@@ -33,19 +33,13 @@ namespace Shadowsocks.Local
         List<DefaultPipe> _pipes = null;
         object _pipesReadWriteLock = new object();
 
-        Type _cipherType = null;
-        string _cipherPassword = null;
-        IPEndPoint _remoteServerEndPoint = null;
+        IServerLoader _serverLoader = null;
 
-
-
-        //TODO remote server loader
-        public StandardLocalSocks5Handler(Type cipherType, string cipherPassword, IPEndPoint remoteServerEndPoint, ILogger logger = null)
+        public StandardLocalSocks5Handler(IServerLoader serverLoader, ILogger logger = null)
         {
             _pipes = new List<DefaultPipe>();
-            _cipherType = Throw.IfNull(() => cipherType);
-            _cipherPassword = Throw.IfNullOrEmpty(() => cipherPassword);
-            _remoteServerEndPoint = Throw.IfNull(() => remoteServerEndPoint);
+            _serverLoader = Throw.IfNull(() => serverLoader);
+
             _logger = logger;
         }
         ~StandardLocalSocks5Handler()
@@ -124,10 +118,25 @@ namespace Shadowsocks.Local
                 {
                     case 0x1://connect //TODO validate addr                             
                         {
-                            var relayClient = await TcpClient1.ConnectAsync(_remoteServerEndPoint, _logger);
+                            var server = _serverLoader.Load(null);
+                            if (null == server)
+                            {
+                                _logger?.LogInformation($"proxy server not found.");
+                                client.Close();
+                                break;
+                            }
+                            var serverAddr = await server.GetIPEndPoint();
+                            if (null == serverAddr)
+                            {
+                                _logger?.LogInformation($"unable to get proxy server address.");
+                                client.Close();
+                                break;
+                            }
+
+                            var relayClient = await TcpClient1.ConnectAsync(serverAddr, _logger);
                             if (null == relayClient)//unable to connect ss-remote
                             {
-                                _logger?.LogInformation($"unable to connect ss-remote:[{_remoteServerEndPoint.ToString()}]");
+                                _logger?.LogInformation($"unable to connect ss-remote:[{serverAddr.ToString()}]");
                                 await client.WriteAsync(NegotiationResponse.CommandConnectFailed, cancellationToken);
                                 client.Close();
                                 break;
@@ -146,7 +155,7 @@ namespace Shadowsocks.Local
                                     relayRequest.SignificantLength += //payload
                                         await client.ReadAsync(relayRequest.Memory.Slice(relayRequest.SignificantLength), cancellationToken);
 
-                                    await PipeTcp(client, relayClient, relayRequest, cancellationToken);//pipe
+                                    await PipeTcp(client, relayClient, relayRequest, server.CreateCipher(), cancellationToken);//pipe
                                 }
                                 else
                                 {
@@ -197,14 +206,30 @@ namespace Shadowsocks.Local
 
             //authentication //TODO udp assoc
 
-            var relayClient = await UdpClient1.ConnectAsync(this._remoteServerEndPoint, _logger);
+            var server = _serverLoader.Load(null);
+            if (null == server)
+            {
+                _logger?.LogInformation($"proxy server not found.");
+                client.Close();
+                return;
+            }
+            var serverAddr = await server.GetIPEndPoint();
+            if (null == serverAddr)
+            {
+                _logger?.LogInformation($"unable to get proxy server address.");
+                client.Close();
+                return;
+            }
+
+
+            var relayClient = await UdpClient1.ConnectAsync(serverAddr, _logger);
             if (null == relayClient)
             {
                 _logger?.LogInformation($"unable to relay udp");
                 client.Close();
                 return;
             }
-            await PipeUdp(client, relayClient, cancellationToken);
+            await PipeUdp(client, relayClient, server.CreateCipher(), cancellationToken);
 
         }
 
@@ -217,9 +242,8 @@ namespace Shadowsocks.Local
         /// <param name="initStream">[target address][payload]</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        async Task PipeTcp(IClient client, IClient relayClient, SmartBuffer initStream, CancellationToken cancellationToken)
+        async Task PipeTcp(IClient client, IClient relayClient, SmartBuffer initStream, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
         {
-            var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as IShadowsocksStreamCipher;
             using (var relayRequestCipher = cipher.EncryptTcp(initStream.Memory.Slice(0, initStream.SignificantLength)))
             {
                 int written = await relayClient.WriteAsync(relayRequestCipher.Memory.Slice(0, relayRequestCipher.SignificantLength), cancellationToken);
@@ -240,10 +264,9 @@ namespace Shadowsocks.Local
         }
 
 
-        async Task PipeUdp(IClient client, IClient relayClient, CancellationToken cancellationToken)
+        async Task PipeUdp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
         {
-            //authentication //TODO udp assoc
-            var cipher = Activator.CreateInstance(this._cipherType, this._cipherPassword) as IShadowsocksStreamCipher;
+            //authentication //TODO udp assoc            
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
 
             PipeFilter filter = new Cipher.CipherUdpFilter(relayClient, cipher, _logger);
