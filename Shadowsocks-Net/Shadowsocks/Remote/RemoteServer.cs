@@ -36,7 +36,7 @@ namespace Shadowsocks.Remote
         DnsCache _dnsCache = null;
 
 
-        public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger<RemoteServer> logger = null)
+        public RemoteServer(RemoteServerConfig remoteServerConfig, ILogger logger = null)
         {
             _remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
             _logger = logger;
@@ -56,8 +56,7 @@ namespace Shadowsocks.Remote
 
         #region IShadowsocksServer
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Start()
+        public async Task Start()
         {
             Stop();
 
@@ -69,17 +68,12 @@ namespace Shadowsocks.Remote
 
             if (_tcpServer.IsRunning)
             {
-                Task.Run(async () =>
-                {
-                    await ProcessTcp(_cancellationStop.Token);
-                });
+                await ProcessTcp(_cancellationStop.Token);
+
             }
             if (_tcpServer.IsRunning && _udpServer.IsRunning)
             {
-                Task.Run(async () =>
-                {
-                    await ProcessUdp(_cancellationStop.Token);
-                });
+                await ProcessUdp(_cancellationStop.Token);
             }
         }
 
@@ -116,10 +110,10 @@ namespace Shadowsocks.Remote
                     }
                     if (null != _socks5Handler)
                     {
-                        var t = Task.Run(async () =>
-                        {
-                            await _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
-                        }, this._cancellationStop.Token);
+                        _ = Task.Run(() =>
+                          {
+                              _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
+                          }, this._cancellationStop.Token);
                     }
                 }
                 else
@@ -128,10 +122,11 @@ namespace Shadowsocks.Remote
                 }
 
                 if (cancellationToken.IsCancellationRequested) { return; }
-                await ProcessTcp(cancellationToken);
+                await Task.Run(async () =>
+                {
+                    await ProcessTcp(cancellationToken);
+                });
             }
-
-
         }
 
         async Task ProcessUdp(CancellationToken cancellationToken)
@@ -153,7 +148,11 @@ namespace Shadowsocks.Remote
 
                 }
                 if (cancellationToken.IsCancellationRequested) { return; }
-                await ProcessUdp(cancellationToken);
+                await Task.Run(async () =>
+                {
+                    await ProcessUdp(cancellationToken);
+                });
+
             }
 
         }

@@ -70,15 +70,19 @@ namespace Shadowsocks
             {
                 if (7 > raw.Length) { return false; }
                 addr.Address = raw.Slice(1, 4);
-                addr.RawMemory = raw.Slice(0, 7);
-                return BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(5, 2), out addr.Port);
+                addr.RawMemory = raw.Slice(0, 7); 
+                BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(5, 2), out addr.Port);
+                ssAddr = addr;
+                return true;
             }
             else if (0x4 == addr.ATYP)
             {
                 if (19 > raw.Length) { return false; }
                 addr.Address = raw.Slice(1, 16);
-                addr.RawMemory = raw.Slice(0, 19);
-                return BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(17, 2), out addr.Port);
+                addr.RawMemory = raw.Slice(0, 19);     
+                BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(17, 2), out addr.Port);
+                ssAddr = addr;
+                return true;
             }
             else if (0x3 == addr.ATYP)
             {
@@ -86,7 +90,9 @@ namespace Shadowsocks
                 if (4 + len > raw.Length) { return false; }
                 addr.Address = raw.Slice(2, len);
                 addr.RawMemory = raw.Slice(0, 4 + len);
-                return BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(1 + 1 + len, 2), out addr.Port);
+                BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(1 + 1 + len, 2), out addr.Port);
+                ssAddr = addr;
+                return true;
             }
             return false;
         }

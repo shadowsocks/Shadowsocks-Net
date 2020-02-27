@@ -4,11 +4,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
+
 
     /// <summary>
     /// The pipe.

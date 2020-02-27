@@ -32,17 +32,19 @@ namespace Shadowsocks.Remote
     {
         ILogger _logger = null;
 
+        RemoteServerConfig _remoteServerConfig = null;
+        DnsCache _dnsCache = null;
+
         List<DefaultPipe> _pipes = null;
         object _pipesReadWriteLock = new object();
 
-        RemoteServerConfig _remoteServerConfig = null;
-
-        DnsCache _dnsCache = null;
         public StandardRemoteSocks5Handler(RemoteServerConfig remoteServerConfig, DnsCache dnsCache, ILogger logger = null)
         {
             _remoteServerConfig = Throw.IfNull(() => remoteServerConfig);
             _dnsCache = Throw.IfNull(() => dnsCache);
             _logger = logger;
+
+            _pipes = new List<DefaultPipe>();
         }
         ~StandardRemoteSocks5Handler()
         {
@@ -56,9 +58,10 @@ namespace Shadowsocks.Remote
             using (SmartBuffer localRequestCipher = SmartBuffer.Rent(Defaults.ReceiveBufferSize))
             {
                 localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
+
                 //decrypt
-                var cipher = _remoteServerConfig.CreateCipher();
-                using (var localReqestPlain = cipher.DecryptTcp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
+                var cipher = _remoteServerConfig.CreateCipher(_logger);
+                using (var localReqestPlain = cipher.DecryptTcp(localRequestCipher.SignificanMemory))
                 {
                     if (0 == localRequestCipher.SignificantLength)
                     {//decrypt failed, available options: 1.leave it. 2.close connection. 3.add to blocklist.
@@ -82,12 +85,21 @@ namespace Shadowsocks.Remote
                         if (IPAddress.Any != targetIP)//got target IP
                         {
                             IPEndPoint ipeTarget = new IPEndPoint(targetIP, ssaddr.Port);
-                            var targetClient = await TcpClient1.ConnectAsync(ipeTarget, _logger);
+                            _logger.LogInformation($"connecting to [{ipeTarget.ToString()}]...");
+                            var targetClient = await TcpClient1.ConnectAsync(ipeTarget, _logger);//connect target
+
                             if (null != targetClient)
                             {
-                                await targetClient.WriteAsync(localReqestPlain.Memory.Slice(ssaddr.RawMemory.Length), cancellationToken);
-
-                                await PipeTcp(client, targetClient, cipher, cancellationToken);
+                                _logger.LogInformation($"connected to [{ipeTarget.ToString()}]");
+                                int written = await targetClient.WriteAsync(localReqestPlain.Memory.Slice(ssaddr.RawMemory.Length, 
+                                    localReqestPlain.SignificantLength - ssaddr.RawMemory.Length), cancellationToken);
+                                _logger.LogInformation($"wrote {written} bytes to [{ipeTarget.ToString()}]");
+                                _logger.LogInformation($"payload={Encoding.UTF8.GetString(localReqestPlain.Memory.Slice(ssaddr.RawMemory.Length, localReqestPlain.SignificantLength - ssaddr.RawMemory.Length).ToArray())}");
+                                if (written > 0)
+                                {
+                                    await PipeTcp(client, targetClient, cipher, cancellationToken);
+                                    return;
+                                }
                             }
                             else
                             {
@@ -102,19 +114,15 @@ namespace Shadowsocks.Remote
                             client.Close();
                             return;
                         }
-
                     }
-                    else
+                    else//invalid socks5 addr
                     {
                         _logger?.LogWarning($"StandardRemoteSocks5Handler HandleTcp resolve target addr failed. client=[{client.EndPoint.ToString()}]");
                         client.Close();
                         return;
                     }
-
                 }
-
             }
-
             await Task.CompletedTask;
         }
 
@@ -125,8 +133,8 @@ namespace Shadowsocks.Remote
             {
                 localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);
                 //decrypt
-                var cipher = _remoteServerConfig.CreateCipher();
-                using (var localReqestPlain = cipher.DecryptUdp(localRequestCipher.Memory.Slice(0, localRequestCipher.SignificantLength)))
+                var cipher = _remoteServerConfig.CreateCipher(_logger);
+                using (var localReqestPlain = cipher.DecryptUdp(localRequestCipher.SignificanMemory))
                 {
                     if (0 == localRequestCipher.SignificantLength)
                     {//decrypt failed, available options: 1.leave it. 2.close connection. 3.add to blocklist.
@@ -188,11 +196,13 @@ namespace Shadowsocks.Remote
 
         async Task PipeTcp(IClient client, IClient relayClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
         {
-            DefaultPipe p = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+            DefaultPipe p = new DefaultPipe(relayClient, client, Defaults.ReceiveBufferSize, _logger);
             p.OnBroken += Pipe_OnBroken;
 
             Cipher.CipherTcpFilter filter1 = new Cipher.CipherTcpFilter(client, cipher, _logger);
+            
             p.ApplyFilter(filter1);
+            
             //if (addFilters.Length > 0)
             //{
             //    foreach (var f in addFilters)
@@ -210,7 +220,7 @@ namespace Shadowsocks.Remote
 
         async Task PipeUdp(IClient client, IClient relayClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
         {
-            DefaultPipe p = new DefaultPipe(client, relayClient, 1500, _logger);
+            DefaultPipe p = new DefaultPipe(relayClient, client, 1500, _logger);
             p.OnBroken += Pipe_OnBroken;
 
             Cipher.CipherUdpFilter filter1 = new Cipher.CipherUdpFilter(client, cipher, _logger);
@@ -228,6 +238,7 @@ namespace Shadowsocks.Remote
             {
                 this._pipes.Add(p);
             }
+
             p.Pipe();
             await Task.CompletedTask;
         }

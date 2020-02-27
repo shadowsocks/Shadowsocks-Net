@@ -52,17 +52,17 @@ namespace Shadowsocks.Infrastructure.Sockets
 
             int read;
             try
-            {
+            {              
                 read = await _sock.ReceiveAsync(buffer, SocketFlags.None, cancellationToken);
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, "ClientBase ReadAsync error.");
+                _logger?.LogError(se, $"ClientBase ReadAsync error1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, "ClientBase ReadAsync error.");
+                _logger?.LogError(se, $"ClientBase ReadAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return read;
@@ -86,12 +86,12 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, "ClientBase WriteAsync error.");
+                _logger?.LogError(se, $"ClientBase WriteAsync error1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, "ClientBase WriteAsync error.");
+                _logger?.LogError(se, $"ClientBase WriteAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return written;

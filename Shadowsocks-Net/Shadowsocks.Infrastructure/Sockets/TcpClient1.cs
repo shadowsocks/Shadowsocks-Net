@@ -35,11 +35,11 @@ namespace Shadowsocks.Infrastructure.Sockets
             {
                 Socket sock = new Socket(remoteEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);                         
                 await sock.ConnectAsync(remoteEndPoint);
-                sock.ReceiveTimeout = Defaults.ReceiveTimeout;
-                sock.SendTimeout = Defaults.SendTimeout;
+                //sock.ReceiveTimeout = Defaults.ReceiveTimeout;
+                //sock.SendTimeout = Defaults.SendTimeout;
                 sock.ReceiveBufferSize = Defaults.ReceiveBufferSize;
                 sock.SendBufferSize = Defaults.SendBufferSize;
-                sock.NoDelay = false;
+                sock.NoDelay = false;           
 
                 return new TcpClient1(sock, logger);
             }

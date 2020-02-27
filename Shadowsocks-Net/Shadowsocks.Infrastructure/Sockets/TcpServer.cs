@@ -49,7 +49,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogInformation("TcpServer starting...");
                 _listener.Start(10);
                 IsRunning = true;
-                _logger?.LogInformation("TcpServer is listening...");
+                _logger?.LogInformation($"TcpServer is listening on [{EndPoint.ToString()}]...");
 
                 ////Task.Run(async () => { await StartAccept(); });
             }
@@ -124,8 +124,8 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             sock.LingerState = new LingerOption(true, 5);
             sock.NoDelay = false;
-            sock.SendTimeout = _config.SendTimeout;
-            sock.ReceiveTimeout = _config.ReceiveTimeout;
+            //sock.SendTimeout = _config.SendTimeout;
+            //sock.ReceiveTimeout = _config.ReceiveTimeout;
 
             TcpClient1 tcpClient1 = new TcpClient1(sock, this._logger);
             return tcpClient1;

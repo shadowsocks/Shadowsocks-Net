@@ -59,7 +59,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogInformation("UdpServer starting...");
                 //_listener.Start(10);
                 IsRunning = true;
-                _logger?.LogInformation("UdpServer is listening...");
+                _logger?.LogInformation($"UdpServer is listening on [{EndPoint.ToString()}]...");
             }
             catch (Exception ex)
             {
@@ -180,6 +180,11 @@ namespace Shadowsocks.Infrastructure.Sockets
                     {
                         KeepClient(c);
                         _logger?.LogInformation($"UDP cache client readd:{key.ToString()}");
+                    }
+                    else
+                    {
+                        c.PostExired();
+                        c.Close();
                     }
                 }
 

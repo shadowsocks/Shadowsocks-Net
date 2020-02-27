@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Shadowsocks.Remote
 {
@@ -18,7 +19,7 @@ namespace Shadowsocks.Remote
     using System.Net.Sockets;
 
     public class RemoteServerConfig
-    {        
+    {
         [JsonPropertyName("server_host")]
         public string Address { set; get; }
 
@@ -76,7 +77,7 @@ namespace Shadowsocks.Remote
             }
         }
 
-        public Cipher.IShadowsocksStreamCipher CreateCipher()
+        public Cipher.IShadowsocksStreamCipher CreateCipher(ILogger logger = null)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace Shadowsocks.Remote
 
                 if (_cipherTypeCache.ContainsKey(this.Cipher))//ToLower()
                 {
-                    return Activator.CreateInstance(_cipherTypeCache[this.Cipher], this.Password) as Cipher.IShadowsocksStreamCipher;
+                    return Activator.CreateInstance(_cipherTypeCache[this.Cipher], this.Password, null) as Cipher.IShadowsocksStreamCipher;
                 }
             }
             catch (Exception ex) { Console.WriteLine($"{ex.Message}. {ex.StackTrace}"); }

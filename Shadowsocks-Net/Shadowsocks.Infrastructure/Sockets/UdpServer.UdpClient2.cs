@@ -62,7 +62,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 if (_closed) { return -1; }
 
                 int read = -1;
-                if (null != _semaphoreReceived && await _semaphoreReceived.WaitAsync(UdpServer.CLIENT_ACTIVE_TIMEOUT + 100))
+                if (null != _semaphoreReceived && await _semaphoreReceived.WaitAsync(Timeout.Infinite))
                 {
                     //_logger?.LogInformation("UdpClient2 _semaphoreReceived.WaitAsync()...");
                     if (_receivedPackets.IsEmpty)//timeout.
@@ -128,6 +128,11 @@ namespace Shadowsocks.Infrastructure.Sockets
                     _semaphoreReceived.Release();
                     //_logger?.LogInformation("UdpClient2 _semaphoreReceived.Release().");
                 }
+            }
+
+            public void PostExired()
+            {
+                _semaphoreReceived.Release(2);
             }
 
             void UpdateLastActive()

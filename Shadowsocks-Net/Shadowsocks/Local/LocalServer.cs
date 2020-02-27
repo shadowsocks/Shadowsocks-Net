@@ -26,7 +26,7 @@ namespace Shadowsocks.Local
     /// </summary>
     public sealed class LocalServer : IShadowsocksServer
     {
-        ILogger<LocalServer> _logger = null;
+        ILogger _logger = null;
 
         LocalServerConfig _localServerConfig = null;
         CancellationTokenSource _cancellationStop = null;
@@ -39,7 +39,7 @@ namespace Shadowsocks.Local
         ISocks5Handler _socks5Handler = null;
         IServerLoader _serverLoader = null;
 
-        public LocalServer(LocalServerConfig localServerConfig, IServerLoader serverLoader, ILogger<LocalServer> logger = null)
+        public LocalServer(LocalServerConfig localServerConfig, IServerLoader serverLoader, ILogger logger = null)
         {
             _localServerConfig = Throw.IfNull(() => localServerConfig);
             _serverLoader = Throw.IfNull(() => serverLoader);
@@ -62,8 +62,7 @@ namespace Shadowsocks.Local
 
         #region IShadowsocksServer
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Start()
+        public async Task Start()
         {
             Stop();
 
@@ -75,17 +74,11 @@ namespace Shadowsocks.Local
 
             if (_tcpServer.IsRunning)
             {
-                Task.Run(async () =>
-                {
-                    await ProcessTcp(_cancellationStop.Token);
-                });
+                await ProcessTcp(_cancellationStop.Token);
             }
             if (_tcpServer.IsRunning && _udpServer.IsRunning)
             {
-                Task.Run(async () =>
-                {
-                    await ProcessUdp(_cancellationStop.Token);
-                });
+                await ProcessUdp(_cancellationStop.Token);
             }
 
         }
@@ -124,10 +117,10 @@ namespace Shadowsocks.Local
                     }
                     if (null != _socks5Handler)
                     {
-                        var t = Task.Run(async () =>
-                        {
-                            await _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
-                        }, this._cancellationStop.Token);
+                        _ = Task.Run(() =>
+                          {
+                              _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
+                          }, this._cancellationStop.Token);
                     }
                 }
                 else
@@ -136,7 +129,10 @@ namespace Shadowsocks.Local
                 }
 
                 if (cancellationToken.IsCancellationRequested) { return; }
-                await ProcessTcp(cancellationToken);
+                await Task.Run(async () =>
+                {
+                    await ProcessTcp(cancellationToken);
+                });
             }
 
 
@@ -161,7 +157,10 @@ namespace Shadowsocks.Local
 
                 }
                 if (cancellationToken.IsCancellationRequested) { return; }
-                await ProcessUdp(cancellationToken);
+                await Task.Run(async () =>
+                {
+                    await ProcessUdp(cancellationToken);
+                });
             }
 
         }

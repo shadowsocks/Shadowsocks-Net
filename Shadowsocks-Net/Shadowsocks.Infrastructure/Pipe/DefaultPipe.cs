@@ -76,9 +76,9 @@ namespace Shadowsocks.Infrastructure.Pipe
             UnPipe();
 
             _cancellation ??= new CancellationTokenSource();
-            var tA2B = Task.Run(async () => { await PipeA2B(_cancellation.Token); }, _cancellation.Token);
-            var tB2A = Task.Run(async () => { await PipeB2A(_cancellation.Token); }, _cancellation.Token);
 
+            Task.Run(async () => { await PipeA2B(_cancellation.Token); });
+            Task.Run(async () => { await PipeB2A(_cancellation.Token); });
         }
 
         public void UnPipe()
@@ -112,6 +112,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             SmartBuffer buffer = SmartBuffer.Rent(_bufferSize);
             buffer.SignificantLength = await ClientA.ReadAsync(buffer.Memory, cancellationToken);
+
             if (buffer.SignificantLength > 0)
             {
                 if (_filtersA.Count > 0)
@@ -165,41 +166,44 @@ namespace Shadowsocks.Infrastructure.Pipe
                     }
                 }//end FilterB
 
-                int written = await ClientB.WriteAsync(buffer.Memory.Slice(0, buffer.SignificantLength), cancellationToken);
-                _logger?.LogInformation($"DefaultPipe Pipe A to B {written} bytes.");
-                if (written < 0)
+                if (null != buffer && buffer.SignificantLength > 0)
                 {
-                    //ClientB.Close();
-                    buffer.Dispose();
-                    ReportBroken();
-                    return;
+                    int written = await ClientB.WriteAsync(buffer.SignificanMemory, cancellationToken);
+                    _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
+                    if (written <= 0)
+                    {
+                        _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes, closing...");
+                        ClientB.Close();
+                        buffer.Dispose();
+                        ReportBroken();
+                        return;
+                    }
                 }
+
+
             }
-            else if (0 == buffer.SignificantLength)
+            else
             {
-                _logger?.LogInformation($"DefaultPipe read = 0.");
-            }
-            else//<0
-            {
-                _logger?.LogInformation($"DefaultPipe error, read={buffer.SignificantLength}.");
+                _logger?.LogError($"Pipe error. [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}], read={buffer.SignificantLength}.");
                 ClientA.Close();
                 ReportBroken();
                 return;
             }
 
-
             buffer.Dispose();
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                await PipeA2B(cancellationToken);//continue.
+                await Task.Run(async () =>
+                {
+                    await PipeA2B(cancellationToken);//continue.  
+                });
             }
         }
         async Task PipeB2A(CancellationToken cancellationToken)
         {
             SmartBuffer buffer = SmartBuffer.Rent(_bufferSize);//read buff
             buffer.SignificantLength = await ClientB.ReadAsync(buffer.Memory, cancellationToken);
-
 
             if (buffer.SignificantLength > 0)
             {
@@ -253,36 +257,36 @@ namespace Shadowsocks.Infrastructure.Pipe
                         DoFilter_UnLock(ref locked);
                     }
                 }//end FilterA
-
-                int written = await ClientA.WriteAsync(buffer.Memory.Slice(0, buffer.SignificantLength), cancellationToken);//Pipe
-                _logger?.LogInformation($"DefaultPipe Pipe B to A {written} bytes.");
-                if (written < 0)
+                if (null != buffer && buffer.SignificantLength > 0)
                 {
-                    ClientA.Close();
-                    buffer.Dispose();
-                    ReportBroken();
-                    return;
+                    int written = await ClientA.WriteAsync(buffer.SignificanMemory, cancellationToken);//Pipe
+                    _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
+                    if (written <= 0)
+                    {
+                        _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes, closing...");
+                        ClientA.Close();
+                        buffer.Dispose();
+                        ReportBroken();
+                        return;
+                    }
                 }
-
             }
-            else if (0 == buffer.SignificantLength)
+            else
             {
-                _logger?.LogInformation($"DefaultPipe read = 0.");
-            }
-            else//<0
-            {
-                _logger?.LogInformation($"DefaultPipe error, read={buffer.SignificantLength}.");
+                _logger?.LogError($"Pipe error. [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}], read={buffer.SignificantLength}.");
                 ClientB.Close();
                 ReportBroken();
                 return;
             }
 
-
             buffer.Dispose();//free memory.
 
             if (!cancellationToken.IsCancellationRequested)
             {
-                await PipeB2A(cancellationToken);//continue.
+                await Task.Run(async () =>
+                {
+                    await PipeB2A(cancellationToken);//continue.  
+                });
             }
         }
 
@@ -292,8 +296,8 @@ namespace Shadowsocks.Infrastructure.Pipe
             PipeFilterResult rt = default;
             foreach (var f in filters)
             {
-                _logger?.LogInformation($"DefaultPipe DoFilter_AfterReading {f.ToString()}...");
-                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory.Slice(0, buffer.SignificantLength));
+                _logger?.LogDebug($"DoFilter_AfterReading {f.ToString()}...");
+                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.SignificanMemory);
                 try
                 {
                     rt = f.AfterReading(ctx);
@@ -309,7 +313,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError(ex, $"DefaultPipe DoFilter_AfterReading {f.ToString()} error.");
+                    _logger?.LogError(ex, $"DoFilter_AfterReading {f.ToString()} error.");
                     buffer.Dispose();
                     rt = new PipeFilterResult(ctx.Client, null, false);
                     break;
@@ -324,7 +328,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             PipeFilterResult rt = default;
             foreach (var f in filters)
             {
-                _logger?.LogInformation($"DefaultPipe DoFilter_BeforeWriting {f.ToString()}...");
+                _logger?.LogDebug($"DoFilter_BeforeWriting {f.ToString()}...");
                 PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory.Slice(0, buffer.SignificantLength));
                 try
                 {
@@ -341,7 +345,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError(ex, $"DefaultPipe DoFilter_BeforeWriting {f.ToString()} error.");
+                    _logger?.LogError(ex, $"DoFilter_BeforeWriting {f.ToString()} error.");
                     buffer.Dispose();
                     rt = new PipeFilterResult(ctx.Client, null, false);
                     break;

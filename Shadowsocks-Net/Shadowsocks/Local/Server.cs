@@ -55,13 +55,14 @@ namespace Shadowsocks.Local
         }
         static Server()
         {
-           
+
         }
 
         public async Task<IPEndPoint> GetIPEndPoint()
         {
-            if(IPAddress.TryParse(this.Address,out IPAddress ip)){
-                return new IPEndPoint(ip,this.Port);
+            if (IPAddress.TryParse(this.Address, out IPAddress ip))
+            {
+                return new IPEndPoint(ip, this.Port);
             }
             else
             {
@@ -73,27 +74,29 @@ namespace Shadowsocks.Local
                         return new IPEndPoint(ips[0], this.Port);
                     }
                 }
-                catch { }                                
+                catch { }
             }
             return null;
         }
 
 
 
-        public Cipher.IShadowsocksStreamCipher CreateCipher()
+        public Cipher.IShadowsocksStreamCipher CreateCipher(ILogger logger = null)
         {
             try
             {
                 if (null == cipherTypeCache)
                 {
                     cipherTypeCache = Helper.CipherLoader.LoadCiphers();
+
                 }
                 if (cipherTypeCache.ContainsKey(this.Cipher))//ToLower()
                 {
-                    return Activator.CreateInstance(cipherTypeCache[this.Cipher], this.Password) as Cipher.IShadowsocksStreamCipher;
+                    return Activator.CreateInstance(cipherTypeCache[this.Cipher], this.Password, null) as Cipher.IShadowsocksStreamCipher;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            { Console.WriteLine($"CreateCipher {ex.Message + ex.StackTrace}"); }
             return null;
         }
     }

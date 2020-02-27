@@ -28,27 +28,19 @@ namespace Shadowsocks.Cipher
         }
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
-            PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
+            SmartBuffer bufferPlain = null;
             if (null != _cipher)
             {
-                if (!ctx.Memory.IsEmpty)
+                if (!ctx.Memory.IsEmpty)//TODO 1
                 {
-                    var bufferPlain = _cipher.DecryptTcp(ctx.Memory);
-                    if (null != bufferPlain && bufferPlain.SignificantLength > 0)
-                    {
-                        r = new PipeFilterResult(this.Client, bufferPlain, true);
-                    }
-                    else
-                    {
-                        _logger?.LogError($"AeadCipherTcpFilter AfterReading no plain data.");
-                    }
+                     bufferPlain = _cipher.DecryptTcp(ctx.Memory);                    
                 }
                 else
                 {
                     _logger?.LogError($"AeadCipherTcpFilter AfterReading filterContext.Memory.IsEmpty");
                 }
             }
-            return r;
+            return new PipeFilterResult(this.Client, bufferPlain, true);//TODO 2           
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)

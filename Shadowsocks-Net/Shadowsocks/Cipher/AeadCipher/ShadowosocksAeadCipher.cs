@@ -47,8 +47,8 @@ namespace Shadowsocks.Cipher.AeadCipher
         protected readonly byte[] _masterKeyBytes = null;
 
         #region TCP
-        public const int LEN_TCP_PAYLOADLENGTH = 2;//
-        public const int LEN_TCP_OVERHEAD_PER_CHUNK = LEN_TAG * 2 + LEN_TCP_PAYLOADLENGTH;//
+        public const int LEN_TCP_PAYLOADLEN_LENGTH = 2;//
+        public const int LEN_TCP_OVERHEAD_PER_CHUNK = LEN_TAG * 2 + LEN_TCP_PAYLOADLEN_LENGTH;//
         public const int LEN_TCP_MAX_CHUNK = 16 * 1024 - 1;//20;//
 
         TcpCipherContext _tcpCtx加密 = default;
@@ -74,7 +74,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             _tcpCtx加密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2);
             _tcpCtx解密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2);
 
-            _tcp_decrypt_crumb = SmartBuffer.Rent(LEN_TCP_OVERHEAD_PER_CHUNK * 2);
+            _tcp_decrypt_crumb = SmartBuffer.Rent(LEN_TCP_MAX_CHUNK + LEN_TCP_OVERHEAD_PER_CHUNK + 100);
         }
 
 
@@ -111,7 +111,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                     using (var payloadLenC = this.EncryptChunk(payloadLenBytes, _tcpCtx加密.Key, _tcpCtx加密.Nonce))
                     {
                         //[encrypted payload length][length tag]
-                        cipherStream.Write(payloadLenC.Memory.Slice(0, payloadLenC.SignificantLength));
+                        cipherStream.Write(payloadLenC.SignificanMemory);
                         _tcpCtx加密.IncreaseNonce();
                     }
                 }
@@ -121,7 +121,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                     using (var payloadC = this.EncryptChunk(payload, _tcpCtx加密.Key, _tcpCtx加密.Nonce))
                     {
                         //[encrypted payload][payload tag]
-                        cipherStream.Write(payloadC.Memory.Slice(0, payloadC.SignificantLength));
+                        cipherStream.Write(payloadC.SignificanMemory);
                         _tcpCtx加密.IncreaseNonce();
                     }
                 }
@@ -148,23 +148,24 @@ namespace Shadowsocks.Cipher.AeadCipher
             #region crumb
             if (_tcp_decrypt_crumb.SignificantLength > 0)//have crumb left lasttime.
             {
-                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp crumb {_tcp_decrypt_crumb} bytes found.");
+                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp crumb {_tcp_decrypt_crumb.SignificantLength} bytes found.");
                 using (var combCipher = SmartBuffer.Rent(cipher.Length + _tcp_decrypt_crumb.SignificantLength))
                 {
                     //combine crumb
                     var combCipherStream = new MemoryWriter(combCipher.Memory);
-                    combCipherStream.Write(_tcp_decrypt_crumb.Memory.Slice(0, _tcp_decrypt_crumb.SignificantLength));
+                    combCipherStream.Write(_tcp_decrypt_crumb.SignificanMemory);
                     combCipherStream.Write(cipher);
+                    combCipher.SignificantLength = cipher.Length + _tcp_decrypt_crumb.SignificantLength;
                     _tcp_decrypt_crumb.SignificantLength = 0;
-
-                    return DecryptTcp(combCipher.Memory.Slice(0, combCipherStream.Position));
+                    _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp combined crumb + new cipher = {combCipher.SignificantLength} bytes.");
+                    return DecryptTcp(combCipher.SignificanMemory);
                 }
             }
             if (cipher.Length <= LEN_TCP_OVERHEAD_PER_CHUNK)//still an incomplete chunk.
             {
-                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save crumb {_tcp_decrypt_crumb} bytes.");
                 cipher.CopyTo(_tcp_decrypt_crumb.Memory);
                 _tcp_decrypt_crumb.SignificantLength = cipher.Length;
+                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save crumb {_tcp_decrypt_crumb.SignificantLength} bytes.");
                 return null;
             }
             #endregion
@@ -186,22 +187,22 @@ namespace Shadowsocks.Cipher.AeadCipher
 
             do
             {
-                const int PAYLOADLEN_LEN = LEN_TCP_PAYLOADLENGTH + LEN_TAG;
+                const int LEN_AND_LENTAG = LEN_TCP_PAYLOADLEN_LENGTH + LEN_TAG;
                 ushort payloadLen = 0;
                 //payloadlen
                 {
-                    var arrPayloadLen = cipherStreamReader.Read(PAYLOADLEN_LEN);
+                    var arrPayloadLen = cipherStreamReader.Read(LEN_AND_LENTAG);
 
                     using (var len = this.DecryptChunk(arrPayloadLen, _tcpCtx解密.Key, _tcpCtx解密.Nonce))
                     {
                         _tcpCtx解密.IncreaseNonce();
                         if (0 >= len.SignificantLength)
                         {
-                            decrypteFailed = true;
+                            decrypteFailed = true;//TODO close client or not
                             break;
                         }
 
-                        var payloadLenBytes = len.Memory.Slice(0, len.SignificantLength);
+                        var payloadLenBytes = len.SignificanMemory;
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp payloadLenBytes ={payloadLenBytes.ToArray().ToHexString()}.");
                         // payloadLen = (ushort)System.Net.IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(payloadLenBytes.Span));
                         BinaryPrimitives.TryReadUInt16BigEndian(payloadLenBytes.Span, out payloadLen);
@@ -215,10 +216,11 @@ namespace Shadowsocks.Cipher.AeadCipher
                     }
                     if (!decrypteFailed && payloadLen + LEN_TAG > (cipherStreamReader.Length - cipherStreamReader.Position))
                     {
-                        cipher.Slice(cipherStreamReader.Position - LEN_TCP_PAYLOADLENGTH).CopyTo(_tcp_decrypt_crumb.Memory);
-                        _tcp_decrypt_crumb.SignificantLength += (cipherStreamReader.Length - cipherStreamReader.Position + LEN_TCP_PAYLOADLENGTH);
-                        _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save incomplete chunk{_tcp_decrypt_crumb.SignificantLength} bytes.");
-
+                        cipher.Slice(cipherStreamReader.Position - LEN_AND_LENTAG).CopyTo(_tcp_decrypt_crumb.Memory);
+                        _tcp_decrypt_crumb.SignificantLength = (cipherStreamReader.Length - cipherStreamReader.Position + LEN_AND_LENTAG);
+                        remain = 0;
+                        _tcpCtx解密.DecreaseNonce();
+                        _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save incomplete chunk {_tcp_decrypt_crumb.SignificantLength} bytes.");
                         break;
                     }
                 }
@@ -233,11 +235,11 @@ namespace Shadowsocks.Cipher.AeadCipher
                             decrypteFailed = true;
                             break;
                         }
-                        plainStream.Write(payload.Memory.Slice(0, payload.SignificantLength));
+                        plainStream.Write(payload.SignificanMemory);
 
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted payload {payload.SignificantLength} bytes.");
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain= " +
-                            $"{payload.Memory.Slice(0, payload.SignificantLength).ToArray().ToHexString()}");
+                            $"{payload.SignificanMemory.ToArray().ToHexString()}");
                     }
                 }
                 //-----
@@ -245,13 +247,13 @@ namespace Shadowsocks.Cipher.AeadCipher
                 remain = cipherStreamReader.Length - cipherStreamReader.Position;
             } while (remain > LEN_TCP_OVERHEAD_PER_CHUNK);
 
-            if (!decrypteFailed && 0 < remain && remain <= LEN_TCP_OVERHEAD_PER_CHUNK)//a incomplete chunk
+            if (!decrypteFailed && 0 < remain && remain <= LEN_TCP_OVERHEAD_PER_CHUNK)//crumb
             {
-                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save incomplete chunk{_tcp_decrypt_crumb.SignificantLength} bytes.");
+                _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp save incomplete chunk {_tcp_decrypt_crumb.SignificantLength} bytes.");
                 cipher.Slice(cipher.Length - remain, remain).CopyTo(_tcp_decrypt_crumb.Memory);
                 _tcp_decrypt_crumb.SignificantLength += remain;//_decrypt_crumb must be empty. //TODO not thread-safe.
             }
-
+            if (decrypteFailed && null != _tcp_decrypt_crumb) { _tcp_decrypt_crumb.Erase(); }
             plainBuffer.SignificantLength = decrypteFailed ? 0 : plainStream.Position;
             _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp {plainBuffer.SignificantLength} bytes got, will return.");
             return plainBuffer;
@@ -274,7 +276,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             using (var payload = this.EncryptChunk(plain, key.AsSpan(), NonceZero.AsSpan()))
             {
                 cipherPacketStream.Write(salt.AsMemory());
-                cipherPacketStream.Write(payload.Memory.Slice(0, payload.SignificantLength));
+                cipherPacketStream.Write(payload.SignificanMemory);
                 cipherPacket.SignificantLength = cipherPacketStream.Position;
                 //[salt][encrypted payload][tag]
             }
@@ -383,6 +385,12 @@ namespace Shadowsocks.Cipher.AeadCipher
             public void IncreaseNonce()
             {
                 ++NonceValue;
+                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+            }
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public void DecreaseNonce()
+            {
+                --NonceValue;
                 BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
             }
         }
