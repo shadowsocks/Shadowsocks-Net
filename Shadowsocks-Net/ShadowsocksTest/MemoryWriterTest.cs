@@ -14,7 +14,7 @@ namespace ShadowsocksTest
     using Shadowsocks.Infrastructure;
 
     [TestClass]
-    public class MemorySteram2Test
+    public class MemoryWriterTest
     {
         [TestMethod]
         public void TestReadWrite()
