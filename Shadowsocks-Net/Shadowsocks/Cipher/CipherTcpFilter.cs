@@ -33,7 +33,7 @@ namespace Shadowsocks.Cipher
             {
                 if (!ctx.Memory.IsEmpty)//TODO 1
                 {
-                     bufferPlain = _cipher.DecryptTcp(ctx.Memory);                    
+                    bufferPlain = _cipher.DecryptTcp(ctx.Memory);
                 }
                 else
                 {
@@ -44,13 +44,13 @@ namespace Shadowsocks.Cipher
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
-        {
+        {            
             PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
             if (null != _cipher)
             {
                 if (!ctx.Memory.IsEmpty)
                 {
-                    var bufferCipher = _cipher.EncryptTcp(ctx.Memory);
+                    var bufferCipher = _cipher.EncryptTcp(ctx.Memory);                    
                     r = new PipeFilterResult(this.Client, bufferCipher, true);
                 }
                 else

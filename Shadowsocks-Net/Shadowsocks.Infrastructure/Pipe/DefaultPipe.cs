@@ -100,6 +100,8 @@ namespace Shadowsocks.Infrastructure.Pipe
             while (!cancellationToken.IsCancellationRequested)
             {
                 received.SignificantLength = await ClientA.ReadAsync(received.Memory, cancellationToken);
+                _logger.LogInformation($"received {received.SignificantLength} bytes from [{ClientA.EndPoint.ToString()}].");
+
                 if (0 >= received.SignificantLength)
                 {
                     ReportBroken(PipeBrokenCause.Exception);
@@ -112,6 +114,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     received = result.Buffer;
                     if (!result.Continue)
                     {
+                        _logger.LogInformation($"pipe broke by filterA [{ClientA.EndPoint.ToString()}].");
                         received?.Dispose();
                         ReportBroken(PipeBrokenCause.FilterBreak);
                         return;
@@ -124,6 +127,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     received = result.Buffer;
                     if (!result.Continue)
                     {
+                        _logger.LogInformation($"pipe broke by filterB [{ClientB.EndPoint.ToString()}].");
                         received?.Dispose();
                         ReportBroken(PipeBrokenCause.FilterBreak);
                         return;
@@ -131,8 +135,10 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 if (null != received && received.SignificantLength > 0)
                 {
-                    int written = await ClientB.WriteAsync(received.SignificanMemory, cancellationToken);                   
-                    _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
+                    _logger?.LogInformation($"{received.SignificantLength} bytes left after filtering.");
+                    int written = await ClientB.WriteAsync(received.SignificanMemory, cancellationToken);
+
+                    _logger?.LogInformation($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
                     if (0 >= written)
                     {
                         received?.Dispose();
@@ -154,6 +160,8 @@ namespace Shadowsocks.Infrastructure.Pipe
             while (!cancellationToken.IsCancellationRequested)
             {
                 received.SignificantLength = await ClientB.ReadAsync(received.Memory, cancellationToken);
+                _logger.LogInformation($"received {received.SignificantLength} bytes from [{ClientB.EndPoint.ToString()}].");
+
                 if (0 >= received.SignificantLength)
                 {
                     ReportBroken(PipeBrokenCause.Exception);
@@ -166,6 +174,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     received = result.Buffer;
                     if (!result.Continue)
                     {
+                        _logger.LogInformation($"pipe broke by filterB [{ClientB.EndPoint.ToString()}].");
                         received?.Dispose();
                         ReportBroken(PipeBrokenCause.FilterBreak);
                         return;
@@ -178,6 +187,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     received = result.Buffer;
                     if (!result.Continue)
                     {
+                        _logger.LogInformation($"pipe broke by filterA [{ClientA.EndPoint.ToString()}].");
                         received?.Dispose();
                         ReportBroken(PipeBrokenCause.FilterBreak);
                         return;
@@ -185,8 +195,10 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 if (null != received && received.SignificantLength > 0)
                 {
-                    int written = await ClientA.WriteAsync(received.SignificanMemory, cancellationToken);                    
-                    _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
+                    _logger?.LogInformation($"{received.SignificantLength} bytes left after filtering.");
+                    int written = await ClientA.WriteAsync(received.SignificanMemory, cancellationToken);
+                    _logger?.LogInformation($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
+
                     if (0 >= written)
                     {
                         received?.Dispose();
@@ -253,7 +265,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             if (!_filterExecLock.IsHeldByCurrentThread)
             {
                 _filterExecLock.Enter(ref locked);
-                _logger?.LogDebug("Pipe _filterExecLock.Enter().");
+                _logger?.LogInformation("Pipe _filterExecLock.Enter().");
             }
         }
         void DoFilter_UnLock(ref bool locked)
@@ -262,7 +274,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             {
                 _filterExecLock.Exit();
                 locked = false;
-                _logger?.LogDebug("Pipe _filterExecLock.Exit().");
+                _logger?.LogInformation("Pipe _filterExecLock.Exit().");
             }
         }
 
