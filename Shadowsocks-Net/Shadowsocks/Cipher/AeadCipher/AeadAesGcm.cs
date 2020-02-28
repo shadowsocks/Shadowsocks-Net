@@ -36,53 +36,47 @@ namespace Shadowsocks.Cipher.AeadCipher
         }
         protected override SmartBuffer EncryptChunk(ReadOnlyMemory<byte> raw, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default)
         {
-            AesGcm aes = null;
-            if (!_cipherPool.TryPop(out aes))
+            using (var aes = new AesGcm(key))
             {
-                aes = new AesGcm(key);
+                SmartBuffer cipherPacket = SmartBuffer.Rent(raw.Length + LEN_TAG);
+
+                var cipherSpan = cipherPacket.Memory.Span;
+                try
+                {
+                    aes.Encrypt(nonce, raw.Span, cipherSpan.Slice(0, raw.Length), cipherSpan.Slice(raw.Length, LEN_TAG), add);
+                    cipherPacket.SignificantLength = raw.Length + LEN_TAG;
+                }
+                catch (Exception ex)
+                {
+                    cipherPacket.SignificantLength = 0;
+                    _logger?.LogError(ex, "AeadAesGcm EncryptChunk failed.");
+                }
+                finally { _cipherPool.Push(aes); }
+
+                return cipherPacket;
             }
-
-            SmartBuffer cipherPacket = SmartBuffer.Rent(raw.Length + LEN_TAG);
-
-            var cipherSpan = cipherPacket.Memory.Span;
-            try
-            {
-                aes.Encrypt(nonce, raw.Span, cipherSpan.Slice(0, raw.Length), cipherSpan.Slice(raw.Length, LEN_TAG), add);
-                cipherPacket.SignificantLength = raw.Length + LEN_TAG;
-            }
-            catch (Exception ex)
-            {
-                cipherPacket.SignificantLength = 0;
-                _logger?.LogError(ex, "AeadAesGcm EncryptChunk failed.");
-            }
-            finally { _cipherPool.Push(aes); }
-
-
-            return cipherPacket;
         }
         protected override SmartBuffer DecryptChunk(ReadOnlyMemory<byte> cipher, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default)
         {
-            AesGcm aes = null;
-            if (!_cipherPool.TryPop(out aes))
+            using (var aes = new AesGcm(key))
             {
-                aes = new AesGcm(key);
-            }
-            SmartBuffer plainPacket = SmartBuffer.Rent(cipher.Length);
+                SmartBuffer plainPacket = SmartBuffer.Rent(cipher.Length);
 
-            var plainSpan = plainPacket.Memory.Span;
-            try
-            {
-                aes.Decrypt(nonce, cipher.Span.Slice(0, cipher.Length - LEN_TAG), cipher.Span.Slice(cipher.Length - LEN_TAG), plainSpan.Slice(0, cipher.Length - LEN_TAG), add);
-                plainPacket.SignificantLength = cipher.Length - LEN_TAG;
-            }
-            catch (Exception ex)
-            {
-                plainPacket.SignificantLength = 0;
-                _logger?.LogError(ex, "AeadAesGcm DecryptChunk failed.");
-            }
-            finally { _cipherPool.Push(aes); }
+                var plainSpan = plainPacket.Memory.Span;
+                try
+                {
+                    aes.Decrypt(nonce, cipher.Span.Slice(0, cipher.Length - LEN_TAG), cipher.Span.Slice(cipher.Length - LEN_TAG), plainSpan.Slice(0, cipher.Length - LEN_TAG), add);
+                    plainPacket.SignificantLength = cipher.Length - LEN_TAG;
+                }
+                catch (Exception ex)
+                {
+                    plainPacket.SignificantLength = 0;
+                    _logger?.LogError(ex, "AeadAesGcm DecryptChunk failed.");
+                }
+                finally { _cipherPool.Push(aes); }
 
-            return plainPacket;
+                return plainPacket;
+            }
         }
 
         protected void Cleanup()
