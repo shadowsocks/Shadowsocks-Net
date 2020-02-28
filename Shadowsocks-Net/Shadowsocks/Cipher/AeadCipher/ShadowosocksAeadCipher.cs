@@ -239,6 +239,8 @@ namespace Shadowsocks.Cipher.AeadCipher
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted payload {payload.SignificantLength} bytes.");
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain= " +
                             $"{payload.SignificanMemory.ToArray().ToHexString()}");
+                        _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain.UTF8= " +
+                           $"{Encoding.UTF8.GetString( payload.SignificanMemory.ToArray())}\r\n");
                     }
                 }
                 //-----
@@ -342,9 +344,9 @@ namespace Shadowsocks.Cipher.AeadCipher
         }
 
 
-        protected struct TcpCipherContext
+        public struct TcpCipherContext
         {
-            public uint NonceValue;
+            public ulong NonceValue;
             public readonly byte[] Nonce;
             public readonly byte[] Key;
             public readonly byte[] Salt;
@@ -355,7 +357,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             {
                 NonceValue = 0U;
                 Nonce = new byte[LEN_NONCE];
-                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+                BinaryPrimitives.TryWriteUInt64LittleEndian(Nonce, NonceValue);
 
                 Key = new byte[keyLen];
                 Salt = new byte[saltLen];
@@ -384,14 +386,15 @@ namespace Shadowsocks.Cipher.AeadCipher
             public void IncreaseNonce()
             {
                 ++NonceValue;
-                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+                BinaryPrimitives.TryWriteUInt64LittleEndian(Nonce, NonceValue);
             }
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void DecreaseNonce()
             {
                 --NonceValue;
-                BinaryPrimitives.TryWriteUInt32LittleEndian(Nonce, NonceValue);
+                BinaryPrimitives.TryWriteUInt64LittleEndian(Nonce, NonceValue);
             }
+          
         }
 
     }
