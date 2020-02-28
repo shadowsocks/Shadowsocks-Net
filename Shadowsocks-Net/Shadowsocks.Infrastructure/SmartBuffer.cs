@@ -31,6 +31,7 @@ namespace Shadowsocks.Infrastructure
         public int SignificantLength;
         public Memory<byte> SignificanMemory => _memoryOwner.Memory.Slice(0, SignificantLength);
         public int FreeSapce => _memoryOwner.Memory.Length - SignificantLength;
+        public Memory<byte> FreeMemory => _memoryOwner.Memory.Slice(SignificantLength);
 
 
         IMemoryOwner<byte> _memoryOwner = null;
