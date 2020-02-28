@@ -244,7 +244,7 @@ namespace Shadowsocks.Remote
         }
 
 
-        private void Pipe_OnBroken(object sender, PipeEventArgs e)
+        private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
             var p = e.Pipe as DefaultPipe;
             p.OnBroken -= this.Pipe_OnBroken;

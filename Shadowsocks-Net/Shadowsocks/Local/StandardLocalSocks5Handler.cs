@@ -316,11 +316,15 @@ namespace Shadowsocks.Local
             //TODO disassoc udp
         }
 
-        private void Pipe_OnBroken(object sender, PipeEventArgs e)
+        private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
             var p = e.Pipe as DefaultPipe;
             p.OnBroken -= this.Pipe_OnBroken;
             p.UnPipe();
+
+            _logger?.LogInformation($"Pipe_OnBroken" +
+                $" A={p.ClientA.EndPoint.ToString()}, B={p.ClientB.EndPoint.ToString()}, Cause={Enum.GetName(typeof(PipeBrokenCause), e.Cause)}");
+
             p.ClientA.Close();
             p.ClientB.Close();
 
@@ -328,6 +332,7 @@ namespace Shadowsocks.Local
             {
                 this._pipes.Remove(p);
             }
+            
         }
 
 

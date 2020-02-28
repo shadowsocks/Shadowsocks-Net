@@ -60,6 +60,12 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogError(se, $"ClientBase ReadAsync error1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
+            catch (OperationCanceledException oce)
+            {
+                //_logger?.LogError(oce, $"ClientBase ReadAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogWarning($"ClientBase ReadAsync cancelled.");
+                return -1;
+            }
             catch (Exception se)
             {
                 _logger?.LogError(se, $"ClientBase ReadAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
