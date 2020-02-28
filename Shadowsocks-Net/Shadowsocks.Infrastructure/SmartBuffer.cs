@@ -27,10 +27,10 @@ namespace Shadowsocks.Infrastructure
         /// Don't forget SignificantLength.
         /// </summary>
         public Memory<byte> Memory => _memoryOwner.Memory;
-
+       
         public int SignificantLength;
-
         public Memory<byte> SignificanMemory => _memoryOwner.Memory.Slice(0, SignificantLength);
+        public int FreeSapce => _memoryOwner.Memory.Length - SignificantLength;
 
 
         IMemoryOwner<byte> _memoryOwner = null;

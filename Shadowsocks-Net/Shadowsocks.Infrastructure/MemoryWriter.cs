@@ -21,10 +21,10 @@ namespace Shadowsocks.Infrastructure
 {
     public sealed class MemoryWriter //: Stream//, IDisposable
     {
-
         public ReadOnlyMemory<byte> Memory => _mem;
         public int Length => _mem.Length;
-
+        public int FreeSapce => _mem.Length - _pos;
+        
         public int Position
         {
             get { return _pos; }
