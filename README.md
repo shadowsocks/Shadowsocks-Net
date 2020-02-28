@@ -184,7 +184,7 @@ Minimal版已在Windows端测试，参数通过配置文件修改。
 
 <br/>
 
-客户端修改`servers.json`后执行`shadowsocks-net-local.exe`：
+客户端修改`servers.json`和`app-config.json`后执行`shadowsocks-net-local.exe`：
 ```json
 [
   {
@@ -197,6 +197,17 @@ Minimal版已在Windows端测试，参数通过配置文件修改。
     "category": null
   }
 ]
+```
+```json
+{
+  "Proxy": {
+    "Socks5Port": 2080,
+    "HttpPort": 8080,
+    "UseIPv6Address": false,
+    "UseLoopbackAddress": true
+  }
+}
+
 ```
 <br/>
 
