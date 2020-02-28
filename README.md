@@ -167,7 +167,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 如果你之前有使用Shadowsocks的经验，Shadowsocks-Net的使用将会十分容易。
 这里下载[安装.NET Core](https://dotnet.microsoft.com/download)。
 
-Minimal版已在Windows端测试，参数通过配置文件修改。
+Minimal版已在Windows和Debian10 x64测试，参数通过配置文件修改。
 
 
 服务端修改`config.json`后执行`shadowsocks-net-remote.exe`：
