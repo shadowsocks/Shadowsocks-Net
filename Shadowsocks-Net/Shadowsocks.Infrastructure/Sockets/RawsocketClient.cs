@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Logging;
 
 namespace Shadowsocks.Infrastructure.Sockets

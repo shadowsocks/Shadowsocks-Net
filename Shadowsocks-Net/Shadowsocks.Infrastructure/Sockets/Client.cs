@@ -9,7 +9,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.ObjectPool;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 
@@ -60,7 +59,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogError(se, $"ClientBase ReadAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
                 _logger?.LogWarning($"ClientBase ReadAsync cancelled.");
                 return -1;
@@ -97,7 +96,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogError(se, $"ClientBase WriteAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
-            catch (OperationCanceledException oce)
+            catch (OperationCanceledException)
             {
                 _logger?.LogWarning($"ClientBase WriteAsync cancelled.");
                 return -1;
