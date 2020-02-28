@@ -62,7 +62,8 @@ namespace Shadowsocks.Local
 
         #region IShadowsocksServer
 
-        public async Task Start()
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void Start()
         {
             Stop();
 
@@ -74,13 +75,18 @@ namespace Shadowsocks.Local
 
             if (_tcpServer.IsRunning)
             {
-                await ProcessTcp(_cancellationStop.Token);
+                _ = Task.Run(async () =>
+                {
+                    await ProcessTcp(_cancellationStop.Token);
+                }, this._cancellationStop.Token);
             }
             if (_tcpServer.IsRunning && _udpServer.IsRunning)
             {
-                await ProcessUdp(_cancellationStop.Token);
+                _ = Task.Run(async () =>
+                {
+                    await ProcessUdp(_cancellationStop.Token);
+                }, this._cancellationStop.Token);
             }
-
         }
 
         public void Stop()
@@ -105,64 +111,47 @@ namespace Shadowsocks.Local
 
         async Task ProcessTcp(CancellationToken cancellationToken)
         {
-            if (_tcpServer.IsRunning)
+            while (!cancellationToken.IsCancellationRequested && _tcpServer.IsRunning)
             {
                 var client = await _tcpServer.Accept();
                 if (null != client)
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        client.Close();
-                        return;
-                    }
+                    if (cancellationToken.IsCancellationRequested) { client.Close(); return; }
                     if (null != _socks5Handler)
                     {
-                        _ = Task.Run(() =>
-                          {
-                              _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
-                          }, this._cancellationStop.Token);
+                        _ = Task.Run(async () =>
+                        {
+                            await _socks5Handler.HandleTcp(client, this._cancellationStop.Token);
+                        }, this._cancellationStop.Token);
                     }
                 }
                 else
                 {
                     _logger?.LogInformation("ProcessTcp null = client");
+                    break;
                 }
-
-                if (cancellationToken.IsCancellationRequested) { return; }
-                await Task.Run(async () =>
-                {
-                    await ProcessTcp(cancellationToken);
-                });
-            }
-
-
+            }//end while
         }
 
         async Task ProcessUdp(CancellationToken cancellationToken)
         {
-            if (_udpServer.IsRunning)
+            while (!cancellationToken.IsCancellationRequested && _tcpServer.IsRunning && _udpServer.IsRunning)
             {
                 var client = await _udpServer.Accept();
-                if (null != client)
+                if (null != client)//new client
                 {
-                    if (cancellationToken.IsCancellationRequested)
+                    if (cancellationToken.IsCancellationRequested) { client.Close(); return; }
+                    if (null != _socks5Handler)
                     {
-                        client.Close();
-                        return;
+                        _ = Task.Run(async () =>
+                        {
+                            await _socks5Handler.HandleUdp(client, this._cancellationStop.Token);
+                        }, this._cancellationStop.Token);
                     }
-                    var t = Task.Run(async () =>
-                    {
-                        await _socks5Handler.HandleUdp(client, this._cancellationStop.Token);
-                    }, this._cancellationStop.Token);
-
                 }
-                if (cancellationToken.IsCancellationRequested) { return; }
-                await Task.Run(async () =>
-                {
-                    await ProcessUdp(cancellationToken);
-                });
-            }
-
+                else { }//
+            }//end while
+           
         }
 
 

@@ -11,7 +11,7 @@ namespace Shadowsocks
 {
     public interface IShadowsocksServer
     {
-        Task Start();
+        void Start();
         void Stop();
     }
 }

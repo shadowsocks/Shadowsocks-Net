@@ -47,39 +47,45 @@ namespace Shadowsocks.Local
                 # +------+----------+----------+----------+
                 # |  1   | Variable |    2     | Variable |
                 # +------+----------+----------+----------+
-
-
      */
-
     /// <summary>
     /// Applies to UDP relay client on local side.
     /// </summary>
     public class LocalUdpRelayPackingFilter : PipeFilter
     {
-
         public LocalUdpRelayPackingFilter(IClient udpClient, ILogger logger = null)
                : base(udpClient, 20, logger)
         {
-
         }
         
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {
-            SmartBuffer toApplication = SmartBuffer.Rent(1500);
-            ctx.Memory.CopyTo(toApplication.Memory.Slice(2 + 1));
-            var p = toApplication.Memory.Span;
-            p.Slice(0, 3).Fill(0x0);
-            toApplication.SignificantLength = ctx.Memory.Length + 2 + 1;
-            return new PipeFilterResult(ctx.Client, toApplication, true);
+            if (!ctx.Memory.IsEmpty)
+            {
+                SmartBuffer toApplication = SmartBuffer.Rent(1500);
+                ctx.Memory.CopyTo(toApplication.Memory.Slice(2 + 1));
+                var p = toApplication.Memory.Span;
+                p.Slice(0, 3).Fill(0x0);
+                toApplication.SignificantLength = ctx.Memory.Length + 2 + 1;
+                return new PipeFilterResult(ctx.Client, toApplication, true);
+            }
+            else { _logger?.LogError($"LocalUdpRelayPackingFilter AfterReading filterContext.Memory.IsEmpty"); }
 
+            return new PipeFilterResult(this.Client, null, false);            
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
         {
-            SmartBuffer toRemote = SmartBuffer.Rent(1500);
-            ctx.Memory.Slice(3).CopyTo(toRemote.Memory);
-            toRemote.SignificantLength = ctx.Memory.Length - 3;
-            return new PipeFilterResult(ctx.Client, toRemote, true);
+            if (!ctx.Memory.IsEmpty)
+            {
+                SmartBuffer toRemote = SmartBuffer.Rent(1500);
+                ctx.Memory.Slice(3).CopyTo(toRemote.Memory);
+                toRemote.SignificantLength = ctx.Memory.Length - 3;
+                return new PipeFilterResult(ctx.Client, toRemote, true);
+            }
+            else { _logger?.LogError($"LocalUdpRelayPackingFilter BeforeWriting filterContext.Memory.IsEmpty"); }
+
+            return new PipeFilterResult(this.Client, null, false);           
         }
     }
 }

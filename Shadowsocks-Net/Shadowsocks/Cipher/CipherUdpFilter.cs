@@ -27,46 +27,31 @@ namespace Shadowsocks.Cipher
             _cipher = Throw.IfNull(() => cipher);
         }
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
-        {
-            PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
-            if (null != _cipher)
+        {          
+            if (!ctx.Memory.IsEmpty)
             {
-                if (!ctx.Memory.IsEmpty)
+                var bufferPlain = _cipher.DecryptUdp(ctx.Memory);
+                if (null != bufferPlain && bufferPlain.SignificantLength > 0)
                 {
-                    var bufferPlain = _cipher.DecryptUdp(ctx.Memory);
-                    if (null != bufferPlain && bufferPlain.SignificantLength > 0)
-                    {
-                        r = new PipeFilterResult(this.Client, bufferPlain, true);
-                    }
-                    else
-                    {
-                        _logger?.LogError($"AeadCipherTcpFilter AfterReading no plain data.");
-                    }
+                    return new PipeFilterResult(this.Client, bufferPlain, true);                    
                 }
-                else
-                {
-                    _logger?.LogError($"AeadCipherTcpFilter AfterReading filterContext.Memory.IsEmpty");
-                }
+                else { _logger?.LogError($"CipherUdpFilter AfterReading no plain data."); }
             }
-            return r;
+            else { _logger?.LogError($"CipherUdpFilter AfterReading filterContext.Memory.IsEmpty"); }
+
+            return new PipeFilterResult(this.Client, null, false);
         }
 
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
         {
-            PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
-            if (null != _cipher)
+            if (!ctx.Memory.IsEmpty)
             {
-                if (!ctx.Memory.IsEmpty)
-                {
-                    var bufferCipher = _cipher.EncryptUdp(ctx.Memory);
-                    r = new PipeFilterResult(this.Client, bufferCipher, true);
-                }
-                else
-                {
-                    _logger?.LogError($"AeadCipherTcpFilter BeforeWriting filterContext.Memory.IsEmpty");
-                }
+                var bufferCipher = _cipher.EncryptUdp(ctx.Memory);
+                return new PipeFilterResult(this.Client, bufferCipher, true);
             }
-            return r;
+            else { _logger?.LogError($"CipherUdpFilter BeforeWriting filterContext.Memory.IsEmpty"); }
+
+            return  new PipeFilterResult(this.Client, null, false);
         }
     }
 }

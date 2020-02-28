@@ -54,9 +54,7 @@ namespace Shadowsocks.Local
             using (SmartBuffer request = SmartBuffer.Rent(300), response = SmartBuffer.Rent(300))
             {
                 request.SignificantLength = await client.ReadAsync(request.Memory, cancellationToken);
-
                 if (5 >= request.SignificantLength) { client.Close(); return; }
-
                 #region socks5
                 /*
                 +----+-----+-------+------+----------+----------+
@@ -224,7 +222,7 @@ namespace Shadowsocks.Local
                 client.Close();
                 return;
             }
-            PipeUdp(client, relayClient, server.CreateCipher(), cancellationToken);
+            PipeUdp(client, relayClient, server.CreateCipher(_logger), cancellationToken);
 
         }
 
@@ -262,26 +260,7 @@ namespace Shadowsocks.Local
             }
             pipe.Pipe();            
         }
-
-        void Cleanup()
-        {
-            foreach (var p in this._pipes)
-            {
-                p.UnPipe();
-                p.ClientA.Close();
-                p.ClientB.Close();
-            }
-            lock (_pipesReadWriteLock)
-            {
-                this._pipes.Clear();
-            }
-
-        }
-        public void Dispose()
-        {
-            Cleanup();
-        }
-
+ 
         private void Client_Closing(object sender, ClientEventArgs e)
         {
             e.Client.Closing -= this.Client_Closing;
@@ -309,6 +288,7 @@ namespace Shadowsocks.Local
 
         }
 
+
         async Task<bool> Handshake(IClient client, CancellationToken cancellationToken)
         {
             using (var request = SmartBuffer.Rent(300))
@@ -331,6 +311,25 @@ namespace Shadowsocks.Local
                 return false;
             }
 
+        }
+
+        void Cleanup()
+        {
+            foreach (var p in this._pipes)
+            {
+                p.UnPipe();
+                p.ClientA.Close();
+                p.ClientB.Close();
+            }
+            lock (_pipesReadWriteLock)
+            {
+                this._pipes.Clear();
+            }
+
+        }
+        public void Dispose()
+        {
+            Cleanup();
         }
         class NegotiationResponse
         {
