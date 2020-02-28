@@ -50,7 +50,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         public int Compare(PipeFilter x, PipeFilter y)
         {
-            return -x.Priority.CompareTo(y.Priority);
+            return x.Priority.CompareTo(y.Priority);
         }
     }
 }

@@ -81,7 +81,6 @@ namespace Shadowsocks.Infrastructure.Pipe
             Task.Run(async () => { await PipeA2B(_cancellation.Token); });
             Task.Run(async () => { await PipeB2A(_cancellation.Token); });
         }
-
         public void UnPipe()
         {
             if (null != _cancellation)
@@ -240,7 +239,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             SmartBuffer prevFilterMemory = memory;
             bool @continue = true;
-            foreach (var filter in filters)
+            foreach (var filter in filters.Reverse())
             {
                 try
                 {
@@ -293,6 +292,14 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
             return this;
         }
+        public void ApplyFilter(IEnumerable<PipeFilter> filters)//TODO lock
+        {
+            foreach (var f in filters)
+            {
+                ApplyFilter(f);
+            }
+        }
+
         void ReportBroken(PipeBrokenCause cause, PipeException exception = null)
         {
             try
