@@ -52,23 +52,22 @@ namespace Shadowsocks.Infrastructure.Sockets
 
             int read;
             try
-            {              
+            {
                 read = await _sock.ReceiveAsync(buffer, SocketFlags.None, cancellationToken);
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, $"ClientBase ReadAsync error1. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"ClientBase ReadAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (OperationCanceledException oce)
             {
-                //_logger?.LogError(oce, $"ClientBase ReadAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
                 _logger?.LogWarning($"ClientBase ReadAsync cancelled.");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"ClientBase ReadAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"ClientBase ReadAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return read;
@@ -85,19 +84,27 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (null == _sock) { return -1; }
 
-            int written;
+            int written = 0;
             try
             {
-                written = await _sock.SendAsync(buffer, SocketFlags.None, cancellationToken);
+                while (written < buffer.Length)
+                {
+                    written += await _sock.SendAsync(buffer, SocketFlags.None, cancellationToken);
+                }
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, $"ClientBase WriteAsync error1. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"ClientBase WriteAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
+                return -1;
+            }
+            catch (OperationCanceledException oce)
+            {
+                _logger?.LogWarning($"ClientBase WriteAsync cancelled.");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"ClientBase WriteAsync error2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"ClientBase WriteAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return written;

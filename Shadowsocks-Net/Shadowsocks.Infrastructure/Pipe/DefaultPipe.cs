@@ -131,8 +131,14 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 if (null != received && received.SignificantLength > 0)
                 {
-                    int written = await ClientB.WriteAsync(received.SignificanMemory, cancellationToken);
+                    int written = await ClientB.WriteAsync(received.SignificanMemory, cancellationToken);                   
                     _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
+                    if (0 >= written)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.Exception);
+                        return;
+                    }
                 }
                 //continue piping
             }//end while
@@ -179,8 +185,14 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
                 if (null != received && received.SignificantLength > 0)
                 {
-                    int written = await ClientA.WriteAsync(received.SignificanMemory, cancellationToken);
+                    int written = await ClientA.WriteAsync(received.SignificanMemory, cancellationToken);                    
                     _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
+                    if (0 >= written)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.Exception);
+                        return;
+                    }
                 }
                 //continue piping
             }//end while
