@@ -13,7 +13,7 @@ Shadowsocks-Net计划有多个发布版本，功能特性比较见下表。
 
 |版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
-|Minimal（cross-platform）|√              | √             |               |√  |        |              |            |
+|Minimal（cross-platform）|√              | √             |               |    |        |              |            |
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
@@ -167,10 +167,41 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 如果你之前有使用Shadowsocks的经验，Shadowsocks-Net的使用将会十分容易。
 这里下载[安装.NET Core](https://dotnet.microsoft.com/download)。
 
+Minimal版已在Windows端测试，参数通过配置文件修改。
+
+
+服务端修改`config.json`后执行`shadowsocks-net-remote.exe`：
+```json
+{
+  //"server_host": null,
+  "server_port": 6666,
+  "use_ipv6": false,
+  "timeout": 5,
+  "password": "password1",
+  "method": "aes-128-gcm"
+}
+```
+
+<br/>
+
+客户端修改`servers.json`后执行`shadowsocks-net-local.exe`：
+```json
+[
+  {
+    "remarks": "Test Server",
+    "server": "10.10.10.102",
+    "server_port": 6666,
+    "password": "password1",
+    "method": "aes-128-gcm",
+    "obfs": null,
+    "category": null
+  }
+]
+```
 <br/>
 
 ## Contribute
-还有很多代码等待添加。
+还有很多代码等待被添加。
 <br/>
 
 
