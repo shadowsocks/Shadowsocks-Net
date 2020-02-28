@@ -8,9 +8,22 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public class PipeEventArgs :EventArgs
+    public class PipeEventArgs : EventArgs
     {
-        public IPipe Pipe { set; get; }        
+        public IPipe Pipe { set; get; }
         public PipeException Exception { set; get; }
+
+    }
+    public class PipeBrokenEventArgs : PipeEventArgs
+    {
+        public PipeBrokenCause Cause { set; get; }
+    }
+
+    public enum PipeBrokenCause
+    {
+        Empty,
+        Cancelled,
+        FilterBreak,
+        Exception
     }
 }

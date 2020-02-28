@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Buffers;
+using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 
@@ -30,7 +31,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         public IReadOnlyCollection<PipeFilter> FiltersA => _filtersA;
         public IReadOnlyCollection<PipeFilter> FiltersB => _filtersB;
 
-        public event EventHandler<PipeEventArgs> OnBroken;
+        public event EventHandler<PipeBrokenEventArgs> OnBroken;
 
 
         ILogger _logger = null;
@@ -70,7 +71,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             UnPipe();
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void Pipe()
         {
             UnPipe();
@@ -91,6 +92,168 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
+        async Task PipeA2B(CancellationToken cancellationToken)
+        {
+            //using (var received = SmartBuffer.Rent(_bufferSize))
+            var received = SmartBuffer.Rent(_bufferSize);
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                received.SignificantLength = await ClientA.ReadAsync(received.Memory, cancellationToken);
+                if (0 >= received.SignificantLength)
+                {
+                    ReportBroken(PipeBrokenCause.Exception);
+                    return;
+                }
+                if (_filtersA.Count > 0)
+                {
+                    var result = ExecuteFilter_AfterReading(ClientA, received, _filtersA, cancellationToken);
+                    received.Dispose();
+                    received = result.Buffer;
+                    if (!result.Continue)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.FilterBreak);
+                        return;
+                    }
+                }
+                if (_filtersB.Count > 0)
+                {
+                    var result = ExecuteFilter_BeforeWriting(ClientB, received, _filtersB, cancellationToken);
+                    received.Dispose();
+                    received = result.Buffer;
+                    if (!result.Continue)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.FilterBreak);
+                        return;
+                    }
+                }
+                if (null != received && received.SignificantLength > 0)
+                {
+                    int written = await ClientB.WriteAsync(received.SignificanMemory, cancellationToken);
+                    _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
+                }
+                //continue piping
+            }//end while
+            received?.Dispose();
+            ReportBroken(PipeBrokenCause.Cancelled);
+
+        }
+        async Task PipeB2A(CancellationToken cancellationToken)
+        {
+            //using (var received = SmartBuffer.Rent(_bufferSize))
+            var received = SmartBuffer.Rent(_bufferSize);
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                received.SignificantLength = await ClientB.ReadAsync(received.Memory, cancellationToken);
+                if (0 >= received.SignificantLength)
+                {
+                    ReportBroken(PipeBrokenCause.Exception);
+                    return;
+                }
+                if (_filtersB.Count > 0)
+                {
+                    var result = ExecuteFilter_AfterReading(ClientB, received, _filtersB, cancellationToken);
+                    received.Dispose();
+                    received = result.Buffer;
+                    if (!result.Continue)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.FilterBreak);
+                        return;
+                    }
+                }
+                if (_filtersA.Count > 0)
+                {
+                    var result = ExecuteFilter_BeforeWriting(ClientA, received, _filtersA, cancellationToken);
+                    received.Dispose();
+                    received = result.Buffer;
+                    if (!result.Continue)
+                    {
+                        received?.Dispose();
+                        ReportBroken(PipeBrokenCause.FilterBreak);
+                        return;
+                    }
+                }
+                if (null != received && received.SignificantLength > 0)
+                {
+                    int written = await ClientA.WriteAsync(received.SignificanMemory, cancellationToken);
+                    _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
+                }
+                //continue piping
+            }//end while
+            received?.Dispose();
+            ReportBroken(PipeBrokenCause.Cancelled);
+
+        }
+
+        PipeFilterResult ExecuteFilter_AfterReading(IClient client, SmartBuffer memory, SortedSet<PipeFilter> filters, CancellationToken cancellationToken)
+        {
+            SmartBuffer prevFilterMemory = memory;
+            bool @continue = true;
+            foreach (var filter in filters)
+            {
+                try
+                {
+                    var result = filter.AfterReading(new PipeFilterContext(client, prevFilterMemory.SignificanMemory));
+                    prevFilterMemory.Dispose();
+                    prevFilterMemory = result.Buffer;
+                    @continue = result.Continue;
+                    if (!result.Continue) { break; }
+                    if (cancellationToken.IsCancellationRequested) { break; }
+                }
+                catch (Exception ex)
+                {
+                    @continue = false;
+                    _logger?.LogError(ex, $"ExecuteFilter_AfterReading [{client.EndPoint.ToString()}].");
+                }
+            }
+            return new PipeFilterResult(client, prevFilterMemory, @continue);
+        }
+        PipeFilterResult ExecuteFilter_BeforeWriting(IClient client, SmartBuffer memory, SortedSet<PipeFilter> filters, CancellationToken cancellationToken)
+        {
+            SmartBuffer prevFilterMemory = memory;
+            bool @continue = true;
+            foreach (var filter in filters)
+            {
+                try
+                {
+                    var result = filter.BeforeWriting(new PipeFilterContext(client, prevFilterMemory.SignificanMemory));
+                    prevFilterMemory.Dispose();
+                    prevFilterMemory = result.Buffer;
+                    @continue = result.Continue;
+                    if (!result.Continue) { break; }
+                    if (cancellationToken.IsCancellationRequested) { break; }
+                }
+                catch (Exception ex)
+                {
+                    @continue = false;
+                    _logger?.LogError(ex, $"ExecuteFilter_BeforeWriting [{client.EndPoint.ToString()}].");
+                }
+            }
+            return new PipeFilterResult(client, prevFilterMemory, @continue);
+        }
+
+        void DoFilter_Lock(ref bool locked)
+        {
+            if (!_filterExecLock.IsHeldByCurrentThread)
+            {
+                _filterExecLock.Enter(ref locked);
+                _logger?.LogDebug("Pipe _filterExecLock.Enter().");
+            }
+        }
+        void DoFilter_UnLock(ref bool locked)
+        {
+            if (locked)
+            {
+                _filterExecLock.Exit();
+                locked = false;
+                _logger?.LogDebug("Pipe _filterExecLock.Exit().");
+            }
+        }
+
         public DefaultPipe ApplyFilter(PipeFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
@@ -106,288 +269,23 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
             return this;
         }
-
-
-        async Task PipeA2B(CancellationToken cancellationToken)
-        {
-            SmartBuffer buffer = SmartBuffer.Rent(_bufferSize);
-            buffer.SignificantLength = await ClientA.ReadAsync(buffer.Memory, cancellationToken);
-
-            if (buffer.SignificantLength > 0)
-            {
-                if (_filtersA.Count > 0)
-                {
-                    bool locked = false;
-                    try
-                    {
-                        DoFilter_Lock(ref locked);
-
-                        PipeFilterResult filterResult = DoFilter_AfterReading(ref buffer, _filtersA, cancellationToken);
-                        if (!filterResult.Continue || cancellationToken.IsCancellationRequested)
-                        {
-                            ReportBroken();
-                            return;
-                        }
-                        else
-                        {
-                            buffer = filterResult.Buffer;
-                        }
-
-                        DoFilter_UnLock(ref locked);
-                    }
-                    finally
-                    {
-                        DoFilter_UnLock(ref locked);
-                    }
-                }//end FilterA
-                if (_filtersB.Count > 0)
-                {
-                    bool locked = false;
-                    try
-                    {
-                        DoFilter_Lock(ref locked);
-
-                        PipeFilterResult filterResult = DoFilter_BeforeWriting(ref buffer, _filtersB, cancellationToken);
-                        if (!filterResult.Continue || cancellationToken.IsCancellationRequested)
-                        {
-                            ReportBroken();
-                            return;
-                        }
-                        else
-                        {
-                            buffer = filterResult.Buffer;
-                        }
-
-                        DoFilter_UnLock(ref locked);
-                    }
-                    finally
-                    {
-                        DoFilter_UnLock(ref locked);
-                    }
-                }//end FilterB
-
-                if (null != buffer && buffer.SignificantLength > 0)
-                {
-                    int written = await ClientB.WriteAsync(buffer.SignificanMemory, cancellationToken);
-                    _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes.");
-                    if (written <= 0)
-                    {
-                        _logger?.LogDebug($"Pipe [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}] {written} bytes, closing...");
-                        ClientB.Close();
-                        buffer.Dispose();
-                        ReportBroken();
-                        return;
-                    }
-                }
-
-
-            }
-            else
-            {
-                _logger?.LogError($"Pipe error. [{ClientA.EndPoint.ToString()}] to [{ClientB.EndPoint.ToString()}], read={buffer.SignificantLength}.");
-                ClientA.Close();
-                ReportBroken();
-                return;
-            }
-
-            buffer.Dispose();
-
-            if (!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Run(async () =>
-                {
-                    await PipeA2B(cancellationToken);//continue.  
-                });
-            }
-        }
-        async Task PipeB2A(CancellationToken cancellationToken)
-        {
-            SmartBuffer buffer = SmartBuffer.Rent(_bufferSize);//read buff
-            buffer.SignificantLength = await ClientB.ReadAsync(buffer.Memory, cancellationToken);
-
-            if (buffer.SignificantLength > 0)
-            {
-                if (_filtersB.Count > 0)
-                {
-                    bool locked = false;
-                    try
-                    {
-                        DoFilter_Lock(ref locked);
-
-                        PipeFilterResult filterResult = DoFilter_AfterReading(ref buffer, _filtersB, cancellationToken);
-                        if (!filterResult.Continue || cancellationToken.IsCancellationRequested)
-                        {
-                            ReportBroken();
-                            return;
-                        }
-                        else
-                        {
-                            buffer = filterResult.Buffer;
-                        }
-
-                        DoFilter_UnLock(ref locked);
-                    }
-                    finally
-                    {
-                        DoFilter_UnLock(ref locked);
-                    }
-                }//end FilterB
-                if (_filtersA.Count > 0)
-                {
-                    bool locked = false;
-                    try
-                    {
-                        DoFilter_Lock(ref locked);
-
-                        PipeFilterResult filterResult = DoFilter_BeforeWriting(ref buffer, _filtersA, cancellationToken);
-                        if (!filterResult.Continue || cancellationToken.IsCancellationRequested)
-                        {
-                            ReportBroken();
-                            return;
-                        }
-                        else
-                        {
-                            buffer = filterResult.Buffer;
-                        }
-
-                        DoFilter_UnLock(ref locked);
-                    }
-                    finally
-                    {
-                        DoFilter_UnLock(ref locked);
-                    }
-                }//end FilterA
-                if (null != buffer && buffer.SignificantLength > 0)
-                {
-                    int written = await ClientA.WriteAsync(buffer.SignificanMemory, cancellationToken);//Pipe
-                    _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes.");
-                    if (written <= 0)
-                    {
-                        _logger?.LogDebug($"Pipe [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}] {written} bytes, closing...");
-                        ClientA.Close();
-                        buffer.Dispose();
-                        ReportBroken();
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                _logger?.LogError($"Pipe error. [{ClientB.EndPoint.ToString()}] to [{ClientA.EndPoint.ToString()}], read={buffer.SignificantLength}.");
-                ClientB.Close();
-                ReportBroken();
-                return;
-            }
-
-            buffer.Dispose();//free memory.
-
-            if (!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Run(async () =>
-                {
-                    await PipeB2A(cancellationToken);//continue.  
-                });
-            }
-        }
-
-
-        PipeFilterResult DoFilter_AfterReading(ref SmartBuffer buffer, SortedSet<PipeFilter> filters, CancellationToken cancellationToken)
-        {
-            PipeFilterResult rt = default;
-            foreach (var f in filters)
-            {
-                _logger?.LogDebug($"DoFilter_AfterReading {f.ToString()}...");
-                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.SignificanMemory);
-                try
-                {
-                    rt = f.AfterReading(ctx);
-                    if (!rt.Continue || cancellationToken.IsCancellationRequested)
-                    {
-                        buffer.Dispose();
-                        rt.Buffer?.Dispose();
-                        break;
-                    }
-                    buffer.Dispose();
-                    buffer = rt.Buffer;
-                    //next filter
-                }
-                catch (Exception ex)
-                {
-                    _logger?.LogError(ex, $"DoFilter_AfterReading {f.ToString()} error.");
-                    buffer.Dispose();
-                    rt = new PipeFilterResult(ctx.Client, null, false);
-                    break;
-                }
-            }
-
-            return rt;
-
-        }
-        PipeFilterResult DoFilter_BeforeWriting(ref SmartBuffer buffer, SortedSet<PipeFilter> filters, CancellationToken cancellationToken)
-        {
-            PipeFilterResult rt = default;
-            foreach (var f in filters)
-            {
-                _logger?.LogDebug($"DoFilter_BeforeWriting {f.ToString()}...");
-                PipeFilterContext ctx = new PipeFilterContext(f.Client, buffer.Memory.Slice(0, buffer.SignificantLength));
-                try
-                {
-                    rt = f.BeforeWriting(ctx);
-                    if (!rt.Continue || cancellationToken.IsCancellationRequested)
-                    {
-                        buffer.Dispose();
-                        rt.Buffer?.Dispose();
-                        break;
-                    }
-                    buffer.Dispose();
-                    buffer = rt.Buffer;
-                    //next filter
-                }
-                catch (Exception ex)
-                {
-                    _logger?.LogError(ex, $"DoFilter_BeforeWriting {f.ToString()} error.");
-                    buffer.Dispose();
-                    rt = new PipeFilterResult(ctx.Client, null, false);
-                    break;
-                }
-            }
-
-            return rt;
-        }
-
-
-
-        void DoFilter_Lock(ref bool locked)
-        {
-            if (!_filterExecLock.IsHeldByCurrentThread)
-            {
-                _filterExecLock.Enter(ref locked);
-                _logger?.LogDebug("DefaultPipe _filterExecLock.Enter().");
-            }
-        }
-        void DoFilter_UnLock(ref bool locked)
-        {
-            if (locked)
-            {
-                _filterExecLock.Exit();
-                locked = false;
-                _logger?.LogDebug("DefaultPipe _filterExecLock.Exit().");
-            }
-        }
-
-
-        void ReportBroken(PipeException exception = null)
+        void ReportBroken(PipeBrokenCause cause, PipeException exception = null)
         {
             try
             {
                 if (null != OnBroken)
                 {
-                    OnBroken(this, new PipeEventArgs() { Pipe = this });
+                    OnBroken(this, new PipeBrokenEventArgs()
+                    {
+                        Pipe = this,
+                        Cause = cause,
+                        Exception = exception
+                    });
                 }
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "DefaultPipe ReportBroken error.");
+                _logger?.LogError(ex, "Pipe ReportBroken error.");
             }
         }
 

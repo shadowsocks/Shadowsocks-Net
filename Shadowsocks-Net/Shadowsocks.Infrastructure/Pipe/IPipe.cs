@@ -20,7 +20,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         //IClient ClientA { get; }
         //IClient ClientB { get; }
 
-        event EventHandler<PipeEventArgs> OnBroken;
+        event EventHandler<PipeBrokenEventArgs> OnBroken;
         void Pipe();
         void UnPipe();
     }
