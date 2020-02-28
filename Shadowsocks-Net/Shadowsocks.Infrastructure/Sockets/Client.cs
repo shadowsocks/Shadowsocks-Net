@@ -56,17 +56,17 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, $"ClientBase ReadAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError( $"Client ReadAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (OperationCanceledException)
             {
-                _logger?.LogWarning($"ClientBase ReadAsync cancelled.");
+                _logger?.LogWarning($"Client ReadAsync cancelled.");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"ClientBase ReadAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"Client ReadAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return read;
@@ -93,17 +93,17 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, $"ClientBase WriteAsync error 1. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client WriteAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");                
                 return -1;
             }
             catch (OperationCanceledException)
             {
-                _logger?.LogWarning($"ClientBase WriteAsync cancelled.");
+                _logger?.LogWarning($"Client WriteAsync cancelled.");
                 return -1;
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"ClientBase WriteAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"Client WriteAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return written;
@@ -119,18 +119,18 @@ namespace Shadowsocks.Infrastructure.Sockets
             {
                 try
                 {
-                    _logger?.LogInformation("ClientBase socket closing...");
+                    _logger?.LogInformation("Client socket closing...");
                     _sock.Shutdown(SocketShutdown.Both);
                     _sock.Close();
-                    _logger?.LogInformation("ClientBase socket closed.");
+                    _logger?.LogInformation("Client socket closed.");
                 }
-                catch (SocketException ex)//(SocketException se)                
+                catch (SocketException se)//(SocketException se)                
                 {
-                    _logger?.LogError(ex, "ClientBase close socket error 1.");
+                    _logger?.LogError($"Client close socket error {se.SocketErrorCode}, {se.Message}.");
                 }
                 catch (Exception ex)//(SocketException se)                
                 {
-                    _logger?.LogError(ex, "ClientBase close socket error 2.");
+                    _logger?.LogError(ex, "Client close socket error 2.");
                 }
                 finally { _sock = null; }
 
@@ -151,7 +151,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "ClientBase error fire Closing.");
+                _logger?.LogError(ex, "Client error fire Closing.");
             }
         }
     }

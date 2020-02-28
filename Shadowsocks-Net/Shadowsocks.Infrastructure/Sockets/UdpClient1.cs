@@ -18,7 +18,7 @@ namespace Shadowsocks.Infrastructure.Sockets
     /// Represent a UDP client.
     /// </summary>
     public class UdpClient1 : Client
-    {      
+    {
         public UdpClient1(Socket socket, ILogger logger = null)
              : base(socket, logger)
         {
@@ -91,16 +91,21 @@ namespace Shadowsocks.Infrastructure.Sockets
                 sock.DontFragment = true;
                 sock.ReceiveTimeout = Defaults.ReceiveTimeout;
                 sock.SendTimeout = Defaults.SendTimeout;
-                                
+
                 return new UdpClient1(sock, logger);
             }
             catch (SocketException se)
             {
-                logger?.LogError(se, "UdpClient1 ConnectAsync error.");
+                logger?.LogError($"UdpClient1 ConnectAsync error {se.SocketErrorCode}, {se.Message}.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                logger?.LogError(ex, $"UdpClient1 ConnectAsync error.");
                 return null;
             }
         }
 
-      
+
     }
 }
