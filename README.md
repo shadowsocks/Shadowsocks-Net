@@ -140,7 +140,8 @@ public interface IServer<TClient> : IServer
 Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform），.NET Standard 2.1 & .NET Core 3.1。
 #### 如何编译
 在Visual Studio中生成整个解决方案即可。整个工程目前是100% C#，核心是.NET Standard 2.1的类库。
-
+<br/>
+或者使用.NET Core CLI的`dotnet build`命令。发布用`dotnet publish`，发布单独可执行文件使用`dotnet publish -r <RID> -p:PublishSingleFile=true`
 <br/>
 
 ## Roadmap
