@@ -86,7 +86,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             int written = 0;
             try
             {
-                while (written < buffer.Length)
+                while (written < buffer.Length && !cancellationToken.IsCancellationRequested)
                 {
                     written += await _sock.SendAsync(buffer, SocketFlags.None, cancellationToken);
                 }
@@ -126,7 +126,11 @@ namespace Shadowsocks.Infrastructure.Sockets
                 }
                 catch (SocketException ex)//(SocketException se)                
                 {
-                    _logger?.LogError(ex, "ClientBase close socket error.");
+                    _logger?.LogError(ex, "ClientBase close socket error 1.");
+                }
+                catch (Exception ex)//(SocketException se)                
+                {
+                    _logger?.LogError(ex, "ClientBase close socket error 2.");
                 }
                 finally { _sock = null; }
 
