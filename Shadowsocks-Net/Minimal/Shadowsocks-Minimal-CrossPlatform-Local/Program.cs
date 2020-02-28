@@ -56,7 +56,7 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
 
                 localServer = new LocalServer(localConfig, serverLoader, logger);
             }
-            await localServer.Start();
+            localServer.Start();
             await Task.CompletedTask;
 
             Console.WriteLine("press key to stop server");

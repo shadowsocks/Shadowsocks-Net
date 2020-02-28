@@ -65,7 +65,7 @@ namespace Shadowsocks_Minimal_Crossplatform_Remote
 
                 remoteServer = new RemoteServer(remoteConfig, logger);
             }
-            await remoteServer.Start();
+            remoteServer.Start();
             await Task.CompletedTask;
 
             Console.WriteLine("press key to stop server");
