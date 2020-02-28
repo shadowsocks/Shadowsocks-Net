@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Shadowsocks_Minimal_Crossplatform_Local</RootNamespace>
     <AssemblyName>shadowsocks-net-local</AssemblyName>
-    <PublishTrimmed>true</PublishTrimmed>
+    <!--<PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
 
 

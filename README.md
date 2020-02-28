@@ -13,7 +13,11 @@ Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
+Minimal版现已可测试，支持的加密算法：
 
+```console
+aes-256-gcm, aes-192-gcm, aes-128-gcm.
+```
 
 <br/>
 

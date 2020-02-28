@@ -18,6 +18,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Buffers;
+using System.Linq;
 using System.IO;
 using Argument.Check;
 
@@ -32,7 +33,6 @@ namespace Shadowsocks_Linux_Remote
     {
         static async Task Main(string[] args)
         {
-
             await Task.CompletedTask;
             Console.WriteLine("Hello World!");
             Console.ReadKey();
