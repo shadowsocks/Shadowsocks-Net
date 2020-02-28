@@ -1,15 +1,11 @@
 ﻿## Overview
 
-Shadowsocks-Net是使用C#（.NET Core）开发的Shadowsocks。包含服务器端和客户端，核心功能完整，跨平台。
-
-Shadowsocks-Net完成： 
-1. [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows) 的工程重构（基本已重写）。
-2. [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows) 中核心功能到Linux平台的移植（使用.NET Standard / .NET Core）。
+Shadowsocks-Net是使用C#（.NET Core）开发的跨平台版本的Shadowsocks。
 
 <br/>
 
 ## 版本
-Shadowsocks-Net计划有多个发布版本，功能特性比较见下表。
+Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
 |版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
@@ -17,16 +13,11 @@ Shadowsocks-Net计划有多个发布版本，功能特性比较见下表。
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
+Minimal版现已可测试，支持的加密算法：
 
-
-#### 加密算法
-Shadowsocks-Net默认提供了：
 ```console
 aes-256-gcm, aes-192-gcm, aes-128-gcm.
 ```
-项目正在重构中，暂未加入更多加密算法，但向Shadowsocks-Net中添加加密算法很方便。
-
-
 
 <br/>
 
@@ -38,12 +29,12 @@ aes-256-gcm, aes-192-gcm, aes-128-gcm.
 #### 架构示意图
 ![arch][shadowsocks_net_arch]
 
-Shadowsocks-Net对网络编程部分做了小巧的封装，使得上层可以专注socks5协议。
-由于Shadowsocks主要实现了socks5协议，因此现在上层的代码很薄。socks5总的来说只做了两件事：1. 协商、2. 转发。
+Shadowsocks-Net对网络编程部分做了简单封装，使得上层可以专注socks5协议。
+由于Shadowsocks主要实现了socks5协议，因此现在上层的代码很薄。socks5总的来说只做了两件事：1. 协商、2. 转发。Shadowsocks-Net试图让用C#开发Shadowsocks变得更有趣也更简单。
 
 <br/>
 
-#### 如何添加一个新的加密算法？
+#### 添加加密算法的步骤
 
 1. 实现统一的加密接口`IShadowsocksAeadCipher`或者`IShadowsocksStreamCipher`
 ```c#
@@ -65,7 +56,7 @@ class MyCipher : IShadowsocksAeadCipher
 
 <br/>
 
-#### 如何自定义混淆？
+#### 对混淆的支持
 混淆同加密一样，在Shadowsocks-Net中都是通过管道过滤器来工作的。相对于加密，混淆的逻辑可能更复杂。
 但由于其他部分已被封装，现在只需关注网络流的读写，实现自己的过滤器`IPipeFilter`即可。
 ```c#
@@ -75,7 +66,7 @@ public interface IPipeFilter
     PipeFilterResult AfterReading(PipeFilterContext filterContext);
 }
 ```
-Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议，实现`IPipeFilter`接口即可添加处理逻辑，不需要阅读全部代码。
+Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议。
 
 下面这个过滤器每次在发送之前向数据开头插入四个字节`0x12, 0x34, 0xAB, 0xCD`，相应地读取时跳过了开头四个字节：
 ```c#
@@ -104,7 +95,7 @@ class TestPipeFilter : PipeFilter
 
 <br/>
 
-#### 如何使用TCP或UDP之外的协议？
+#### 对TCP或UDP之外协议的支持
 由于设计上抽象出了接口，其他通信协议现在也可以集成进来。实现自己的`IClient`和`IServer`即可，无需修改其他部分。
 `IClient`和`IServer`也很简单：
 
@@ -147,7 +138,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 ## Roadmap
 #### 任务列表
 - ☑ 核心重写
-- ☐ Windows端功能完善
+- ☐ Windows端
 - ☐ 统一规则过滤器
 - ☐ 目标IP、域名过滤
 - ☐ Linux端
@@ -155,22 +146,11 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 <br/>
 
 
-## FAQ
-1. 与现有[shadowsocks-windows]有什么不同？
-    1. Shadowsocks-Net主要为了完成对[shadowsocks-windows]的重构，程序的重新设计。使阅读代码更容易，快速上手，方便修改和扩展功能。
-    2. Shadowsocks-Net的Windows版功能可能更精简一些。
-2. 客户端与现有的服务端是否兼容？
-    1. 兼容。Shadowsocks-Net目前只是在现有实现上增加了混淆支持。
-<br/>
-
 
 ## Usage
-如果你之前有使用Shadowsocks的经验，Shadowsocks-Net的使用将会十分容易。
-这里下载[安装.NET Core](https://dotnet.microsoft.com/download)。
+与使用其他版本的Shadowsocks类似。Minimal版已在Windows和Debian10 x64上测试，运行参数通过配置文件修改。
 
-Minimal版已在Windows和Debian10 x64测试，参数通过配置文件修改。
-
-
+以Windows为例：
 服务端修改`config.json`后执行`shadowsocks-net-remote.exe`：
 ```json
 {
@@ -210,6 +190,7 @@ Minimal版已在Windows和Debian10 x64测试，参数通过配置文件修改。
 }
 
 ```
+Linux上雷同。 安装[.NET Core传送门](https://dotnet.microsoft.com/download)。
 <br/>
 
 ## Contribute
