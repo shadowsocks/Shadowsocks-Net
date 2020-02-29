@@ -19,7 +19,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Shadowsocks.Infrastructure.Sockets
 {
-    public partial class UdpServer : Server<UdpServer.UdpClient2>
+    public partial class UdpServer : Server<UdpClient2>
     {
         /// <summary>
         /// 
@@ -30,14 +30,14 @@ namespace Shadowsocks.Infrastructure.Sockets
         ServerConfig _config = null;
         UdpClient _listenerClient = null;
 
-        LruCache<UdpClient2> _clientManager = null;
+        LruCache<Locker<UdpClient2>> _clientLockers = null;
         FixedSizeBuffer.BufferPool _bufferPool = null;
         public UdpServer(ServerConfig serverConfig, ILogger logger = null)
         {
             this._config = Throw.IfNull(() => serverConfig);
             this._logger = logger;
 
-            this._clientManager = new LruCache<UdpClient2>();
+            this._clientLockers = new LruCache<Locker<UdpClient2>>();
             this._bufferPool = new FixedSizeBuffer.BufferPool(1500, 10 * Defaults.MaxNumClient, 5);
 
         }
@@ -88,7 +88,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 }
                 catch (SocketException ex)
                 {
-                    _logger?.LogError(ex, "UdpServer socket close error.");
+                    _logger?.LogError($"UdpServer socket close error {ex.SocketErrorCode}, {ex.Message}.");
                 }
                 finally
                 {
@@ -116,23 +116,23 @@ namespace Shadowsocks.Infrastructure.Sockets
                 //TODO cache
                 IPEndPoint clientEndPoint = new IPEndPoint(_listenerClient.Client.LocalEndPoint.AddressFamily == AddressFamily.InterNetworkV6 ?
                     IPAddress.IPv6Any : IPAddress.Any, 0);
-                var result = await _listenerClient.Client.ReceiveFromAsync(seg, SocketFlags.None, clientEndPoint);// _listenerClient.Client.LocalEndPoint);
-                buff.SignificantLength = result.ReceivedBytes;
+                var received = await _listenerClient.Client.ReceiveFromAsync(seg, SocketFlags.None, clientEndPoint);// _listenerClient.Client.LocalEndPoint);
+                buff.SignificantLength = received.ReceivedBytes;
                 #endregion
 
-                //////var result = await _listenerClient.ReceiveAsync();
-                var client = _clientManager.Get(result.RemoteEndPoint);
-                if (null != client)//
+                //////var received = await _listenerClient.ReceiveAsync();
+                var locker = _clientLockers.Get(received.RemoteEndPoint);
+                if (null != locker)//
                 {
                     #region delivery packet
-                    if (client.Active)
+                    if ((DateTime.Now - locker.Owner.LastActive).TotalMilliseconds <= CLIENT_ACTIVE_TIMEOUT)
                     {
-                        client.PostReceived(buff);
+                        locker.PutPacket(buff);
                         return null;
                     }
                     else//inactive  
                     {
-                        DeleteClient(result.RemoteEndPoint);
+                        DeleteLocker(received.RemoteEndPoint);
                         buff.Pool.Return(buff);//drop packet.
                         return null;
                     }
@@ -141,62 +141,67 @@ namespace Shadowsocks.Infrastructure.Sockets
                 else
                 {
                     #region create client
-                    client = CreateClient(_listenerClient.Client, result.RemoteEndPoint as IPEndPoint);
-                    client.PostReceived(buff);
-                    KeepClient(client);
+                    locker = new Locker<UdpClient2>(received.RemoteEndPoint as IPEndPoint);
+                    locker.PutPacket(buff);
+                    KeepLocker(locker);
 
-                    _logger?.LogInformation($"UdpServer New client:[{client.EndPoint.ToString()}].");
-                    return client;
+                    _logger?.LogInformation($"UdpServer New client:[{locker.Number.ToString()}].");
+
+                    return CreateClient(_listenerClient.Client, locker);
                     #endregion
                 }
 
             }
             catch (SocketException se)
             {
-                _logger?.LogError(se, "UdpServer ReceiveFromAsync error.");
+                _logger?.LogError($"UdpServer ReceiveFromAsync error {se.SocketErrorCode}, {se.Message}.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError($"UdpServer ReceiveFromAsync error {ex.Message}.");
                 return null;
             }
 
-
         }
 
 
-        UdpClient2 CreateClient(Socket sock, IPEndPoint remoteIP)
+        UdpClient2 CreateClient(Socket sock, Locker<UdpClient2> locker)
         {
-            UdpClient2 udpClient2 = new UdpClient2(sock, remoteIP, _logger);
+            UdpClient2 udpClient2 = new UdpClient2(sock, locker, _logger);
+            locker.Owner = udpClient2;
             return udpClient2;
         }
 
-        void KeepClient(UdpClient2 client)
+        void KeepLocker(Locker<UdpClient2> locker)
         {
             PostEvictionCallbackRegistration cb = new PostEvictionCallbackRegistration();
             cb.EvictionCallback = (key, value, reason, state) =>
             {
                 if (reason == EvictionReason.Expired)//
                 {
-                    _logger?.LogInformation($"UDP cache client expired:{key.ToString()},{reason.ToString()}");
+                    _logger?.LogInformation($"UDP server locker expired:{key.ToString()},{reason.ToString()}");
                     UdpClient2 c = value as UdpClient2;
-                    if (c.Active)
+                    if ((DateTime.Now - locker.Owner.LastActive).TotalMilliseconds <= CLIENT_ACTIVE_TIMEOUT)
                     {
-                        KeepClient(c);
-                        _logger?.LogInformation($"UDP cache client readd:{key.ToString()}");
+                        KeepLocker(locker);
+                        _logger?.LogInformation($"UDP locker cache readd:{key.ToString()}");
                     }
                     else
                     {
-                        c.PostExired();
-                        c.Close();
+                        //leave
                     }
                 }
 
             };
-            _clientManager.Set(client.EndPoint, client, TimeSpan.FromMilliseconds(CLIENT_ACTIVE_TIMEOUT), cb);
+            _clientLockers.Set(locker.Number, locker, TimeSpan.FromMilliseconds(CLIENT_ACTIVE_TIMEOUT), cb);
         }
 
-        void DeleteClient(EndPoint endPoint)
+        void DeleteLocker(EndPoint endPoint)
         {
-            if (null != _clientManager)
+            if (null != _clientLockers)
             {
-                _clientManager.Remove(endPoint);
+                _clientLockers.Remove(endPoint);
             }
         }
 
