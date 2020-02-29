@@ -45,7 +45,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                logger?.LogError(se, $"TcpClient1 ConnectAsync error {se.SocketErrorCode},{se.Message}");
+                logger?.LogError($"TcpClient1 ConnectAsync error {se.SocketErrorCode}, {se.Message}.");
                 return null;
             }
             catch (Exception ex)
