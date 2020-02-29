@@ -24,7 +24,7 @@ namespace Shadowsocks.Infrastructure.Sockets
         /// <summary>
         /// 
         /// </summary>
-        public const int CLIENT_ACTIVE_TIMEOUT = 10 * 1000;
+        public const int CLIENT_ACTIVE_TIMEOUT = 30 * 1000;
 
         ILogger _logger = null;
         ServerConfig _config = null;
@@ -181,7 +181,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 if (reason == EvictionReason.Expired)//
                 {
                     _logger?.LogInformation($"UDP server locker expired:{key.ToString()},{reason.ToString()}");
-                    UdpClient2 c = value as UdpClient2;
+                    Locker<UdpClient2> locker = value as Locker<UdpClient2>;
                     if ((DateTime.Now - locker.Owner.LastActive).TotalMilliseconds <= CLIENT_ACTIVE_TIMEOUT)
                     {
                         KeepLocker(locker);
@@ -189,7 +189,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                     }
                     else
                     {
-                        //leave
+                        locker.Destroy();
                     }
                 }
 

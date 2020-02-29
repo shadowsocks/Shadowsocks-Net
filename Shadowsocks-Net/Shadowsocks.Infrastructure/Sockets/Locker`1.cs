@@ -79,7 +79,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
         }
 
-        void Destroy()
+        public void Destroy()
         {
             while (null != _packets && _packets.Count > 0)
             {
