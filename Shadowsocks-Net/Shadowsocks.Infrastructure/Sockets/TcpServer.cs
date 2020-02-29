@@ -81,9 +81,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                     _listener = null;
                     _logger?.LogInformation("TcpServer socket closed.");
                 }
-                catch (SocketException ex)
+                catch (SocketException se)
                 {
-                    _logger?.LogError(ex, "TcpServer socket close error.");
+                    _logger?.LogError($"TcpServer socket close error {se.SocketErrorCode}, {se.Message}.");
                 }
                 finally
                 {

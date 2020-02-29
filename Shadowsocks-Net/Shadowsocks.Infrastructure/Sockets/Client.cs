@@ -124,11 +124,11 @@ namespace Shadowsocks.Infrastructure.Sockets
                     _sock.Close();
                     _logger?.LogInformation("Client socket closed.");
                 }
-                catch (SocketException se)//(SocketException se)                
+                catch (SocketException se)     
                 {
                     _logger?.LogError($"Client close socket error {se.SocketErrorCode}, {se.Message}.");
                 }
-                catch (Exception ex)//(SocketException se)                
+                catch (Exception ex)        
                 {
                     _logger?.LogError(ex, "Client close socket error 2.");
                 }
