@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
@@ -25,5 +26,12 @@ namespace Shadowsocks.Infrastructure.Pipe
         Cancelled,
         FilterBreak,
         Exception
+    }
+
+    public struct PipingEventArgs
+    {
+        public IPEndPoint Origin;
+        public IPEndPoint Destination;
+        public int Bytes;
     }
 }

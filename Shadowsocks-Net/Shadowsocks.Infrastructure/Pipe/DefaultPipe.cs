@@ -33,6 +33,8 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         public event EventHandler<PipeBrokenEventArgs> OnBroken;
 
+        public event EventHandler<PipingEventArgs> OnPiping;
+
 
         ILogger _logger = null;
         SortedSet<PipeFilter> _filtersA = null;
@@ -144,6 +146,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                         ReportBroken(PipeBrokenCause.Exception);
                         return;
                     }
+                    ReportPiping(new PipingEventArgs { Bytes = written, Origin = ClientA.EndPoint, Destination = ClientB.EndPoint });
                 }
                 //continue piping
             }//end while
@@ -204,6 +207,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                         ReportBroken(PipeBrokenCause.Exception);
                         return;
                     }
+                    ReportPiping(new PipingEventArgs { Bytes = written, Origin = ClientB.EndPoint, Destination = ClientA.EndPoint });
                 }
                 //continue piping
             }//end while
@@ -320,5 +324,20 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
+
+        void ReportPiping(PipingEventArgs pipingEventArgs)
+        {
+            try
+            {
+                if (null != OnPiping)
+                {
+                    OnPiping(this, pipingEventArgs);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Pipe ReportPiping error.");
+            }
+        }
     }
 }
