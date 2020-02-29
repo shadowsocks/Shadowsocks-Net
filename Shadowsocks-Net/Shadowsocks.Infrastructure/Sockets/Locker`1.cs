@@ -50,6 +50,10 @@ namespace Shadowsocks.Infrastructure.Sockets
         /// <returns>packet. null if destroyed or cancelled.</returns>
         public async Task<FixedSizeBuffer> RetrievePacket(CancellationToken cancellationToken)
         {
+            if (_tokenDestroy.IsCancellationRequested)//destroyed
+            {
+                return null;
+            }
             await _notify.WaitAsync(Timeout.Infinite, cancellationToken);//wait if no packet
 
             if (_tokenDestroy.IsCancellationRequested || _packets.IsEmpty)//destroyed
@@ -67,6 +71,10 @@ namespace Shadowsocks.Infrastructure.Sockets
 
         public void PutPacket(FixedSizeBuffer packet)
         {
+            if (_tokenDestroy.IsCancellationRequested)//destroyed
+            {
+                return;
+            }
             if (_packets.Count >= CAPACITY)//too many packets to be retrieved.
             {
                 //drop the packet.
@@ -96,7 +104,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             if (null != _notify)
             {
-                _notify.Release();
+                _notify.Release(5);
             }
         }
     }
