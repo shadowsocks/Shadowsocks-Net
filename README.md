@@ -9,7 +9,7 @@ Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
 |版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
-|Minimal（cross-platform）|√              | √             |√             |    |        |              |            |
+|Minimal<br/>（cross-platform）|√              | √             |√             |    |        |              |            |
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
