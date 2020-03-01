@@ -4,25 +4,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Buffers;
+using System.Net;
+using System.Net.Sockets;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.IO;
-using Microsoft.Extensions.Logging;
-using System.Net;
-using Argument.Check;
-using System.Net.Sockets;
 
-namespace Shadowsocks.Local
+namespace Shadowsocks.Http
 {
-    public class LocalServerConfig
+    using Infrastructure;
+    using Infrastructure.Sockets;
+
+    public class HttpProxySeverConfig : ServerConfig
     {
-        //[JsonPropertyName("socks5_port")]
+        //[JsonPropertyName("http_port")]
         public int Port { set; get; }
 
         //[JsonPropertyName("use_ipv6")]
@@ -31,11 +27,9 @@ namespace Shadowsocks.Local
 
         //[JsonPropertyName("use_loopback")]
         public bool UseLoopbackAddress { set; get; }
-
-
-        public LocalServerConfig()
+        public HttpProxySeverConfig()
         {
-            if (0 == Port) { Port = 1080; }        
+            if (0 == Port) { Port = 8080; }
         }
 
 
@@ -50,7 +44,5 @@ namespace Shadowsocks.Local
                 return new IPEndPoint((UseIPv6Address && Socket.OSSupportsIPv6) ? IPAddress.IPv6Any : IPAddress.Any, Port);
             }
         }
-
-
     }
 }

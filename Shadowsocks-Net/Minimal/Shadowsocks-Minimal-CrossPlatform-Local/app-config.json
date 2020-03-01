@@ -1,11 +1,14 @@
 {
-  "Proxy": {
-    "Socks5Port": 2080,
-    "HttpPort": 8080,
+  "Socks5Proxy": {
+    "Port": 2080,
     "UseIPv6Address": false,
     "UseLoopbackAddress": true
   },
-
+  "HttpProxy": {
+    "Port": 8080,
+    "UseIPv6Address": false,
+    "UseLoopbackAddress": true
+  },
 
   "Logging": {
     "LogLevel": {

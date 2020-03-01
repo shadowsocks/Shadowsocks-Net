@@ -17,8 +17,6 @@ namespace Shadowsocks.Local
 {
     using Infrastructure;
     using Infrastructure.Sockets;
-    using Infrastructure.Http;
-
 
 
     /// <summary>
@@ -33,8 +31,6 @@ namespace Shadowsocks.Local
 
         TcpServer _tcpServer = null;
         UdpServer _udpServer = null;
-        HttpProxySever _httpProxyServer = null;
-
 
         ISocks5Handler _socks5Handler = null;
         IServerLoader _serverLoader = null;
@@ -47,17 +43,17 @@ namespace Shadowsocks.Local
 
             ServerConfig serverConfig = new ServerConfig()
             {
-                BindPoint = _localServerConfig.GetSocks5IPEndPoint(),
+                BindPoint = _localServerConfig.GetBindPoint(),
                 MaxNumClient = Defaults.MaxNumClient
             };
             _tcpServer = new TcpServer(serverConfig, _logger);
             _udpServer = new UdpServer(serverConfig, _logger);
 
-            HttpProxySeverConfig httpProxySeverConfig = new HttpProxySeverConfig()
-            {
-                BindPoint = _localServerConfig.GetHttpIPEndPoint()
-            };
-            _httpProxyServer = new HttpProxySever(httpProxySeverConfig, _logger);
+        }
+
+        ~LocalServer()
+        {
+            Stop();
         }
 
         #region IShadowsocksServer

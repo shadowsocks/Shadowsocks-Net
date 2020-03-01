@@ -31,11 +31,13 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
     class Program
     {
         static LocalServer localServer = null;
+        static Shadowsocks.Http.HttpProxySever httpProxySever = null;
 
         static async Task Main(string[] args)
         {
             var config = new ConfigurationBuilder().AddJsonFile("app-config.json", optional: true, reloadOnChange: true).Build();
-            var localConfig = config.GetSection("Proxy").Get<LocalServerConfig>();
+            var socks5Config = config.GetSection("Socks5Proxy").Get<LocalServerConfig>();
+            var httpConfig = config.GetSection("HttpProxy").Get<Shadowsocks.Http.HttpProxySeverConfig>();
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -48,23 +50,32 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
             Console.CancelKeyPress += Console_CancelKeyPress;
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
 
+
+            //var logger = loggerFactory.CreateLogger<LocalServer>();
+            var logger = loggerFactory.CreateLogger("Local");
+            var serverLoader = new DefaultServerLoader();
             if (null == localServer)
             {
-                //var logger = loggerFactory.CreateLogger<LocalServer>();
-                var logger = loggerFactory.CreateLogger("Local");
-                var serverLoader = new DefaultServerLoader();
-
-                localServer = new LocalServer(localConfig, serverLoader, logger);
+                localServer = new LocalServer(socks5Config, serverLoader, logger);
+            }                      
+            if (null == httpProxySever)
+            {
+                httpProxySever = new Shadowsocks.Http.HttpProxySever(httpConfig, serverLoader, logger);
             }
             localServer.Start();
+            httpProxySever.Start();
+            
+           
             await Task.CompletedTask;
 
-            Console.WriteLine("press key to stop server");
-            Console.ReadKey();            
-            localServer.Stop();
-
-            Console.WriteLine("press key to exit");
+            Console.WriteLine("press any key to stop server");           
             Console.ReadKey();
+            localServer.Stop();
+            httpProxySever.Stop();
+
+            Console.WriteLine("press any key to exit");
+            Console.ReadKey();
+           
         }
 
         private static void CurrentDomain_ProcessExit(object sender, EventArgs e)

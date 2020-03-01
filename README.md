@@ -9,7 +9,7 @@ Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
 |版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
-|Minimal（cross-platform）|√              | √             |               |    |        |              |            |
+|Minimal（cross-platform）|√              | √             |√             |    |        |              |            |
 |Windows                  |√              |                |√             |√  |√      |√            |√          |
 |Linux                    |√              | √             |√             |√  |√      |              |            |
 
@@ -181,9 +181,13 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 ```
 ```json
 {
-  "Proxy": {
-    "Socks5Port": 2080,
-    "HttpPort": 8080,
+ "Socks5Proxy": {
+    "Port": 2080,
+    "UseIPv6Address": false,
+    "UseLoopbackAddress": true
+  },
+  "HttpProxy": {
+    "Port": 8080,
     "UseIPv6Address": false,
     "UseLoopbackAddress": true
   }

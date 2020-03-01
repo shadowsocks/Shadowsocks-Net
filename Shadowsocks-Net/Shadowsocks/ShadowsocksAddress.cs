@@ -70,7 +70,7 @@ namespace Shadowsocks
             {
                 if (7 > raw.Length) { return false; }
                 addr.Address = raw.Slice(1, 4);
-                addr.RawMemory = raw.Slice(0, 7); 
+                addr.RawMemory = raw.Slice(0, 7);
                 BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(5, 2), out addr.Port);
                 ssAddr = addr;
                 return true;
@@ -79,7 +79,7 @@ namespace Shadowsocks
             {
                 if (19 > raw.Length) { return false; }
                 addr.Address = raw.Slice(1, 16);
-                addr.RawMemory = raw.Slice(0, 19);     
+                addr.RawMemory = raw.Slice(0, 19);
                 BinaryPrimitives.TryReadUInt16BigEndian(raw.Span.Slice(17, 2), out addr.Port);
                 ssAddr = addr;
                 return true;
@@ -177,6 +177,55 @@ namespace Shadowsocks
             return false;
         }
 
+        public static bool TryParse(Uri uri, out Tuple<byte, ushort, byte[]> shadowsocksAddress)
+        {
+            shadowsocksAddress = default;
 
+            byte ATYP = 0;
+            ushort port = (ushort)uri.Port;
+            byte[] addrss = null;
+
+            switch (uri.HostNameType)
+            {
+                case UriHostNameType.Dns:
+                    {
+                        ATYP = 0x3;
+                        addrss = Encoding.ASCII.GetBytes(uri.DnsSafeHost);
+                        if (addrss.Length > 255) { return false; }
+                    }
+                    break;
+                case UriHostNameType.IPv4:
+                    {
+                        ATYP = 0x1;
+                        if (IPAddress.TryParse(uri.DnsSafeHost, out IPAddress ip))
+                        {
+                            addrss = ip.GetAddressBytes();
+                        }
+                        else { return false; }
+                    }
+                    break;
+                case UriHostNameType.IPv6:
+                    {
+                        ATYP = 0x4;
+                        if (IPAddress.TryParse(uri.DnsSafeHost, out IPAddress ip))
+                        {
+                            addrss = ip.GetAddressBytes();
+                        }
+                        else { return false; }
+                    }
+                    break;
+                case UriHostNameType.Basic:
+                case UriHostNameType.Unknown:
+                default:
+                    ATYP = 0x0;
+                    break;
+            }
+
+            if (0x0 == ATYP) { return false; }
+           
+            shadowsocksAddress = Tuple.Create<byte, ushort, byte[]>(ATYP, port, addrss);
+            return true;
+
+        }
     }
 }
