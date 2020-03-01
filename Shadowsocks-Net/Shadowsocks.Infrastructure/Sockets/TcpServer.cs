@@ -41,11 +41,10 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (IsRunning) { return; }
             StopListen();
-            InitializeListener();
-
-
+           
             try
             {
+                InitializeListener();
                 _logger?.LogInformation("TcpServer starting...");
                 _listener.Start(10);
                 IsRunning = true;
@@ -53,10 +52,15 @@ namespace Shadowsocks.Infrastructure.Sockets
 
                 ////Task.Run(async () => { await StartAccept(); });
             }
-            catch (SocketException ex)
+            catch (SocketException se)
             {
                 IsRunning = false;
-                _logger?.LogError(ex, "TcpServer socket listen failed.");
+                _logger?.LogError($"TcpServer socket listen failed {se.SocketErrorCode}, {se.Message}.");
+            }
+            catch(Exception ex)
+            {
+                IsRunning = false;
+                _logger?.LogError(ex, $"TcpServer socket listen failed.");
             }
         }
 

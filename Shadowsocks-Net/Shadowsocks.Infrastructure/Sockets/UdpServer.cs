@@ -52,10 +52,11 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (IsRunning) { return; }
             StopListen();
-            InitializeListener();
+            
 
             try
             {
+                InitializeListener();
                 _logger?.LogInformation("UdpServer starting...");
                 //_listener.Start(10);
                 IsRunning = true;
@@ -89,6 +90,10 @@ namespace Shadowsocks.Infrastructure.Sockets
                 catch (SocketException ex)
                 {
                     _logger?.LogError($"UdpServer socket close error {ex.SocketErrorCode}, {ex.Message}.");
+                }                
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, $"UdpServer socket close error.");
                 }
                 finally
                 {
