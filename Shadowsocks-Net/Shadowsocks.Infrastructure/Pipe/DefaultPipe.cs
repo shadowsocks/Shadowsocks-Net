@@ -39,7 +39,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         ILogger _logger = null;
         SortedSet<PipeFilter> _filtersA = null;
         SortedSet<PipeFilter> _filtersB = null;
-        SpinLock _filterExecLock = default;
+       
         CancellationTokenSource _cancellation = null;
 
         int _bufferSize = Defaults.ReceiveBufferSize;
@@ -62,8 +62,6 @@ namespace Shadowsocks.Infrastructure.Pipe
 
             _filtersA = new SortedSet<PipeFilter>();
             _filtersB = new SortedSet<PipeFilter>();
-
-            _filterExecLock = new SpinLock(true);
 
             _logger = logger;
         }
@@ -263,24 +261,6 @@ namespace Shadowsocks.Infrastructure.Pipe
             return new PipeFilterResult(client, prevFilterMemory, @continue);
         }
 
-        void DoFilter_Lock(ref bool locked)
-        {
-            if (!_filterExecLock.IsHeldByCurrentThread)
-            {
-                _filterExecLock.Enter(ref locked);
-                _logger?.LogInformation("Pipe _filterExecLock.Enter().");
-            }
-        }
-        void DoFilter_UnLock(ref bool locked)
-        {
-            if (locked)
-            {
-                _filterExecLock.Exit();
-                locked = false;
-                _logger?.LogInformation("Pipe _filterExecLock.Exit().");
-            }
-        }
-
         public DefaultPipe ApplyFilter(PipeFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
@@ -323,8 +303,6 @@ namespace Shadowsocks.Infrastructure.Pipe
                 _logger?.LogError(ex, "Pipe ReportBroken error.");
             }
         }
-
-
         void ReportPiping(PipingEventArgs pipingEventArgs)
         {
             try
