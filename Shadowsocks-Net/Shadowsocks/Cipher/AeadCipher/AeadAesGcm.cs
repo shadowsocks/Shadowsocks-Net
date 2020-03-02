@@ -23,12 +23,9 @@ namespace Shadowsocks.Cipher.AeadCipher
 
     public class AeadAesGcm : ShadowosocksAeadCipher
     {
-        protected ConcurrentStack<AesGcm> _cipherPool = null;
-
         public AeadAesGcm(string password, ValueTuple<int, int> key_salt_size, ILogger logger = null)
             : base(password, key_salt_size, logger)
-        {
-            _cipherPool = new ConcurrentStack<AesGcm>();
+        {            
         }
         ~AeadAesGcm()
         {
@@ -39,7 +36,6 @@ namespace Shadowsocks.Cipher.AeadCipher
             using (var aes = new AesGcm(key))
             {
                 SmartBuffer cipherPacket = SmartBuffer.Rent(raw.Length + LEN_TAG);
-
                 var cipherSpan = cipherPacket.Memory.Span;
                 try
                 {
@@ -49,10 +45,8 @@ namespace Shadowsocks.Cipher.AeadCipher
                 catch (Exception ex)
                 {
                     cipherPacket.SignificantLength = 0;
-                    _logger?.LogError(ex, "AeadAesGcm EncryptChunk failed.");
+                    _logger?.LogWarning($"AeadAesGcm EncryptChunk failed. {ex.Message}");
                 }
-                finally { _cipherPool.Push(aes); }
-
                 return cipherPacket;
             }
         }
@@ -71,24 +65,14 @@ namespace Shadowsocks.Cipher.AeadCipher
                 catch (Exception ex)
                 {
                     plainPacket.SignificantLength = 0;
-                    _logger?.LogError(ex, "AeadAesGcm DecryptChunk failed.");
-                }
-                finally { _cipherPool.Push(aes); }
-
+                    _logger?.LogWarning($"AeadAesGcm DecryptChunk failed. {ex.Message}");
+                }              
                 return plainPacket;
             }
         }
 
         protected void Cleanup()
-        {
-            AesGcm aes = null;
-            while (_cipherPool.Count > 0)
-            {
-                while (!_cipherPool.TryPop(out aes))
-                {
-                }
-                aes.Dispose();
-            }
+        {          
         }
 
     }

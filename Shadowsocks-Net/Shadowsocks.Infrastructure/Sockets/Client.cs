@@ -66,7 +66,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"Client ReadAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"Client ReadAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return read;
@@ -103,7 +103,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (Exception se)
             {
-                _logger?.LogError(se, $"Client WriteAsync error 2. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError(se, $"Client WriteAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             return written;
@@ -130,7 +130,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 }
                 catch (Exception ex)        
                 {
-                    _logger?.LogError(ex, "Client close socket error 2.");
+                    _logger?.LogError(ex, "Client close socket error.");
                 }
                 finally { _sock = null; }
 
