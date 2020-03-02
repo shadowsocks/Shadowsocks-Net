@@ -70,7 +70,7 @@ namespace Shadowsocks.Remote
                                out int written))
             {
                 toSsLocal.SignificantLength =  written;
-                int payloadToCopy = Math.Min(toSsLocal.FreeSapce, ctx.Memory.Length);
+                int payloadToCopy = Math.Min(toSsLocal.FreeSpace, ctx.Memory.Length);
                 ctx.Memory.Slice(0, payloadToCopy).CopyTo(toSsLocal.FreeMemory);
                 toSsLocal.SignificantLength += payloadToCopy;
 
