@@ -23,9 +23,9 @@ namespace Shadowsocks.Obfuscation
     public class ObfuscationFilter : PipeFilter
     {
         public ObfuscationFilter(IClient client, ILogger logger = null)
-               : base(client, PipeFilterCategory.Obfuscation, 0, logger)
+               : base(client, PipeFilterCategory.Obfuscation, 0)
         {
-
+            _logger = logger;
         }
 
         public override PipeFilterResult AfterReading(PipeFilterContext filterContext)

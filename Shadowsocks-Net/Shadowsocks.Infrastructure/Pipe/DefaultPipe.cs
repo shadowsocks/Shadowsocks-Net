@@ -25,16 +25,8 @@ namespace Shadowsocks.Infrastructure.Pipe
     /// <summary>
     /// A duplex pipe.
     /// </summary>
-    public sealed class DefaultPipe : IPipe
+    public sealed class DefaultPipe : DuplexPipe
     {
-        #region Events
-        public event EventHandler<PipeBrokenEventArgs> OnBroken;
-        public event EventHandler<PipingEventArgs> OnPiping;
-        #endregion
-
-        public IClient ClientA { get; private set; }
-        public IClient ClientB { get; private set; }
-
         public IReadOnlyDictionary<IClient, PipeReader> PipeReader => _pipeReader;
         public IReadOnlyDictionary<IClient, PipeWriter> PipeWriter => _pipeWriter;
 
@@ -42,16 +34,13 @@ namespace Shadowsocks.Infrastructure.Pipe
         Dictionary<IClient, PipeWriter> _pipeWriter = null;
 
         CancellationTokenSource _cancellation = null;
-
         AutoResetEvent _pipeA2BMutex = new AutoResetEvent(true), _pipeB2AMutex = new AutoResetEvent(true);
-        ILogger _logger = null;
+
 
 
         public DefaultPipe(IClient clientA, IClient clientB, int? bufferSize = 8192, ILogger logger = null)
+            : base(clientA, clientB)
         {
-            ClientA = Throw.IfNull(() => clientA);
-            ClientB = Throw.IfNull(() => clientB);
-            Throw.IfEqualsTo(() => clientA, clientB);
 
             _pipeReader = new Dictionary<IClient, PipeReader>();
             _pipeWriter = new Dictionary<IClient, PipeWriter>();
@@ -74,13 +63,8 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
 
-        ~DefaultPipe()
-        {
-            UnPipe();
-        }
-
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Pipe()
+        public override void Pipe(CancellationToken cancellationToken)
         {
             UnPipe();
 
@@ -89,10 +73,12 @@ namespace Shadowsocks.Infrastructure.Pipe
 
             _cancellation ??= new CancellationTokenSource();
 
-            Task.Run(async () => { await PipeA2B(_cancellation.Token); });
-            Task.Run(async () => { await PipeB2A(_cancellation.Token); });
+            var lnkCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellation.Token);
+
+            Task.Run(async () => { await PipeA2B(lnkCts.Token); });
+            Task.Run(async () => { await PipeB2A(lnkCts.Token); });
         }
-        public void UnPipe()
+        public override void UnPipe()
         {
             if (null != _cancellation)
             {
@@ -138,8 +124,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     ReportPiping(new PipingEventArgs { Bytes = writeResult.Written, Origin = ClientA.EndPoint, Destination = ClientB.EndPoint });
                 }
                 readerResult.Memory?.Dispose();
-                //continue piping
-            }//end while
+            }//continue piping
             if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
             _pipeA2BMutex.Set();
         }
@@ -178,8 +163,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     ReportPiping(new PipingEventArgs { Bytes = writeResult.Written, Origin = ClientB.EndPoint, Destination = ClientA.EndPoint });
                 }
                 readerResult.Memory?.Dispose();
-                //continue piping
-            }//end while 
+            } //continue piping
             if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
             _pipeB2AMutex.Set();
         }
@@ -201,38 +185,6 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
-        void ReportBroken(PipeBrokenCause cause, PipeException exception = null)
-        {
-            try
-            {
-                if (null != OnBroken)
-                {
-                    OnBroken(this, new PipeBrokenEventArgs()
-                    {
-                        Pipe = this,
-                        Cause = cause,
-                        Exception = exception
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Pipe ReportBroken error.");
-            }
-        }
-        void ReportPiping(PipingEventArgs pipingEventArgs)
-        {
-            try
-            {
-                if (null != OnPiping)
-                {
-                    OnPiping(this, pipingEventArgs);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Pipe ReportPiping error.");
-            }
-        }
+
     }
 }

@@ -22,9 +22,10 @@ namespace Shadowsocks.Cipher
     {
         IShadowsocksStreamCipher _cipher = null;
         public UdpCipherFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
-               : base(tcpClient, PipeFilterCategory.Cipher, 0, logger)
+               : base(tcpClient, PipeFilterCategory.Cipher, 0)
         {
             _cipher = Throw.IfNull(() => cipher);
+            _logger = logger;
         }
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)
         {          

@@ -52,7 +52,7 @@ namespace Shadowsocks.Remote
         }
 
 
-        public async ValueTask HandleTcp(IClient client, CancellationToken cancellationToken = default)
+        public async Task HandleTcp(IClient client, CancellationToken cancellationToken = default)
         {
             if (null == client) { return; }
             using (SmartBuffer localRequestCipher = SmartBuffer.Rent(Defaults.ReceiveBufferSize))
@@ -139,7 +139,7 @@ namespace Shadowsocks.Remote
             # |  1   | Variable |    2     | Variable |
             # +------+----------+----------+----------+    
  */
-        public async ValueTask HandleUdp(IClient client, CancellationToken cancellationToken = default)
+        public async Task HandleUdp(IClient client, CancellationToken cancellationToken = default)
         {
             if (null == client) { return; }
             using (SmartBuffer localRequestCipher = SmartBuffer.Rent(1500))
@@ -237,7 +237,7 @@ namespace Shadowsocks.Remote
 
             p.ApplyFilter(filterLocal1).ApplyFilter(filterTarget1);
             if (addFilters.Length > 0) { p.ApplyFilter(addFilters); }
-            
+
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);
@@ -262,14 +262,15 @@ namespace Shadowsocks.Remote
 
         void Cleanup()
         {
-            foreach (var p in this._pipes)
-            {
-                p.UnPipe();
-                p.ClientA.Close();
-                p.ClientB.Close();
-            }
             lock (_pipesReadWriteLock)
             {
+                foreach (var p in this._pipes)
+                {
+                    p.UnPipe();
+                    p.ClientA.Close();
+                    p.ClientB.Close();
+                }
+
                 this._pipes.Clear();
             }
 

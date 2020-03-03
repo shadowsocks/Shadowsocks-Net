@@ -25,7 +25,6 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <summary>
         /// Filter category.
         /// </summary>
-
         public PipeFilterCategory Category { get; protected set; }
 
         /// <summary>
@@ -42,14 +41,11 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="client"></param>
         /// <param name="category"></param>
         /// <param name="priority"></param>
-        /// <param name="logger"></param>
-        public PipeFilter(IClient client, PipeFilterCategory category, byte priority, ILogger logger = null)
+        public PipeFilter(IClient client, PipeFilterCategory category, byte priority)
         {
             Client = Throw.IfNull(() => client);
             Category = category;
             Priority = priority;
-
-            _logger = logger;
         }
 
         public abstract PipeFilterResult AfterReading(PipeFilterContext filterContext);

@@ -11,7 +11,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
     public class PipeEventArgs : EventArgs
     {
-        public IPipe Pipe { set; get; }
+        public DuplexPipe Pipe { set; get; }
         public PipeException Exception { set; get; }
 
     }

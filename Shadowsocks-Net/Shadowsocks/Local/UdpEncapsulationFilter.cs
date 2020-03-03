@@ -54,8 +54,9 @@ namespace Shadowsocks.Local
     public class UdpEncapsulationFilter : PipeFilter
     {
         public UdpEncapsulationFilter(IClient udpClient, ILogger logger = null)
-               : base(udpClient, PipeFilterCategory.Encapsulation, 0, logger)
+               : base(udpClient, PipeFilterCategory.Encapsulation, 0)
         {
+            _logger = logger;
         }
 
         public override PipeFilterResult AfterReading(PipeFilterContext ctx)

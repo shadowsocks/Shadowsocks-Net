@@ -47,7 +47,7 @@ namespace Shadowsocks.Local
             Cleanup();
         }
 
-        public async ValueTask HandleTcp(IClient client, CancellationToken cancellationToken)
+        public async Task HandleTcp(IClient client, CancellationToken cancellationToken)
         {
             if (null == client) { return; }
             if (!await Handshake(client, cancellationToken)) { return; } //Handshake            
@@ -151,7 +151,7 @@ namespace Shadowsocks.Local
                                     await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
 
                                     PipeTcp(client, relayClient, cipher, cancellationToken);//E. start piping.
-                                }                        
+                                }
                             }
                             else
                             {
@@ -193,7 +193,7 @@ namespace Shadowsocks.Local
 
         }
 
-        public async ValueTask HandleUdp(IClient client, CancellationToken cancellationToken)
+        public async Task HandleUdp(IClient client, CancellationToken cancellationToken)
         {
             if (null == client) { return; }
 
@@ -228,7 +228,7 @@ namespace Shadowsocks.Local
 
         void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
         {
-            DefaultPipe pipe = new DefaultPipe( client, relayClient, Defaults.ReceiveBufferSize, _logger);
+            DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
             PipeFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
 
             pipe.ApplyFilter(filter);
@@ -238,7 +238,7 @@ namespace Shadowsocks.Local
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();           
+            pipe.Pipe();
         }
 
         void PipeUdp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
@@ -258,9 +258,9 @@ namespace Shadowsocks.Local
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();            
+            pipe.Pipe();
         }
- 
+
         private void Client_Closing(object sender, ClientEventArgs e)
         {
             e.Client.Closing -= this.Client_Closing;
@@ -315,17 +315,17 @@ namespace Shadowsocks.Local
 
         void Cleanup()
         {
-            foreach (var p in this._pipes)
-            {
-                p.UnPipe();
-                p.ClientA.Close();
-                p.ClientB.Close();
-            }
             lock (_pipesReadWriteLock)
             {
+                foreach (var p in this._pipes)
+                {
+                    p.UnPipe();
+                    p.ClientA.Close();
+                    p.ClientB.Close();
+                }
+
                 this._pipes.Clear();
             }
-
         }
         public void Dispose()
         {
