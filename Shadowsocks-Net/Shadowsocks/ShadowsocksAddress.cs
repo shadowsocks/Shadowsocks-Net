@@ -58,6 +58,11 @@ namespace Shadowsocks
         /// </summary>
         public ReadOnlyMemory<byte> RawMemory;
 
+        public ValueTuple<byte, ushort, byte[]> ToTuple()
+        {
+            return ValueTuple.Create<byte, ushort, byte[]>(ATYP, Port, Address.ToArray());
+        }
+
         public static bool TryResolve(ReadOnlyMemory<byte> raw, out ShadowsocksAddress ssAddr)
         {
             ssAddr = default;
@@ -177,7 +182,7 @@ namespace Shadowsocks
             return false;
         }
 
-        public static bool TryParse(Uri uri, out Tuple<byte, ushort, byte[]> shadowsocksAddress)
+        public static bool TryParse(Uri uri, out ValueTuple<byte, ushort, byte[]> shadowsocksAddress)
         {
             shadowsocksAddress = default;
 
@@ -222,10 +227,13 @@ namespace Shadowsocks
             }
 
             if (0x0 == ATYP) { return false; }
-           
-            shadowsocksAddress = Tuple.Create<byte, ushort, byte[]>(ATYP, port, addrss);
+
+            shadowsocksAddress = ValueTuple.Create<byte, ushort, byte[]>(ATYP, port, addrss);
             return true;
 
         }
+
+
+
     }
 }
