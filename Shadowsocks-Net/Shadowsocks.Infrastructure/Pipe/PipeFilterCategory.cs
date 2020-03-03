@@ -8,11 +8,12 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public class PipeFilterCategory : IComparer<PipeFilterCategory>
+    public enum PipeFilterCategory //: int
     {
-        public int Compare(PipeFilterCategory x, PipeFilterCategory y)
-        {
-            throw new NotImplementedException();
-        }
+        Obfuscation = 1,
+        Cipher = 2,
+        Encapsulation = 3,
+        Custom = 4
     }
+
 }

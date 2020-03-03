@@ -23,22 +23,30 @@ namespace Shadowsocks.Infrastructure.Pipe
         public IClient Client { get; protected set; }
 
         /// <summary>
+        /// Filter category.
+        /// </summary>
+
+        public PipeFilterCategory Category { get; protected set; }
+
+        /// <summary>
         /// Smaller value higher priority.
         /// </summary>
-        public byte Priority { get; protected set; }//TODO PipeFilterCategory
+        public byte Priority { get; protected set; }
 
 
         protected ILogger _logger = null;
 
-
         /// <summary>
-        /// Create a filter with a client and priority.
+        /// Create a filter with a client, catetory and priority.
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="category"></param>
         /// <param name="priority"></param>
-        public PipeFilter(IClient client, byte priority, ILogger logger = null)
+        /// <param name="logger"></param>
+        public PipeFilter(IClient client, PipeFilterCategory category, byte priority, ILogger logger = null)
         {
             Client = Throw.IfNull(() => client);
+            Category = category;
             Priority = priority;
 
             _logger = logger;
@@ -50,7 +58,8 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         public int Compare(PipeFilter x, PipeFilter y)
         {
-            return x.Priority.CompareTo(y.Priority);
+            int c = (int)x.Category.CompareTo((int)y.Category);
+            return c != 0 ? c : x.Priority.CompareTo(y.Priority);
         }
     }
 }

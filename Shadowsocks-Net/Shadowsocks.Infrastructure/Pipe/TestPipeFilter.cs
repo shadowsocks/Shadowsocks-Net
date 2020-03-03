@@ -22,7 +22,7 @@ namespace Shadowsocks.Infrastructure.Pipe
     public class TestPipeFilter : PipeFilter
     {
         public TestPipeFilter(IClient client, ILogger logger = null)
-                 : base(client, 20, logger)
+                 : base(client, PipeFilterCategory.Custom, 0, logger)
         {
         }
         public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
