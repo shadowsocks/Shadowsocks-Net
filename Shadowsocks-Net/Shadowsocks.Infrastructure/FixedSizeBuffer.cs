@@ -166,7 +166,7 @@ namespace Shadowsocks.Infrastructure
                     this.Return(b);
                 }
 
-                Console.WriteLine($"BufferPool Increase {count}; CurrentPoolSize= {CurrentPoolSize()}.");
+                ////Console.WriteLine($"BufferPool Increase {count}; CurrentPoolSize= {CurrentPoolSize()}.");
             }
 
 
