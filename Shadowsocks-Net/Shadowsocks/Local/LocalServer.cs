@@ -105,7 +105,7 @@ namespace Shadowsocks.Local
         #endregion
 
 
-        async Task ProcessTcp(CancellationToken cancellationToken)
+        async ValueTask ProcessTcp(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested && _tcpServer.IsRunning)
             {
@@ -129,7 +129,7 @@ namespace Shadowsocks.Local
             }//end while
         }
 
-        async Task ProcessUdp(CancellationToken cancellationToken)
+        async ValueTask ProcessUdp(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested && _tcpServer.IsRunning && _udpServer.IsRunning)
             {

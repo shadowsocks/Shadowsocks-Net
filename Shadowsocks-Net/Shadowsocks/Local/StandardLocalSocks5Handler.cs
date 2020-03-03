@@ -47,7 +47,7 @@ namespace Shadowsocks.Local
             Cleanup();
         }
 
-        public async Task HandleTcp(IClient client, CancellationToken cancellationToken)
+        public async ValueTask HandleTcp(IClient client, CancellationToken cancellationToken)
         {
             if (null == client) { return; }
             if (!await Handshake(client, cancellationToken)) { return; } //Handshake            
@@ -145,7 +145,7 @@ namespace Shadowsocks.Local
                                 var cipher = server.CreateCipher(_logger);
                                 using (var targetAddrCipher = cipher.EncryptTcp(ssaddr.RawMemory))
                                 {
-                                    int sent = await relayClient.WriteAsync(targetAddrCipher.SignificanMemory, cancellationToken);//C. send target addr to ss-remote.
+                                    int sent = await relayClient.WriteAsync(targetAddrCipher.SignificantMemory, cancellationToken);//C. send target addr to ss-remote.
                                     _logger?.LogInformation($"Send target addr {sent}={targetAddrCipher.SignificantLength}.");
 
                                     await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
@@ -162,7 +162,7 @@ namespace Shadowsocks.Local
                         break;
                     case 0x2://bind
                         {
-                            request.SignificanMemory.CopyTo(response.Memory);
+                            request.SignificantMemory.CopyTo(response.Memory);
                             response.Memory.Span[1] = 0x7;
                             await client.WriteAsync(response.Memory.Slice(0, request.SignificantLength), cancellationToken);
                             client.Close();
@@ -178,7 +178,7 @@ namespace Shadowsocks.Local
                                 out int written))
                             {
                                 response.SignificantLength = written;
-                                await client.WriteAsync(response.SignificanMemory, cancellationToken);
+                                await client.WriteAsync(response.SignificantMemory, cancellationToken);
                             }
 
                             //TODO
@@ -193,7 +193,7 @@ namespace Shadowsocks.Local
 
         }
 
-        public async Task HandleUdp(IClient client, CancellationToken cancellationToken)
+        public async ValueTask HandleUdp(IClient client, CancellationToken cancellationToken)
         {
             if (null == client) { return; }
 
@@ -229,7 +229,7 @@ namespace Shadowsocks.Local
         void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
         {
             DefaultPipe pipe = new DefaultPipe( client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
+            PipeFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
 
             pipe.ApplyFilter(filter);
 
@@ -246,8 +246,8 @@ namespace Shadowsocks.Local
             //authentication //TODO udp assoc            
             DefaultPipe pipe = new DefaultPipe(relayClient, client, Defaults.ReceiveBufferSize, _logger);
 
-            PipeFilter filter = new Cipher.CipherUdpFilter(relayClient, cipher, _logger);
-            PipeFilter filter2 = new LocalUdpRelayPackingFilter(relayClient, _logger);
+            PipeFilter filter = new Cipher.UdpCipherFilter(relayClient, cipher, _logger);
+            PipeFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
 
             pipe.ApplyFilter(filter)
                 .ApplyFilter(filter2);

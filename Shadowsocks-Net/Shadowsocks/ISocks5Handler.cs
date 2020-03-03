@@ -22,7 +22,7 @@ namespace Shadowsocks
     /// </summary>
     public interface ISocks5Handler : IDisposable
     {
-        Task HandleTcp(IClient tcpClient, CancellationToken cancellationToken = default);
-        Task HandleUdp(IClient udpClient, CancellationToken cancellationToken = default);
+        ValueTask HandleTcp(IClient tcpClient, CancellationToken cancellationToken = default);
+        ValueTask HandleUdp(IClient udpClient, CancellationToken cancellationToken = default);
     }
 }
