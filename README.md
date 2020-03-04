@@ -7,11 +7,11 @@ Shadowsocks-Net是使用C#（.NET Core）开发的跨平台版本的Shadowsocks�
 ## 版本
 Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
-|完成度|版本                           |ss-local        |ss-remote       |local http<sup>[1](#fn_local_http)</sup>   |混淆|规则过滤|服务器选择策略|图形用户界面|
+|完成度|版本                           |ss-local        |ss-remote       |local http<sup>[1](#fn_local_http)</sup>   |混淆|规则<br/>过滤|服务器<br/>选择<br/>策略|图形<br/>用户<br/>界面|
 |-|-|-|-|-|-|-|-|-|
-| 90%    |Minimal-<br/>cross-platform    |√              | √             |√                                         |    |        |              |            |
-| 10%    |Windows                        |√              |                |√                                         |√  |√      |√            |√          |
-| 1%     |Linux                          |√              | √             |√                                         |√  |√      |              |            |
+| 90%    |Minimal-<br/>cross-platform    |√              | √             |√                                         |    |           |                        |                      |
+| 10%    |Windows                        |√              |                |√                                         |√  |√         |√                      |√                    |
+| 1%     |Linux                          |√              | √             |√                                         |√  |√         |                        |                      |
 
 
 
