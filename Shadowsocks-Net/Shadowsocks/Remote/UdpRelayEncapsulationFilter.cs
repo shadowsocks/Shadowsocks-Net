@@ -36,29 +36,30 @@ namespace Shadowsocks.Remote
     /// <summary>
     /// Applies to UDP relay client.
     /// </summary>
-    class RemoteUdpRelayPackingFilter : PipeFilter
+    class UdpRelayEncapsulationFilter : ClientFilter
     {
 
-        public RemoteUdpRelayPackingFilter(IClient udpClient, ILogger logger = null)
-               : base(udpClient, 20, logger)
+        public UdpRelayEncapsulationFilter(IClient udpClient, ILogger logger = null)
+               : base(udpClient, ClientFilterCategory.Encapsulation, 0)
         {
+            _logger = logger;
         }
-        public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
+        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
         {
             SmartBuffer toTarget = SmartBuffer.Rent(ctx.Memory.Length);
             if (ShadowsocksAddress.TryResolveLength(ctx.Memory, out int targetAddrLen))
             {
                 ctx.Memory.Slice(targetAddrLen).CopyTo(toTarget.Memory);
                 toTarget.SignificantLength = ctx.Memory.Length - targetAddrLen;
-                return new PipeFilterResult(ctx.Client, toTarget, true);
+                return new ClientFilterResult(ctx.Client, toTarget, true);
             }
             else
             {
-                return new PipeFilterResult(ctx.Client, toTarget, false);
+                return new ClientFilterResult(ctx.Client, toTarget, false);
             }
         }
 
-        public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
         {
             SmartBuffer toSsLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
 
@@ -69,17 +70,17 @@ namespace Shadowsocks.Remote
                                toSsLocal.Memory,
                                out int written))
             {
-                toSsLocal.SignificantLength =  written;
+                toSsLocal.SignificantLength = written;
                 int payloadToCopy = Math.Min(toSsLocal.FreeSpace, ctx.Memory.Length);
                 ctx.Memory.Slice(0, payloadToCopy).CopyTo(toSsLocal.FreeMemory);
                 toSsLocal.SignificantLength += payloadToCopy;
 
-                return new PipeFilterResult(ctx.Client, toSsLocal, true); ;
+                return new ClientFilterResult(ctx.Client, toSsLocal, true); ;
             }
 
-            return new PipeFilterResult(ctx.Client, null, false); ;
+            return new ClientFilterResult(ctx.Client, null, false); ;
         }
 
-       
+
     }
 }

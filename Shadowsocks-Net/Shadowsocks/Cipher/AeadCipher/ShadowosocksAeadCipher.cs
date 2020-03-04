@@ -110,7 +110,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                     using (var payloadLenC = this.EncryptChunk(payloadLenBytes, _tcpCtx加密.Key, _tcpCtx加密.Nonce))
                     {
                         //[encrypted payload length][length tag]
-                        cipherStream.Write(payloadLenC.SignificanMemory);
+                        cipherStream.Write(payloadLenC.SignificantMemory);
                         _tcpCtx加密.IncreaseNonce();
                     }
                 }
@@ -120,7 +120,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                     using (var payloadC = this.EncryptChunk(payload, _tcpCtx加密.Key, _tcpCtx加密.Nonce))
                     {
                         //[encrypted payload][payload tag]
-                        cipherStream.Write(payloadC.SignificanMemory);
+                        cipherStream.Write(payloadC.SignificantMemory);
                         _tcpCtx加密.IncreaseNonce();
                     }
                 }
@@ -152,12 +152,12 @@ namespace Shadowsocks.Cipher.AeadCipher
                 {
                     //combine crumb
                     var combCipherStream = new MemoryWriter(combCipher.Memory);
-                    combCipherStream.Write(_tcp_decrypt_crumb.SignificanMemory);
+                    combCipherStream.Write(_tcp_decrypt_crumb.SignificantMemory);
                     combCipherStream.Write(cipher);
                     combCipher.SignificantLength = cipher.Length + _tcp_decrypt_crumb.SignificantLength;
                     _tcp_decrypt_crumb.SignificantLength = 0;
                     _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp combined crumb + new cipher = {combCipher.SignificantLength} bytes.");
-                    return DecryptTcp(combCipher.SignificanMemory);
+                    return DecryptTcp(combCipher.SignificantMemory);
                 }
             }
             if (cipher.Length <= LEN_TCP_OVERHEAD_PER_CHUNK)//still an incomplete chunk.
@@ -201,7 +201,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                             break;
                         }
 
-                        var payloadLenBytes = len.SignificanMemory;
+                        var payloadLenBytes = len.SignificantMemory;
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp payloadLenBytes ={payloadLenBytes.ToArray().ToHexString()}.");
                         // payloadLen = (ushort)System.Net.IPAddress.NetworkToHostOrder((short)BitConverter.ToUInt16(payloadLenBytes.Span));
                         BinaryPrimitives.TryReadUInt16BigEndian(payloadLenBytes.Span, out payloadLen);
@@ -234,13 +234,13 @@ namespace Shadowsocks.Cipher.AeadCipher
                             decrypteFailed = true;
                             break;
                         }
-                        plainStream.Write(payload.SignificanMemory);
+                        plainStream.Write(payload.SignificantMemory);
 
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted payload {payload.SignificantLength} bytes.");
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain= " +
-                            $"{payload.SignificanMemory.ToArray().ToHexString()}");
+                            $"{payload.SignificantMemory.ToArray().ToHexString()}");
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain.UTF8= " +
-                           $"{Encoding.UTF8.GetString( payload.SignificanMemory.ToArray())}\r\n");
+                           $"{Encoding.UTF8.GetString( payload.SignificantMemory.ToArray())}\r\n");
                     }
                 }
                 //-----
@@ -277,7 +277,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             using (var payload = this.EncryptChunk(plain, key.AsSpan(), NonceZero.AsSpan()))
             {
                 cipherPacketStream.Write(salt.AsMemory());
-                cipherPacketStream.Write(payload.SignificanMemory);
+                cipherPacketStream.Write(payload.SignificantMemory);
                 cipherPacket.SignificantLength = cipherPacketStream.Position;
                 //[salt][encrypted payload][tag]
             }

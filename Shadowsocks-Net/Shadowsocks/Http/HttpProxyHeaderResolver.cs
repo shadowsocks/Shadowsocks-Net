@@ -71,15 +71,15 @@ namespace Shadowsocks.Http
                 var host = arr[1];//
                 if (!Enum.TryParse(verb, true, out httpVerb)) { return false; }
 
-                if (!host.StartsWith("http://") && !host.StartsWith("https://"))
+                if (!host.ToLower().StartsWith("http://") && !host.ToLower().StartsWith("https://"))
                 {
                     host = string.Format("https://{0}", host);
-                }
+                }               
 
                 if (Uri.TryCreate(host, UriKind.Absolute, out Uri hostUri)
                         && (hostUri.Scheme == Uri.UriSchemeHttp || hostUri.Scheme == Uri.UriSchemeHttps))
                 {
-                    targetHost = hostUri;
+                    targetHost = hostUri;                    
 
                     if (targetHost.DnsSafeHost.Length > 255) { return false; }//to long to adapt to socks5.
 

@@ -7,11 +7,13 @@ Shadowsocks-Net是使用C#（.NET Core）开发的跨平台版本的Shadowsocks�
 ## 版本
 Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
-|版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
+|版本                           |ss-local        |ss-remote       |local http<sup>[1](#fn_local_http)</sup>   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
-|Minimal<br/>（cross-platform）|√              | √             |√             |    |        |              |            |
-|Windows                  |√              |                |√             |√  |√      |√            |√          |
-|Linux                    |√              | √             |√             |√  |√      |              |            |
+|Minimal<br/>（cross-platform） |√              | √             |√                                         |    |        |              |            |
+|Windows                        |√              |                |√                                         |√  |√      |√            |√          |
+|Linux                          |√              | √             |√                                         |√  |√      |              |            |
+
+
 
 Minimal版现已可测试，支持的加密算法：
 
@@ -58,21 +60,26 @@ class MyCipher : IShadowsocksAeadCipher
 
 #### 对混淆的支持
 混淆同加密一样，在Shadowsocks-Net中都是通过管道过滤器来工作的。相对于加密，混淆的逻辑可能更复杂。
-但由于其他部分已被封装，现在只需关注网络流的读写，实现自己的过滤器`IPipeFilter`即可。
+但由于其他部分已被封装，现在只需关注网络流的读写，实现自己的过滤器`ClientFilter`即可。
 ```c#
-public interface IPipeFilter 
+public interface IClientReaderFilter : IClientFilter
 {
-    PipeFilterResult BeforeWriting(PipeFilterContext filterContext);
-    PipeFilterResult AfterReading(PipeFilterContext filterContext);
+    ClientFilterResult AfterReading(ClientFilterContext filterContext);
+}
+```
+```c#
+public interface IClientWriterFilter : IClientFilter
+{
+    ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
 }
 ```
 Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议。
 
 下面这个过滤器每次在发送之前向数据开头插入四个字节`0x12, 0x34, 0xAB, 0xCD`，相应地读取时跳过了开头四个字节：
 ```c#
-class TestPipeFilter : PipeFilter
+class TestClientFilter : ClientFilter
 {
-    public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
+    public override ClientFilterResult BeforeWriting(PipeFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = new byte[data.Length + 4];
@@ -84,7 +91,7 @@ class TestPipeFilter : PipeFilter
         return new PipeFilterResult(ctx.Client, newData, ...);
     }
 
-    public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+    public override ClientFilterResult AfterReading(PipeFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newDat = data.Skip(4).ToArray();
@@ -205,6 +212,9 @@ Linux上雷同。 安装[.NET Core传送门](https://dotnet.microsoft.com/downlo
 
 <br/>
 <br/>
+
+---
+<a name="fn_local_http">local http</a>：即本地socks5转http。
 
 [libev版]:https://github.com/shadowsocks/shadowsocks-libev
 [shadowsocks-windows]: https://github.com/shadowsocks/shadowsocks-windows

@@ -18,15 +18,16 @@ namespace Shadowsocks.Cipher
     using Infrastructure.Pipe;
     using Infrastructure.Sockets;
 
-    public class CipherTcpFilter : PipeFilter
+    public class TcpCipherFilter : ClientFilter
     {
         IShadowsocksStreamCipher _cipher = null;
-        public CipherTcpFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
-               : base(tcpClient, 10, logger)
+        public TcpCipherFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
+               : base(tcpClient, ClientFilterCategory.Cipher, 0)
         {
             _cipher = Throw.IfNull(() => cipher);
+            _logger = logger;
         }
-        public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
         {
             SmartBuffer bufferPlain = null;
             if (null != _cipher)
@@ -40,18 +41,18 @@ namespace Shadowsocks.Cipher
                     _logger?.LogError($"AeadCipherTcpFilter AfterReading filterContext.Memory.IsEmpty");
                 }
             }
-            return new PipeFilterResult(this.Client, bufferPlain, true);//TODO 2           
+            return new ClientFilterResult(this.Client, bufferPlain, true);//TODO 2           
         }
 
-        public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
-        {            
-            PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
+        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        {
+            ClientFilterResult r = new ClientFilterResult(this.Client, null, false);
             if (null != _cipher)
             {
                 if (!ctx.Memory.IsEmpty)
                 {
-                    var bufferCipher = _cipher.EncryptTcp(ctx.Memory);                    
-                    r = new PipeFilterResult(this.Client, bufferCipher, true);
+                    var bufferCipher = _cipher.EncryptTcp(ctx.Memory);
+                    r = new ClientFilterResult(this.Client, bufferCipher, true);
                 }
                 else
                 {

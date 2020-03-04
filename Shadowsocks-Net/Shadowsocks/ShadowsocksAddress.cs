@@ -58,6 +58,28 @@ namespace Shadowsocks
         /// </summary>
         public ReadOnlyMemory<byte> RawMemory;
 
+        public Tuple<byte, ushort, byte[]> ToTuple()
+        {
+            return Tuple.Create<byte, ushort, byte[]>(ATYP, Port, Address.ToArray());
+        }
+
+        public async Task<IPEndPoint> ToIPEndPoint()
+        {
+            IPAddress targetIP = IPAddress.Any;
+            if (0x3 == ATYP)
+            {
+                var ips = await DnsCache.Shared.ResolveHost(Encoding.UTF8.GetString(Address.ToArray()));
+                if (ips != null && ips.Length > 0) { targetIP = ips[0]; }
+            }
+            else//IPv4/v6
+            {
+                targetIP = new IPAddress(Address.Span);
+            }
+            
+            return new IPEndPoint(targetIP, Port);
+
+        }
+
         public static bool TryResolve(ReadOnlyMemory<byte> raw, out ShadowsocksAddress ssAddr)
         {
             ssAddr = default;
@@ -222,10 +244,13 @@ namespace Shadowsocks
             }
 
             if (0x0 == ATYP) { return false; }
-           
+
             shadowsocksAddress = Tuple.Create<byte, ushort, byte[]>(ATYP, port, addrss);
             return true;
 
         }
+
+
+
     }
 }

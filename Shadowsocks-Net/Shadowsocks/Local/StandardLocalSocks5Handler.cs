@@ -143,15 +143,18 @@ namespace Shadowsocks.Local
                             if (ShadowsocksAddress.TryResolve(clientRequest.Memory.Slice(3), out ShadowsocksAddress ssaddr))//B.resove target addr.
                             {
                                 var cipher = server.CreateCipher(_logger);
-                                using (var targetAddrCipher = cipher.EncryptTcp(ssaddr.RawMemory))
-                                {
-                                    int sent = await relayClient.WriteAsync(targetAddrCipher.SignificanMemory, cancellationToken);//C. send target addr to ss-remote.
-                                    _logger?.LogInformation($"Send target addr {sent}={targetAddrCipher.SignificantLength}.");
 
-                                    await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
+                                DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+                                Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
+                                pipe.ApplyFilter(cipherFilter);
 
-                                    PipeTcp(client, relayClient, cipher, cancellationToken);//E. start piping.
-                                }                        
+                                var writeResult = await pipe.Writer[relayClient].Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
+                                _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
+
+                                await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
+
+                                PipeClient(pipe, cancellationToken);//E. start piping.
+
                             }
                             else
                             {
@@ -162,7 +165,7 @@ namespace Shadowsocks.Local
                         break;
                     case 0x2://bind
                         {
-                            request.SignificanMemory.CopyTo(response.Memory);
+                            request.SignificantMemory.CopyTo(response.Memory);
                             response.Memory.Span[1] = 0x7;
                             await client.WriteAsync(response.Memory.Slice(0, request.SignificantLength), cancellationToken);
                             client.Close();
@@ -178,7 +181,7 @@ namespace Shadowsocks.Local
                                 out int written))
                             {
                                 response.SignificantLength = written;
-                                await client.WriteAsync(response.SignificanMemory, cancellationToken);
+                                await client.WriteAsync(response.SignificantMemory, cancellationToken);
                             }
 
                             //TODO
@@ -222,52 +225,28 @@ namespace Shadowsocks.Local
                 client.Close();
                 return;
             }
-            PipeUdp(client, relayClient, server.CreateCipher(_logger), cancellationToken);
+
+            DefaultPipe pipe = new DefaultPipe(client, relayClient, 1500, _logger);
+            ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, server.CreateCipher(_logger), _logger);
+            ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
+            pipe.ApplyFilter(filter).ApplyFilter(filter2);
+
+            PipeClient(pipe, cancellationToken);
 
         }
 
-        void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
+        void PipeClient(DefaultPipe pipe, CancellationToken cancellationToken)
         {
-            DefaultPipe pipe = new DefaultPipe( client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            PipeFilter filter = new Cipher.CipherTcpFilter(relayClient, cipher, _logger);
-
-            pipe.ApplyFilter(filter);
 
             pipe.OnBroken += this.Pipe_OnBroken;
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();           
+            pipe.Pipe(cancellationToken);
         }
+        
 
-        void PipeUdp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
-        {
-            //authentication //TODO udp assoc            
-            DefaultPipe pipe = new DefaultPipe(relayClient, client, Defaults.ReceiveBufferSize, _logger);
-
-            PipeFilter filter = new Cipher.CipherUdpFilter(relayClient, cipher, _logger);
-            PipeFilter filter2 = new LocalUdpRelayPackingFilter(relayClient, _logger);
-
-            pipe.ApplyFilter(filter)
-                .ApplyFilter(filter2);
-
-            pipe.OnBroken += this.Pipe_OnBroken;
-
-            lock (_pipesReadWriteLock)
-            {
-                this._pipes.Add(pipe);
-            }
-            pipe.Pipe();            
-        }
- 
-        private void Client_Closing(object sender, ClientEventArgs e)
-        {
-            e.Client.Closing -= this.Client_Closing;
-
-            //tcp lost->remove udp
-            //TODO disassoc udp
-        }
 
         private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
@@ -286,6 +265,14 @@ namespace Shadowsocks.Local
                 this._pipes.Remove(p);
             }
 
+        }
+
+        private void Client_Closing(object sender, ClientEventArgs e)
+        {
+            e.Client.Closing -= this.Client_Closing;
+
+            //tcp lost->remove udp
+            //TODO disassoc udp
         }
 
 
@@ -315,17 +302,17 @@ namespace Shadowsocks.Local
 
         void Cleanup()
         {
-            foreach (var p in this._pipes)
-            {
-                p.UnPipe();
-                p.ClientA.Close();
-                p.ClientB.Close();
-            }
             lock (_pipesReadWriteLock)
             {
+                foreach (var p in this._pipes)
+                {
+                    p.UnPipe();
+                    p.ClientA.Close();
+                    p.ClientB.Close();
+                }
+
                 this._pipes.Clear();
             }
-
         }
         public void Dispose()
         {

@@ -54,7 +54,10 @@ namespace Shadowsocks.Infrastructure.Sockets
             {
                 return null;
             }
-            await _notify.WaitAsync(Timeout.Infinite, cancellationToken);//wait if no packet
+
+            var lnkCtx = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _tokenDestroy.Token);
+
+            await _notify.WaitAsync(Timeout.Infinite, lnkCtx.Token);//wait if no packet
 
             if (_tokenDestroy.IsCancellationRequested || _packets.IsEmpty)//destroyed
             {

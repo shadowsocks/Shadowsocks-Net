@@ -16,16 +16,15 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    using Infrastructure;
-    using Infrastructure.Pipe;
-    using Infrastructure.Sockets;
-    public class TestPipeFilter : PipeFilter
+    using Sockets;
+    public class TestClientFilter : ClientFilter
     {
-        public TestPipeFilter(IClient client, ILogger logger = null)
-                 : base(client, 20, logger)
+        public TestClientFilter(IClient client, ILogger logger = null)
+                 : base(client, ClientFilterCategory.Custom, 0)
         {
+            _logger = logger;
         }
-        public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
+        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
         {
             _logger?.LogInformation($"TestPipeFilter BeforeWriting data={ctx.Memory.ToArray().ToHexString()}");
             var newBuff = SmartBuffer.Rent(ctx.Memory.Length + 4);
@@ -36,16 +35,16 @@ namespace Shadowsocks.Infrastructure.Pipe
             p[3] = 0xCD;
             ctx.Memory.CopyTo(newBuff.Memory.Slice(4));
             newBuff.SignificantLength = ctx.Memory.Length + 4;
-            return new PipeFilterResult(ctx.Client, newBuff, true);
+            return new ClientFilterResult(ctx.Client, newBuff, true);
         }
 
-        public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
         {
             _logger?.LogInformation($"TestPipeFilter AfterReading data={ctx.Memory.ToArray().ToHexString()}");
             var newBuff = SmartBuffer.Rent(ctx.Memory.Length - 4);
             ctx.Memory.Slice(4).CopyTo(newBuff.Memory);
             newBuff.SignificantLength = ctx.Memory.Length - 4;
-            return new PipeFilterResult(ctx.Client, newBuff, true);
+            return new ClientFilterResult(ctx.Client, newBuff, true);
         }
 
 

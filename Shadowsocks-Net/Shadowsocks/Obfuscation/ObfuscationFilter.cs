@@ -13,27 +13,27 @@ using System.Buffers;
 using Argument.Check;
 using Microsoft.Extensions.Logging;
 
-namespace Shadowsocks.Obfuscation.FakeHttp
+namespace Shadowsocks.Obfuscation
 {
     using Infrastructure;
     using Infrastructure.Pipe;
     using Infrastructure.Sockets;
 
-    [Obfuscator("fake_http")]
-    public class FakeHttpObfuscatorFilter : PipeFilter
-    {
-        public FakeHttpObfuscatorFilter(IClient client, ILogger logger = null)
-               : base(client, 0, logger)
-        {
 
+    public class ObfuscationFilter : ClientFilter
+    {
+        public ObfuscationFilter(IClient client, ILogger logger = null)
+               : base(client, ClientFilterCategory.Obfuscation, 0)
+        {
+            _logger = logger;
         }
 
-        public override PipeFilterResult AfterReading(PipeFilterContext filterContext)
+        public override ClientFilterResult AfterReading(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }
 
-        public override PipeFilterResult BeforeWriting(PipeFilterContext filterContext)
+        public override ClientFilterResult BeforeWriting(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }

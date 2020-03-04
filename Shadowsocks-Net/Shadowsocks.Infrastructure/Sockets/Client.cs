@@ -56,7 +56,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                _logger?.LogError( $"Client ReadAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client ReadAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (OperationCanceledException)
@@ -64,9 +64,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogWarning($"Client ReadAsync cancelled.");
                 return -1;
             }
-            catch (Exception se)
+            catch (Exception ex)
             {
-                _logger?.LogError(se, $"Client ReadAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client ReadAsync error. {ex.Message}, Remote={_sock.RemoteEndPoint.ToString()}.");
                 return -1;
             }
             return read;
@@ -93,7 +93,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             }
             catch (SocketException se)
             {
-                _logger?.LogError($"Client WriteAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");                
+                _logger?.LogError($"Client WriteAsync error {se.SocketErrorCode}, {se.Message}. Remote={_sock.RemoteEndPoint.ToString()}");
                 return -1;
             }
             catch (OperationCanceledException)
@@ -101,9 +101,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogWarning($"Client WriteAsync cancelled.");
                 return -1;
             }
-            catch (Exception se)
+            catch (Exception ex)
             {
-                _logger?.LogError(se, $"Client WriteAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client WriteAsync error. {ex.Message}, Remote={_sock.RemoteEndPoint.ToString()}.");
                 return -1;
             }
             return written;
@@ -117,6 +117,7 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (null != _sock)
             {
+                FireClosing();
                 try
                 {
                     _logger?.LogInformation("Client socket closing...");
@@ -124,34 +125,31 @@ namespace Shadowsocks.Infrastructure.Sockets
                     _sock.Close();
                     _logger?.LogInformation("Client socket closed.");
                 }
-                catch (SocketException se)     
+                catch (SocketException se)
                 {
                     _logger?.LogError($"Client close socket error {se.SocketErrorCode}, {se.Message}.");
                 }
-                catch (Exception ex)        
+                catch (Exception ex)
                 {
-                    _logger?.LogError(ex, "Client close socket error.");
+                    _logger?.LogError($"Client close socket error. {ex.Message}");
                 }
                 finally { _sock = null; }
-
-                FireClosing();
-
 
             }
         }
 
         protected virtual void FireClosing()
         {
-            try
+            if (null != Closing)
             {
-                if (null != Closing)
+                try
                 {
                     Closing(this, new ClientEventArgs(this));
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Client error fire Closing.");
+                catch (Exception ex)
+                {
+                    _logger?.LogError(ex, "Client error fire Closing.");
+                }
             }
         }
     }
