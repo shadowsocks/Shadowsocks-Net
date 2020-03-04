@@ -28,18 +28,4 @@ namespace Shadowsocks.Infrastructure.Sockets
         event EventHandler<ClientEventArgs> Closing;
     }
 
-
-    ///// <summary>
-    ///// Use SocketAsyncEventArgs.
-    ///// </summary>
-    //public interface IClientEAP : IPeer
-    //{
-    //    void PostRead(Memory<byte> buffer);
-    //    void PostWrite(ReadOnlyMemory<byte> buffer);
-
-    //    event EventHandler<ClientReadEventArgs> OnRead;
-    //    event EventHandler<ClientWriteEventArgs> OnWrite;
-    //}
-
-
 }

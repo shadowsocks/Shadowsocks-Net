@@ -204,7 +204,7 @@ namespace Shadowsocks.Remote
         }
 
 
-        void PipeTcp(IClient localClient, IClient targetClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
+        void PipeTcp(IClient localClient, IClient targetClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
             DefaultPipe p = new DefaultPipe(localClient, targetClient, Defaults.ReceiveBufferSize, _logger);
             p.OnBroken += Pipe_OnBroken;
@@ -212,22 +212,16 @@ namespace Shadowsocks.Remote
             Cipher.TcpCipherFilter filter1 = new Cipher.TcpCipherFilter(localClient, cipher, _logger);
 
             p.ApplyFilter(filter1);
+            p.ApplyFilter(addFilters);
 
-            //if (addFilters.Length > 0)
-            //{
-            //    foreach (var f in addFilters)
-            //    {
-            //        p.ApplyFilter(f);
-            //    }
-            //}
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);
             }
-            p.Pipe();
+            p.Pipe(cancellationToken);
         }
 
-        void PipeUdp(IClient localClient, IClient targetClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params PipeFilter[] addFilters)
+        void PipeUdp(IClient localClient, IClient targetClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
             DefaultPipe p = new DefaultPipe(targetClient, localClient, 1500, _logger);
             p.OnBroken += Pipe_OnBroken;
@@ -242,7 +236,7 @@ namespace Shadowsocks.Remote
             {
                 this._pipes.Add(p);
             }
-            p.Pipe();
+            p.Pipe(cancellationToken);
         }
 
 

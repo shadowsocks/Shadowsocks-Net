@@ -18,10 +18,15 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public enum PipeReadWriteResult
+    public struct ClientWriteResult
     {
-        Succeeded,
-        Failed,
-        BrokeByFilter
+        public ClientReadWriteResult Result;
+        public int Written;
+
+        public ClientWriteResult(ClientReadWriteResult result, int written)
+        {
+            Result = result;
+            Written = written;
+        }
     }
 }

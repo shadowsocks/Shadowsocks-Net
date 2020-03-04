@@ -138,7 +138,7 @@ namespace Shadowsocks.Http
         void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
         {
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            PipeFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
+            ClientFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
 
             pipe.ApplyFilter(filter);
 
@@ -147,7 +147,7 @@ namespace Shadowsocks.Http
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();
+            pipe.Pipe(cancellationToken);
         }
 
 

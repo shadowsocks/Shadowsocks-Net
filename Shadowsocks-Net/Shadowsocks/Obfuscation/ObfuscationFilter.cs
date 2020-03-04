@@ -20,20 +20,20 @@ namespace Shadowsocks.Obfuscation
     using Infrastructure.Sockets;
 
 
-    public class ObfuscationFilter : PipeFilter
+    public class ObfuscationFilter : ClientFilter
     {
         public ObfuscationFilter(IClient client, ILogger logger = null)
-               : base(client, PipeFilterCategory.Obfuscation, 0)
+               : base(client, ClientFilterCategory.Obfuscation, 0)
         {
             _logger = logger;
         }
 
-        public override PipeFilterResult AfterReading(PipeFilterContext filterContext)
+        public override ClientFilterResult AfterReading(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }
 
-        public override PipeFilterResult BeforeWriting(PipeFilterContext filterContext)
+        public override ClientFilterResult BeforeWriting(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }

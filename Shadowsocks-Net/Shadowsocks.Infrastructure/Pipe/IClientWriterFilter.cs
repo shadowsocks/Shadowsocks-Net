@@ -8,12 +8,8 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public enum PipeFilterCategory //: int
+    public interface IClientWriterFilter : IClientObject
     {
-        Obfuscation = 1,
-        Cipher = 2,
-        Encapsulation = 3,
-        Custom = 4
+        ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
     }
-
 }

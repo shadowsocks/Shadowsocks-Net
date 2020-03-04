@@ -18,16 +18,16 @@ namespace Shadowsocks.Cipher
     using Infrastructure.Pipe;
     using Infrastructure.Sockets;
 
-    public class TcpCipherFilter : PipeFilter
+    public class TcpCipherFilter : ClientFilter
     {
         IShadowsocksStreamCipher _cipher = null;
         public TcpCipherFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
-               : base(tcpClient, PipeFilterCategory.Cipher, 0)
+               : base(tcpClient, ClientFilterCategory.Cipher, 0)
         {
             _cipher = Throw.IfNull(() => cipher);
             _logger = logger;
         }
-        public override PipeFilterResult AfterReading(PipeFilterContext ctx)
+        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
         {
             SmartBuffer bufferPlain = null;
             if (null != _cipher)
@@ -41,18 +41,18 @@ namespace Shadowsocks.Cipher
                     _logger?.LogError($"AeadCipherTcpFilter AfterReading filterContext.Memory.IsEmpty");
                 }
             }
-            return new PipeFilterResult(this.Client, bufferPlain, true);//TODO 2           
+            return new ClientFilterResult(this.Client, bufferPlain, true);//TODO 2           
         }
 
-        public override PipeFilterResult BeforeWriting(PipeFilterContext ctx)
+        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
         {
-            PipeFilterResult r = new PipeFilterResult(this.Client, null, false);
+            ClientFilterResult r = new ClientFilterResult(this.Client, null, false);
             if (null != _cipher)
             {
                 if (!ctx.Memory.IsEmpty)
                 {
                     var bufferCipher = _cipher.EncryptTcp(ctx.Memory);
-                    r = new PipeFilterResult(this.Client, bufferCipher, true);
+                    r = new ClientFilterResult(this.Client, bufferCipher, true);
                 }
                 else
                 {

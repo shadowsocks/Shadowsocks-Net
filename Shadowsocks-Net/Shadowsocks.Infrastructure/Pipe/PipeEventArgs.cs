@@ -15,9 +15,17 @@ namespace Shadowsocks.Infrastructure.Pipe
         public PipeException Exception { set; get; }
 
     }
+
     public class PipeBrokenEventArgs : PipeEventArgs
     {
         public PipeBrokenCause Cause { set; get; }
+    }
+
+    public struct PipingEventArgs
+    {
+        public IPEndPoint Origin;
+        public IPEndPoint Destination;
+        public int Bytes;
     }
 
     public enum PipeBrokenCause
@@ -26,12 +34,5 @@ namespace Shadowsocks.Infrastructure.Pipe
         Cancelled,
         FilterBreak,
         Exception
-    }
-
-    public struct PipingEventArgs
-    {
-        public IPEndPoint Origin;
-        public IPEndPoint Destination;
-        public int Bytes;
     }
 }

@@ -15,7 +15,13 @@ using Microsoft.Extensions.Logging;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-    public abstract class PipeFilter : IPipeFilter, IComparer<PipeFilter>
+
+    /// <summary>
+    /// 1.Don't put too much logic in PipeFilter, although you can do it.
+    /// 2.Don't do too much except process data.
+    /// 3.Always copy data.
+    /// </summary>
+    public abstract class ClientFilter : IClientReaderFilter, IClientWriterFilter, IComparer<ClientFilter>
     {
         /// <summary>
         /// The client applies to.
@@ -25,7 +31,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <summary>
         /// Filter category.
         /// </summary>
-        public PipeFilterCategory Category { get; protected set; }
+        public ClientFilterCategory Category { get; protected set; }
 
         /// <summary>
         /// Smaller value higher priority.
@@ -41,18 +47,18 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="client"></param>
         /// <param name="category"></param>
         /// <param name="priority"></param>
-        public PipeFilter(IClient client, PipeFilterCategory category, byte priority)
+        public ClientFilter(IClient client, ClientFilterCategory category, byte priority)
         {
             Client = Throw.IfNull(() => client);
             Category = category;
             Priority = priority;
         }
 
-        public abstract PipeFilterResult AfterReading(PipeFilterContext filterContext);
-        public abstract PipeFilterResult BeforeWriting(PipeFilterContext filterContext);
+        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
 
 
-        public int Compare(PipeFilter x, PipeFilter y)
+        public int Compare(ClientFilter x, ClientFilter y)
         {
             int c = (int)x.Category.CompareTo((int)y.Category);
             return c != 0 ? c : x.Priority.CompareTo(y.Priority);

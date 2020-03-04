@@ -226,19 +226,20 @@ namespace Shadowsocks.Local
 
         }
 
-        void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
+        void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            PipeFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
+            ClientFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
 
             pipe.ApplyFilter(filter);
+            pipe.ApplyFilter(addFilters);
 
             pipe.OnBroken += this.Pipe_OnBroken;
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();
+            pipe.Pipe(cancellationToken);
         }
 
         void PipeUdp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
@@ -246,8 +247,8 @@ namespace Shadowsocks.Local
             //authentication //TODO udp assoc            
             DefaultPipe pipe = new DefaultPipe(relayClient, client, Defaults.ReceiveBufferSize, _logger);
 
-            PipeFilter filter = new Cipher.UdpCipherFilter(relayClient, cipher, _logger);
-            PipeFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
+            ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, cipher, _logger);
+            ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
 
             pipe.ApplyFilter(filter)
                 .ApplyFilter(filter2);
@@ -258,7 +259,7 @@ namespace Shadowsocks.Local
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe();
+            pipe.Pipe(cancellationToken);
         }
 
         private void Client_Closing(object sender, ClientEventArgs e)

@@ -18,13 +18,13 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public struct PipeReadResult
+    public struct ClientReadResult
     {
-        public PipeReadWriteResult Result;
+        public ClientReadWriteResult Result;
         public SmartBuffer Memory;
         public int Read;
 
-        public PipeReadResult(PipeReadWriteResult result, SmartBuffer memory, int read)
+        public ClientReadResult(ClientReadWriteResult result, SmartBuffer memory, int read)
         {
             Result = result;
             Memory = memory;

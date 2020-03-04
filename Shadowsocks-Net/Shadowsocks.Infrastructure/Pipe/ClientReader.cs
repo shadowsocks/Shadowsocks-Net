@@ -20,51 +20,75 @@ using Argument.Check;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-    using static PipeReadWriteResult;
-    public sealed class PipeReader
+    using static ClientReadWriteResult;
+    public sealed class ClientReader : IClientReader
     {
-        IClient _client = null;
-        SortedSet<PipeFilter> _filters = null;
+        public IClient Client { get; private set; }
+
+        public IReadOnlyCollection<IClientReaderFilter> Filters => _filters;
+
+
+
+        SortedSet<IClientReaderFilter> _filters = null;
         int _bufferSize = 8192;
         ILogger _logger = null;
 
 
-        public PipeReader(IClient client, int? bufferSize = 8192, ILogger logger = null)
+        public ClientReader(IClient client, int? bufferSize = 8192, ILogger logger = null)
         {
-            _client = Throw.IfNull(() => client);
-            _filters = new SortedSet<PipeFilter>();
+            Client = Throw.IfNull(() => client);
+            _filters = new SortedSet<IClientReaderFilter>();
             _bufferSize = bufferSize ?? 8192;
 
             _logger = logger;
         }
 
-        public async ValueTask<PipeReadResult> Read(CancellationToken cancellationToken)
+        public ClientReader(IClient client, IEnumerable<IClientReaderFilter> filters, int? bufferSize = 8192, ILogger logger = null)
+            :this(client, bufferSize, logger)
+        {
+            Throw.IfNull(() => filters);
+
+            foreach (var f in filters)
+            {
+                this.ApplyFilter(f);
+            }
+        }
+
+        public async ValueTask<ClientReadResult> Read(CancellationToken cancellationToken)
         {
             var received = SmartBuffer.Rent(_bufferSize);
-            received.SignificantLength = await _client.ReadAsync(received.Memory, cancellationToken);
-            _logger?.LogInformation($"PipeReader Received {received.SignificantLength} bytes from [{_client.EndPoint.ToString()}].");
+            received.SignificantLength = await Client.ReadAsync(received.Memory, cancellationToken);
+            _logger?.LogInformation($"PipeReader Received {received.SignificantLength} bytes from [{Client.EndPoint.ToString()}].");
 
             if (0 >= received.SignificantLength)
-            {                
+            {
                 received.Dispose();
-                return new PipeReadResult(Failed, null, received.SignificantLength);
+                return new ClientReadResult(Failed, null, received.SignificantLength);
             }
 
             if (_filters.Count > 0)
             {
-                var result = ExecuteFilter_AfterReading(_client, received.SignificantMemory, _filters, cancellationToken);
+                var result = ExecuteFilter_AfterReading(Client, received.SignificantMemory, _filters, cancellationToken);
                 received.Dispose();
                 received = result.Buffer;
                 if (!result.Continue)
                 {
                     received?.Dispose();
-                    return new PipeReadResult(BrokeByFilter, null, 0);
+                    return new ClientReadResult(BrokeByFilter, null, 0);
                 }
             }
-            return new PipeReadResult(Succeeded, received, null != received ? received.SignificantLength : 0);
+            return new ClientReadResult(Succeeded, received, null != received ? received.SignificantLength : 0);
 
         }
+        public void ApplyFilter(IClientReaderFilter filter)//TODO lock
+        {
+            Throw.IfNull(() => filter);
 
+            if (object.ReferenceEquals(filter.Client, Client) && !_filters.Contains(filter))
+            {
+                _filters.Add(filter);
+            }
+        }
 
         /// <summary>
         /// Could return empty buffer.
@@ -74,7 +98,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="filters"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Could return empty buffer.</returns>
-        PipeFilterResult ExecuteFilter_AfterReading(IClient client, ReadOnlyMemory<byte> data, SortedSet<PipeFilter> filters, CancellationToken cancellationToken)
+        ClientFilterResult ExecuteFilter_AfterReading(IClient client, ReadOnlyMemory<byte> data, SortedSet<IClientReaderFilter> filters, CancellationToken cancellationToken)
         {
             SmartBuffer prevFilterMemory = null;
             bool @continue = true;
@@ -84,7 +108,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 try
                 {
                     if (time > 0 && null == prevFilterMemory) { @continue = true; break; }
-                    var result = filter.AfterReading(new PipeFilterContext(client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
+                    var result = filter.AfterReading(new ClientFilterContext(client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
                     time++;
                     prevFilterMemory?.Dispose();
                     prevFilterMemory = result.Buffer;
@@ -98,19 +122,11 @@ namespace Shadowsocks.Infrastructure.Pipe
                     _logger?.LogError(ex, $"PipeReader ExecuteFilter_AfterReading [{client.EndPoint.ToString()}].");
                 }
             }
-            return new PipeFilterResult(client, prevFilterMemory, @continue);
+            return new ClientFilterResult(client, prevFilterMemory, @continue);
         }
 
 
 
-        public void ApplyFilter(PipeFilter filter)//TODO lock
-        {
-            Throw.IfNull(() => filter);
 
-            if (object.ReferenceEquals(filter.Client, _client) && !_filters.Contains(filter))
-            {
-                _filters.Add(filter);
-            }
-        }
     }
 }
