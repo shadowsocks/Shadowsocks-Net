@@ -55,69 +55,77 @@ namespace Shadowsocks.Remote
         public async Task HandleTcp(IClient client, CancellationToken cancellationToken = default)
         {
             if (null == client) { return; }
-            using (SmartBuffer localRequestCipher = SmartBuffer.Rent(Defaults.ReceiveBufferSize))
+
+            var cipher = _remoteServerConfig.CreateCipher(_logger);
+            Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(client, cipher, _logger);
+
+
+            DefaultPipe pipe = new DefaultPipe(Defaults.ReceiveBufferSize, _logger);
+            pipe.ClientA = client;
+            pipe.ApplyFilter(cipherFilter);
+
+            var readClientResult = await pipe.Reader[client].Read(cancellationToken);//A. Read target addr (and payload).
+            if (readClientResult.Result != ClientReadWriteResult.Succeeded) { client.Close(); return; }
+
+            if (readClientResult.Read <= 0)
             {
-                localRequestCipher.SignificantLength = await client.ReadAsync(localRequestCipher.Memory, cancellationToken);//A. Receive target addr.
-
-                //decrypt
-                var cipher = _remoteServerConfig.CreateCipher(_logger);
-                using (var localReqestPlain = cipher.DecryptTcp(localRequestCipher.SignificantMemory))
-                {
-                    if (0 == localRequestCipher.SignificantLength)
-                    {
-                        //decrypt failed, available options: 1.leave it. 2.close connection. 3.add to blocklist.
-                        _logger?.LogWarning($"Decrypt target addr failed, client=[{client.EndPoint.ToString()}]");
-                        client.Close();//->local pipe broken-> local pipe close.
-                        return;
-                    }
-                    IPAddress targetIP = IPAddress.Any; //TODO target address check
-                    if (ShadowsocksAddress.TryResolve(localReqestPlain.Memory, out ShadowsocksAddress ssaddr))//B. Resolve target addr.
-                    {
-                        if (0x3 == ssaddr.ATYP)//a domain name
-                        {
-                            var ips = await _dnsCache.ResolveHost(Encoding.UTF8.GetString(ssaddr.Address.ToArray()));
-                            if (ips != null && ips.Length > 0) { targetIP = ips[0]; }
-                        }
-                        else//IPv4/v6
-                        {
-                            targetIP = new IPAddress(ssaddr.Address.Span);
-                        }
-                        if (IPAddress.Any == targetIP)//a empty IP.
-                        {
-                            _logger?.LogWarning($"Invalid target addr. client=[{client.EndPoint.ToString()}]");
-                            client.Close();
-                            return;
-                        }
-                        IPEndPoint ipeTarget = new IPEndPoint(targetIP, ssaddr.Port);
-                        _logger?.LogInformation($"Resolved target address:[{ipeTarget.ToString()}]");
-                        _logger?.LogInformation($"Connecting to [{ipeTarget.ToString()}]...");
-                        var targetClient = await TcpClient1.ConnectAsync(ipeTarget, _logger);//C. Connect target
-
-                        if (null == targetClient)//connect target failed.
-                        {
-                            _logger?.LogInformation($"Unable to connect target [{ipeTarget.ToString()}]. client=[{client.EndPoint.ToString()}]");
-                            client.Close();
-                            return;
-                        }
-                        _logger?.LogInformation($"Connected to [{ipeTarget.ToString()}]");
-
-                        if (localReqestPlain.Memory.Length > ssaddr.RawMemory.Length)//have some payload
-                        {
-                            _logger?.LogInformation($"Writing payload before piping...");
-                            await targetClient.WriteAsync(localReqestPlain.SignificantMemory.Slice(ssaddr.RawMemory.Length));
-                        }
-                        _logger?.LogInformation($"Start piping...");
-                        PipeTcp(client, targetClient, cipher, cancellationToken);//D. start piping.
-
-                    }
-                    else//invalid socks5 addr
-                    {
-                        _logger?.LogWarning($"StandardRemoteSocks5Handler HandleTcp resolve target addr failed. client=[{client.EndPoint.ToString()}]");
-                        client.Close();
-                        return;
-                    }
-                }
+                _logger?.LogWarning($"This should not happen. [{client.EndPoint.ToString()}]");
+                ////decrypt failed? available options: 1.leave it. 2.close connection. 3.add to blocklist.
+                client.Close();
+                return;
             }
+            IPAddress targetIP = IPAddress.Any; //TODO target address check
+            if (ShadowsocksAddress.TryResolve(readClientResult.Memory.SignificantMemory, out ShadowsocksAddress ssaddr))//B. Resolve target addr.
+            {
+                _logger?.LogWarning($"Reading target addr. ATYP={ssaddr.ATYP}, client=[{client.EndPoint.ToString()}]");
+                if (0x3 == ssaddr.ATYP)//a domain name
+                {
+                    var ips = await _dnsCache.ResolveHost(Encoding.UTF8.GetString(ssaddr.Address.ToArray()));
+                    if (ips != null && ips.Length > 0) { targetIP = ips[0]; }
+                }
+                else//IPv4/v6
+                {
+                    targetIP = new IPAddress(ssaddr.Address.Span);
+                }
+                if (IPAddress.Any == targetIP)//an empty IP.
+                {
+                    _logger?.LogWarning($"Invalid target addr. client=[{client.EndPoint.ToString()}]");
+                    client.Close();
+                    return;
+                }
+                IPEndPoint ipeTarget = new IPEndPoint(targetIP, ssaddr.Port);
+                _logger?.LogInformation($"Resolved target address:[{ipeTarget.ToString()}]");
+                _logger?.LogInformation($"Connecting to [{ipeTarget.ToString()}]...");
+                var targetClient = await TcpClient1.ConnectAsync(ipeTarget, _logger);//C. Connect target
+
+                if (null == targetClient)//connect target failed.
+                {
+                    _logger?.LogInformation($"Unable to connect target [{ipeTarget.ToString()}]. client=[{client.EndPoint.ToString()}]");
+                    client.Close();
+                    return;
+                }
+                _logger?.LogInformation($"Connected to [{ipeTarget.ToString()}]");
+
+                pipe.ClientB = targetClient;
+
+
+                if (readClientResult.Memory.SignificantLength > ssaddr.RawMemory.Length)//have some payload
+                {
+                    _logger?.LogInformation($"Writing payload before piping...");
+                    //await targetClient.WriteAsync(readClientResult.Memory.SignificantMemory.Slice(ssaddr.RawMemory.Length));
+                    await pipe.Writer[targetClient].Write(readClientResult.Memory.SignificantMemory.Slice(ssaddr.RawMemory.Length), cancellationToken);
+                }
+                _logger?.LogInformation($"Start piping...");
+                PipeTcp(pipe, cancellationToken);//D. start piping.
+
+            }
+            else//invalid socks5 addr
+            {
+                _logger?.LogWarning($"Resolve target addr failed. client=[{client.EndPoint.ToString()}]");
+                client.Close();
+                return;
+            }
+
             await Task.CompletedTask;
         }
 
@@ -204,16 +212,10 @@ namespace Shadowsocks.Remote
         }
 
 
-        void PipeTcp(IClient localClient, IClient targetClient, Cipher.IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params ClientFilter[] addFilters)
+        void PipeTcp(DefaultPipe p, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
-            DefaultPipe p = new DefaultPipe(localClient, targetClient, Defaults.ReceiveBufferSize, _logger);
             p.OnBroken += Pipe_OnBroken;
-
-            Cipher.TcpCipherFilter filter1 = new Cipher.TcpCipherFilter(localClient, cipher, _logger);
-
-            p.ApplyFilter(filter1);
             p.ApplyFilter(addFilters);
-
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);
