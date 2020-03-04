@@ -7,11 +7,13 @@ Shadowsocks-Net是使用C#（.NET Core）开发的跨平台版本的Shadowsocks�
 ## 版本
 Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 
-|版本                     |ss-local        |ss-remote       |local http   |混淆|规则过滤|服务器选择策略|图形用户界面|
+|版本                           |ss-local        |ss-remote       |local http<sup>[1](#fn_local_http)</sup>   |混淆|规则过滤|服务器选择策略|图形用户界面|
 |-|-|-|-|-|-|-|-|
-|Minimal<br/>（cross-platform）|√              | √             |√             |    |        |              |            |
-|Windows                  |√              |                |√             |√  |√      |√            |√          |
-|Linux                    |√              | √             |√             |√  |√      |              |            |
+|Minimal<br/>（cross-platform） |√              | √             |√                                         |    |        |              |            |
+|Windows                        |√              |                |√                                         |√  |√      |√            |√          |
+|Linux                          |√              | √             |√                                         |√  |√      |              |            |
+
+
 
 Minimal版现已可测试，支持的加密算法：
 
@@ -210,6 +212,9 @@ Linux上雷同。 安装[.NET Core传送门](https://dotnet.microsoft.com/downlo
 
 <br/>
 <br/>
+
+---
+<a name="fn_local_http">local http</a>：即本地socks5转http。
 
 [libev版]:https://github.com/shadowsocks/shadowsocks-libev
 [shadowsocks-windows]: https://github.com/shadowsocks/shadowsocks-windows
