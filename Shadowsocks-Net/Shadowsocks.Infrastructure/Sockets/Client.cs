@@ -64,9 +64,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogWarning($"Client ReadAsync cancelled.");
                 return -1;
             }
-            catch (Exception se)
+            catch (Exception ex)
             {
-                _logger?.LogError(se, $"Client ReadAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client ReadAsync error. {ex.Message}, Remote={_sock.RemoteEndPoint.ToString()}.");
                 return -1;
             }
             return read;
@@ -101,9 +101,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                 _logger?.LogWarning($"Client WriteAsync cancelled.");
                 return -1;
             }
-            catch (Exception se)
+            catch (Exception ex)
             {
-                _logger?.LogError(se, $"Client WriteAsync error. Remote={_sock.RemoteEndPoint.ToString()}");
+                _logger?.LogError($"Client WriteAsync error. {ex.Message}, Remote={_sock.RemoteEndPoint.ToString()}.");
                 return -1;
             }
             return written;
@@ -131,12 +131,9 @@ namespace Shadowsocks.Infrastructure.Sockets
                 }
                 catch (Exception ex)
                 {
-                    _logger?.LogError(ex, "Client close socket error.");
+                    _logger?.LogError($"Client close socket error. {ex.Message}");
                 }
                 finally { _sock = null; }
-
-
-
 
             }
         }
