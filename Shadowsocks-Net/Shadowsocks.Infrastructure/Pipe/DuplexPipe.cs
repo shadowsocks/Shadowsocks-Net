@@ -20,10 +20,17 @@ using Argument.Check;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-
+    /*
+      +---------++----------+                       +----------++---------+ 
+      |         || ReaderA  | >>>>>>>>>>>>>>>>>>>>> | WriterB  ||         |
+      | ClientA |+----------+                       +----------+| ClientB |
+      |         |+----------+                       +----------+|         |
+      |         || WriterA  | <<<<<<<<<<<<<<<<<<<<< | ReaderB  ||         |
+      +---------++----------+                       +----------++---------+                                                       
+     */
 
     /// <summary>
-    /// A duplex pipe that connects two clients and exchanges their data.
+    /// A duplex pipe that links two clients and exchanges their data.
     /// </summary>
     public abstract class DuplexPipe
     {
