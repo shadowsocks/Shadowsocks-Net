@@ -155,6 +155,9 @@ namespace Shadowsocks.Infrastructure.Pipe
         public DefaultPipe(int? bufferSize = 8192, ILogger logger = null)
             : base()
         {
+            _bufferSize = bufferSize ?? Defaults.ReceiveBufferSize;
+            _logger = logger;
+
             _readerPair = new ClientReaderPair();
             _writerPair = new ClientWriterPair();
         }
@@ -293,7 +296,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             Throw.IfNull(() => filter);
 
-            (Reader[filter.Client] as ClientReader).ApplyFilter(filter);
+            (Reader[filter.Client] as ClientReader).ApplyFilter(filter);//throw
             (Writer[filter.Client] as ClientWriter).ApplyFilter(filter);
 
             return this;
