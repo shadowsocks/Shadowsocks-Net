@@ -100,21 +100,20 @@ namespace Shadowsocks.Http
                             }
 
                             var cipher = server.CreateCipher(_logger);
-                            using (var relayRequestCipher = cipher.EncryptTcp(relayRequst.SignificantMemory))
+                            DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+                            Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
+                            pipe.ApplyFilter(cipherFilter);
+
+                            var writeResult = await pipe.Writer[relayClient].Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.
+                            _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
+
+                            if (HttpProxyHeaderResolver.Verb.CONNECT == httpVerb)
                             {
-                                int sent = await relayClient.WriteAsync(relayRequestCipher.SignificantMemory, cancellationToken);//C. send target addr & http header to ss-remote.
-
-                                //_logger?.LogInformation($"HttpRoxyServer Send data {sent}={relayRequestCipher.SignificantLength}.");
-
-                                if (HttpProxyHeaderResolver.Verb.CONNECT == httpVerb)
-                                {
-                                    await client.WriteAsync(RESPONSE_200_Connection_Established, cancellationToken);
-                                }
-                                PipeTcp(client, relayClient, cipher, cancellationToken);//D. start piping.
-
-                                return;
+                                await client.WriteAsync(RESPONSE_200_Connection_Established, cancellationToken);
                             }
+                            PipeClient(pipe, cancellationToken);//D. start piping.
 
+                            return;
                         }
                         else { _logger?.LogInformation($"HttpRoxyServer parse host URL failed."); goto GOODBYE503; }
                     }
@@ -135,13 +134,9 @@ namespace Shadowsocks.Http
         }
 
 
-        void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
+        void PipeClient(DefaultPipe pipe, CancellationToken cancellationToken)
         {
-            DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            ClientFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-
-            pipe.ApplyFilter(filter);
-
+           
             pipe.OnBroken += this.Pipe_OnBroken;
             lock (_pipesReadWriteLock)
             {
@@ -156,10 +151,9 @@ namespace Shadowsocks.Http
             var p = e.Pipe as DefaultPipe;
             p.OnBroken -= this.Pipe_OnBroken;
 
-            //_logger?.LogInformation($"HttpRoxyServer Pipe_OnBroken  Cause={Enum.GetName(typeof(PipeBrokenCause), e.Cause)}");
-
             _logger?.LogInformation($"HttpRoxyServer Pipe_OnBroken" +
                 $" A={p.ClientA.EndPoint.ToString()}, B={p.ClientB.EndPoint.ToString()}, Cause={Enum.GetName(typeof(PipeBrokenCause), e.Cause)}");
+
             p.UnPipe();
             p.ClientA.Close();
             p.ClientB.Close();
