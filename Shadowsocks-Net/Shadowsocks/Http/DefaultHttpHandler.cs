@@ -108,7 +108,7 @@ namespace Shadowsocks.Http
 
                                 if (HttpProxyHeaderResolver.Verb.CONNECT == httpVerb)
                                 {
-                                    await client.WriteAsync(RESPONSE_200_Connection_Established, cancellationToken);                                    
+                                    await client.WriteAsync(RESPONSE_200_Connection_Established, cancellationToken);
                                 }
                                 PipeTcp(client, relayClient, cipher, cancellationToken);//D. start piping.
 
@@ -160,7 +160,7 @@ namespace Shadowsocks.Http
 
             _logger?.LogInformation($"HttpRoxyServer Pipe_OnBroken" +
                 $" A={p.ClientA.EndPoint.ToString()}, B={p.ClientB.EndPoint.ToString()}, Cause={Enum.GetName(typeof(PipeBrokenCause), e.Cause)}");
-            p.UnPipe();          
+            p.UnPipe();
             p.ClientA.Close();
             p.ClientB.Close();
 
@@ -178,14 +178,15 @@ namespace Shadowsocks.Http
         }
         void Cleanup()
         {
-            foreach (var p in this._pipes)
-            {
-                p.UnPipe();
-                p.ClientA.Close();
-                p.ClientB.Close();
-            }
             lock (_pipesReadWriteLock)
             {
+                foreach (var p in this._pipes)
+                {
+                    p.UnPipe();
+                    p.ClientA.Close();
+                    p.ClientB.Close();
+                }
+
                 this._pipes.Clear();
             }
 
