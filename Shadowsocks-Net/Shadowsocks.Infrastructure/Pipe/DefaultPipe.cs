@@ -229,7 +229,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     break;
                 }
 
-                if (readerResult.Read > 0)
+                if (readerResult.Read > 0)//happens sometimes, [AfterReading] filter may not return data.
                 {
                     var writeResult = await Writer[ClientB].Write(readerResult.Memory.SignificantMemory, cancellationToken);
                     if (Failed == writeResult.Result)
