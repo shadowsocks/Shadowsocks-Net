@@ -44,7 +44,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
         public ClientReader(IClient client, IEnumerable<IClientReaderFilter> filters, int? bufferSize = 8192, ILogger logger = null)
-            :this(client, bufferSize, logger)
+            : this(client, bufferSize, logger)
         {
             Throw.IfNull(() => filters);
 
@@ -77,7 +77,10 @@ namespace Shadowsocks.Infrastructure.Pipe
                     return new ClientReadResult(BrokeByFilter, null, 0);
                 }
             }
-            return new ClientReadResult(Succeeded, received, null != received ? received.SignificantLength : 0);
+            int read = null != received ? received.SignificantLength : 0;
+            _logger?.LogInformation($"{read} bytes left after [AfterReading] filtering.");
+
+            return new ClientReadResult(Succeeded, received, read);
 
         }
         public void ApplyFilter(IClientReaderFilter filter)//TODO lock

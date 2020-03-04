@@ -75,7 +75,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     toWrite = null != filterResultBuffer ? filterResultBuffer.SignificantMemory : ReadOnlyMemory<byte>.Empty;
                 }
             }
-            _logger?.LogInformation($"{toWrite.Length} bytes left after filtering.");
+            _logger?.LogInformation($"{toWrite.Length} bytes left after [BeforeWriting] filtering.");
             if (!toWrite.IsEmpty)
             {
                 int written = await Client.WriteAsync(toWrite, cancellationToken);
