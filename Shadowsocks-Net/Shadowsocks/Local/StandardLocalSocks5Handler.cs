@@ -143,15 +143,18 @@ namespace Shadowsocks.Local
                             if (ShadowsocksAddress.TryResolve(clientRequest.Memory.Slice(3), out ShadowsocksAddress ssaddr))//B.resove target addr.
                             {
                                 var cipher = server.CreateCipher(_logger);
-                                using (var targetAddrCipher = cipher.EncryptTcp(ssaddr.RawMemory))
-                                {
-                                    int sent = await relayClient.WriteAsync(targetAddrCipher.SignificantMemory, cancellationToken);//C. send target addr to ss-remote.
-                                    _logger?.LogInformation($"Send target addr {sent}={targetAddrCipher.SignificantLength}.");
 
-                                    await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
+                                DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+                                Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
+                                pipe.ApplyFilter(cipherFilter);
 
-                                    PipeTcp(client, relayClient, cipher, cancellationToken);//E. start piping.
-                                }
+                                var writeResult = await pipe.Writer[relayClient].Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
+                                _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
+
+                                await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.
+
+                                PipeClient(pipe, cancellationToken);//E. start piping.
+
                             }
                             else
                             {
@@ -222,53 +225,28 @@ namespace Shadowsocks.Local
                 client.Close();
                 return;
             }
-            PipeUdp(client, relayClient, server.CreateCipher(_logger), cancellationToken);
 
-        }
-
-        void PipeTcp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken, params ClientFilter[] addFilters)
-        {
-            DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-            ClientFilter filter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-
-            pipe.ApplyFilter(filter);
-            pipe.ApplyFilter(addFilters);
-
-            pipe.OnBroken += this.Pipe_OnBroken;
-            lock (_pipesReadWriteLock)
-            {
-                this._pipes.Add(pipe);
-            }
-            pipe.Pipe(cancellationToken);
-        }
-
-        void PipeUdp(IClient client, IClient relayClient, IShadowsocksStreamCipher cipher, CancellationToken cancellationToken)
-        {
-            //authentication //TODO udp assoc            
-            DefaultPipe pipe = new DefaultPipe(relayClient, client, Defaults.ReceiveBufferSize, _logger);
-
-            ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, cipher, _logger);
+            DefaultPipe pipe = new DefaultPipe(client, relayClient, 1500, _logger);
+            ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, server.CreateCipher(_logger), _logger);
             ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
+            pipe.ApplyFilter(filter).ApplyFilter(filter2);
 
-            pipe.ApplyFilter(filter)
-                .ApplyFilter(filter2);
+            PipeClient(pipe, cancellationToken);
+
+        }
+
+        void PipeClient(DefaultPipe pipe, CancellationToken cancellationToken)
+        {
 
             pipe.OnBroken += this.Pipe_OnBroken;
-
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(pipe);
             }
             pipe.Pipe(cancellationToken);
         }
+        
 
-        private void Client_Closing(object sender, ClientEventArgs e)
-        {
-            e.Client.Closing -= this.Client_Closing;
-
-            //tcp lost->remove udp
-            //TODO disassoc udp
-        }
 
         private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
@@ -287,6 +265,14 @@ namespace Shadowsocks.Local
                 this._pipes.Remove(p);
             }
 
+        }
+
+        private void Client_Closing(object sender, ClientEventArgs e)
+        {
+            e.Client.Closing -= this.Client_Closing;
+
+            //tcp lost->remove udp
+            //TODO disassoc udp
         }
 
 
