@@ -19,6 +19,7 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
+    using Shadowsocks.Infrastructure.Sockets;
     using Sockets;
     using static ClientReadWriteResult;
 
@@ -30,20 +31,84 @@ namespace Shadowsocks.Infrastructure.Pipe
         public override IClientReaderAccessor Reader => _readerPair;
         public override IClientWriterAccessor Writer => _writerPair;
 
+        public override IClient ClientA
+        {
+            get => _clientA;
+            set
+            {
+                lock (_clientLinkLock)
+                {
+                    if (IsPiping) { throw new InvalidOperationException("Can not link up client while piping."); }
+                    else
+                    {
+                        Throw.IfNull(() => value);
+                        Throw.IfEqualsTo(() => value, _clientB);
+
+
+                        _clientA = value;
+                        _readerPair.ReaderA = new ClientReader(value, _bufferSize, _logger);
+                        _writerPair.WriterA = new ClientWriter(value, _bufferSize, _logger);
+                    }
+                }
+            }
+        }
+        public override IClient ClientB
+        {
+            get => _clientB;
+            set
+            {
+                lock (_clientLinkLock)
+                {
+                    if (IsPiping) { throw new InvalidOperationException("Can not link up client while piping."); }
+                    else
+                    {
+                        Throw.IfNull(() => value);
+                        Throw.IfEqualsTo(() => value, _clientA);
+
+                        _clientB = value;
+                        _readerPair.ReaderB = new ClientReader(value, _bufferSize, _logger);
+                        _writerPair.WriterB = new ClientWriter(value, _bufferSize, _logger);
+                    }
+                }
+            }
+        }
+
+        public bool IsPiping
+        {
+            get
+            {
+                bool running = false;
+                if (null != _taskPipeA2B)
+                {
+                    running |= !(_taskPipeA2B.IsCompleted || _taskPipeA2B.IsCanceled || _taskPipeA2B.IsFaulted || _taskPipeA2B.IsCompletedSuccessfully);
+                }
+                if (null != _taskPipeB2A)
+                {
+                    running |= !(_taskPipeB2A.IsCompleted || _taskPipeB2A.IsCanceled || _taskPipeB2A.IsFaulted || _taskPipeB2A.IsCompletedSuccessfully);
+                }
+                return running;
+            }
+        }
+
+
+        IClient _clientA = null;
+        IClient _clientB = null;
 
         ClientReaderPair _readerPair = null;
         ClientWriterPair _writerPair = null;
 
         int _bufferSize = 8192;
         CancellationTokenSource _cancellation = null;
-
-        AutoResetEvent _pipeA2BWaitHandle = new AutoResetEvent(true), _pipeB2AWaitHandle = new AutoResetEvent(true);
-        volatile bool _isPiping = false;
+        Task _taskPipeA2B = null, _taskPipeB2A = null;
         object _clientLinkLock = new object();
 
         public DefaultPipe(IClient clientA, IClient clientB, int? bufferSize = 8192, ILogger logger = null)
             : base(clientA, clientB)
         {
+            _clientA = Throw.IfNull(() => clientA);
+            _clientB = Throw.IfNull(() => clientB);
+            Throw.IfEqualsTo(() => _clientA, _clientB);
+
             _bufferSize = bufferSize ?? Defaults.ReceiveBufferSize;
             _logger = logger;
 
@@ -66,12 +131,26 @@ namespace Shadowsocks.Infrastructure.Pipe
         public DefaultPipe(ClientReader readerA, ClientWriter writerA, ClientReader readerB, ClientWriter writerB, ILogger logger = null)
            : base(readerA, writerA, readerB, writerB)
         {
+            Throw.IfNull(() => readerA);
+            Throw.IfNull(() => writerA);
+            Throw.IfNotEqualsTo(() => readerA.Client, writerA.Client);
+
+            Throw.IfNull(() => readerB);
+            Throw.IfNull(() => writerB);
+            Throw.IfNotEqualsTo(() => readerB.Client, writerB.Client);
+
+            Throw.IfEqualsTo(() => readerA.Client, readerB.Client);
+            Throw.IfEqualsTo(() => writerA.Client, writerB.Client);
+
+            _clientA = readerA.Client;
+            _clientB = readerB.Client;
+
+
             _logger = logger;
 
             _readerPair = new ClientReaderPair(readerA, readerB);
             _writerPair = new ClientWriterPair(writerA, writerB);
         }
-
 
         public DefaultPipe(int? bufferSize = 8192, ILogger logger = null)
             : base()
@@ -80,60 +159,42 @@ namespace Shadowsocks.Infrastructure.Pipe
             _writerPair = new ClientWriterPair();
         }
 
-        public override void LinkupClientA(IClient client)
-        {
-            lock (_clientLinkLock)
-            {
-                if (_isPiping) { throw new InvalidOperationException("Can not link up client while piping."); }
-                else
-                {
-                    Throw.IfNull(() => client);
-                    Throw.IfEqualsTo(() => client, ClientB);
-
-
-                    ClientA = client;
-                    _readerPair.ReaderA = new ClientReader(client, _bufferSize, _logger);
-                    _writerPair.WriterA = new ClientWriter(client, _bufferSize, _logger);
-                }
-            }
-        }
-        public override void LinkupClientB(IClient client)
-        {
-            lock (_clientLinkLock)
-            {
-                if (_isPiping) { throw new InvalidOperationException("Can not link up client while piping."); }
-                else
-                {
-                    Throw.IfNull(() => client);
-                    Throw.IfEqualsTo(() => client, ClientA);
-
-                    ClientB = client;
-                    _readerPair.ReaderB = new ClientReader(client, _bufferSize, _logger);
-                    _writerPair.WriterB = new ClientWriter(client, _bufferSize, _logger);
-                }
-            }
-        }
-
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public override void Pipe(CancellationToken cancellationToken)
         {
             UnPipe();
+            if (null != _taskPipeA2B)
+            {
+                _taskPipeA2B.Wait();
+                _taskPipeA2B.Dispose();
+                _taskPipeA2B = null;
+            }
+            if (null != _taskPipeB2A)
+            {
+                _taskPipeB2A.Wait();
+                _taskPipeB2A.Dispose();
+                _taskPipeB2A = null;
+            }
+
             lock (_clientLinkLock)
             {
-                _pipeA2BWaitHandle.WaitOne();
-                _pipeB2AWaitHandle.WaitOne();
+                if (null == ClientA || null == ClientB)
+                {
+                    throw new InvalidOperationException("Can not pipe until both clients are linked up.");
+                }
+                else
+                {
+                    _cancellation?.Cancel();
+                    _cancellation?.Dispose();
+                    _cancellation = new CancellationTokenSource();
 
+                    var lnkCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellation.Token);
 
-                _cancellation ??= new CancellationTokenSource();
-
-                var lnkCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellation.Token);
-
-                Task.Run(async () => { await PipeA2B(lnkCts.Token); });
-                Task.Run(async () => { await PipeB2A(lnkCts.Token); });
-
-                _isPiping = true;
+                    _taskPipeA2B = Task.Run(async () => { await PipeA2B(lnkCts.Token); }, lnkCts.Token);
+                    _taskPipeB2A = Task.Run(async () => { await PipeB2A(lnkCts.Token); }, lnkCts.Token);
+                }
             }
         }
         public override void UnPipe()
@@ -141,22 +202,15 @@ namespace Shadowsocks.Infrastructure.Pipe
             if (null != _cancellation)
             {
                 _cancellation.Cancel();
-                _cancellation.Dispose();
-                _cancellation = null;
-
+                ////_cancellation.Dispose();// UnPipe() by both tasks concurrently
+                ////_cancellation = null;
             }
-
-            _pipeA2BWaitHandle.WaitOne();
-            _pipeB2AWaitHandle.WaitOne();
-
-            _pipeA2BWaitHandle.Set();
-            _pipeB2AWaitHandle.Set();
-            _isPiping = false;
         }
 
 
         async Task PipeA2B(CancellationToken cancellationToken)
         {
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 var readerResult = await Reader[ClientA].Read(cancellationToken);
@@ -192,10 +246,11 @@ namespace Shadowsocks.Infrastructure.Pipe
                 readerResult.Memory?.Dispose();
             }//continue piping
             if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
-            _pipeA2BWaitHandle.Set();
+
         }
         async Task PipeB2A(CancellationToken cancellationToken)
         {
+
             while (!cancellationToken.IsCancellationRequested)
             {
                 var readerResult = await Reader[ClientB].Read(cancellationToken);
@@ -231,7 +286,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 readerResult.Memory?.Dispose();
             } //continue piping
             if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
-            _pipeB2AWaitHandle.Set();
+
         }
 
         public DefaultPipe ApplyFilter(ClientFilter filter)//TODO lock

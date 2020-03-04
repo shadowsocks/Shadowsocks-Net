@@ -32,8 +32,8 @@ namespace Shadowsocks.Infrastructure.Pipe
         public event EventHandler<PipingEventArgs> OnPiping;
         #endregion
 
-        public virtual IClient ClientA { get; protected set; }
-        public virtual IClient ClientB { get; protected set; }
+        public virtual IClient ClientA { get; set; }
+        public virtual IClient ClientB { get; set; }
 
         public abstract IClientReaderAccessor Reader { get; }
         public abstract IClientWriterAccessor Writer { get; }
@@ -47,14 +47,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// </summary>
         /// <param name="clientA"></param>
         /// <param name="clientB"></param>
-        /// <param name="bufferSize"></param>
-        /// <param name="logger"></param>
-        public DuplexPipe(IClient clientA, IClient clientB)
-        {
-            ClientA = Throw.IfNull(() => clientA);
-            ClientB = Throw.IfNull(() => clientB);
-            Throw.IfEqualsTo(() => clientA, clientB);
-        }
+        public DuplexPipe(IClient clientA, IClient clientB) { }
 
         /// <summary>
         /// Create a pipe with a pair of ClientReaders / ClientWriters.
@@ -63,40 +56,18 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="writerA"></param>
         /// <param name="readerB"></param>
         /// <param name="writerB"></param>
-        /// <param name="logger"></param>
-        public DuplexPipe(IClientReader readerA, IClientWriter writerA, IClientReader readerB, IClientWriter writerB)
-        {
-            Throw.IfNull(() => readerA);
-            Throw.IfNull(() => writerA);
-            Throw.IfNotEqualsTo(() => readerA.Client, writerA.Client);
-
-            Throw.IfNull(() => readerB);
-            Throw.IfNull(() => writerB);
-            Throw.IfNotEqualsTo(() => readerB.Client, writerB.Client);
-
-            Throw.IfEqualsTo(() => readerA.Client, readerB.Client);
-            Throw.IfEqualsTo(() => writerA.Client, writerB.Client);
-
-            ClientA = readerA.Client;
-            ClientB = readerB.Client;
-
-        }
+        public DuplexPipe(IClientReader readerA, IClientWriter writerA, IClientReader readerB, IClientWriter writerB) { }
 
 
         /// <summary>
         /// Create an empty pipe and link the client later.
         /// </summary>
-        /// <param name="bufferSize"></param>
-        /// <param name="logger"></param>
         public DuplexPipe() { }
 
         ~DuplexPipe()
         {
             UnPipe();
         }
-
-        public abstract void LinkupClientA(IClient client);
-        public abstract void LinkupClientB(IClient client);
 
         public abstract void Pipe(CancellationToken cancellationToken);
         public abstract void UnPipe();
