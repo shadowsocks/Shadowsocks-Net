@@ -5,7 +5,7 @@ Shadowsocks-Net is a cross-platform version of Shadowsocks developed in C# (.NET
 
 [中文](https://github.com/shadowsocks/Shadowsocks-Net/blob/master/README-zh.md)
 
-## Vesion
+## Version
 Shadowsocks-Net plans to release multiple versions, the feature comparison is shown in the table below.
 
 |Completion<br/>of<br/>development|Version                        |ss-local        |ss-remote       |Local<br/>HTTP<sup>[1](#fn_local_http)</sup>|Obfuscation|URL/IP<br/>filtering|Server<br/>scheduling<br/>strategy|GUI|
