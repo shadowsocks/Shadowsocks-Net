@@ -1,21 +1,22 @@
 ﻿## Overview
 
-Shadowsocks-Net是使用C#（.NET Core）开发的跨平台版本的Shadowsocks。
-
+Shadowsocks-Net is a cross-platform version of Shadowsocks developed in C# (.NET Core).
 <br/>
 
-## 版本
-Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
+[中文](https://github.com/shadowsocks/Shadowsocks-Net/blob/master/README-zh.md)
 
-|完成度|版本                           |ss-local        |ss-remote       |local http<sup>[1](#fn_local_http)</sup>   |混淆|规则<br/>过滤|服务器<br/>选择策略     |图形<br/>用户界面     |
+## Vesion
+Shadowsocks-Net plans to release multiple versions, the feature comparison is shown in the table below.
+
+|Completion<br/>of<br/>development|Version                        |ss-local        |ss-remote       |Local<br/>HTTP<sup>[1](#fn_local_http)</sup>|Obfuscation|URL/IP<br/>filtering|Server<br/>scheduling<br/>strategy|GUI|
 |-|-|-|-|-|-|-|-|-|
-| 90%    |Minimal-<br/>cross-platform    |√              | √             |√                                         |    |           |                        |                      |
-| 10%    |Windows                        |√              |                |√                                         |√  |√         |√                      |√                    |
-| 1%     |Linux                          |√              | √             |√                                         |√  |√         |                        |                      |
+| 90%                             |Minimal-<br/>cross-platform    |√              | √             |√                                          |           |                    |                                  |   |
+| 10%                             |Windows                        |√              |                |√                                          |√         |√                  |√                                |√ |
+| 1%                              |Linux                          |√              | √             |√                                          |√         |√                  |                                  |   |
 
 
 
-Minimal版现已可测试，支持的加密算法：
+The Minimal vesion is available for testing now, supported encryption algorithms:
 
 ```console
 aes-256-gcm, aes-192-gcm, aes-128-gcm.
@@ -26,19 +27,20 @@ aes-256-gcm, aes-192-gcm, aes-128-gcm.
 
 
 
-## 开发说明
+## Development Instructions
 
-#### 架构示意图
+#### Schematic diagram of architecture
 ![arch][shadowsocks_net_arch]
 
-Shadowsocks-Net对网络编程部分做了简单封装，使得上层可以专注socks5协议。
-由于Shadowsocks主要实现了socks5协议，因此现在上层的代码很薄。socks5总的来说只做了两件事：1. 协商、2. 转发。Shadowsocks-Net试图让用C#开发Shadowsocks变得更有趣也更简单。
+Shadowsocks-Net encapsulates the network programming part simply so that the upper layer can focus on the socks5 protocol.
+Since Shadowsocks mainly implements socks5 protocol, the upper layer code is now very thin. 
+ Socks5 generally only do two things: 1. negotiation, 2. forwarding. Shadowsocks-Net tries to make developing Shadowsocks in C# more enjoyable and easier.
 
 <br/>
 
-#### 添加加密算法的步骤
+#### Steps to add encryption algorithm
 
-1. 实现统一的加密接口`IShadowsocksAeadCipher`或者`IShadowsocksStreamCipher`
+1. Implement the unified encryption interface `IShadowsocksAeadCipher` or `IShadowsocksStreamCipher`
 ```c#
 class MyCipher : IShadowsocksAeadCipher
 {
@@ -46,7 +48,7 @@ class MyCipher : IShadowsocksAeadCipher
 }
 ```
 
-2. 使用`Cipher`特性标记
+2. Mark with `Cipher` attribute
 ```c#
 [Cipher("my-cipher-name")]
 class MyCipher : IShadowsocksAeadCipher
@@ -54,13 +56,13 @@ class MyCipher : IShadowsocksAeadCipher
     //implementation
 }
 ```
-此时`MyCipher`已被识别。
+`MyCipher` is recognized now.
 
 <br/>
 
-#### 对混淆的支持
-混淆同加密一样，在Shadowsocks-Net中都是通过管道过滤器来工作的。相对于加密，混淆的逻辑可能更复杂。
-但由于其他部分已被封装，现在只需关注网络流的读写，实现自己的过滤器`ClientFilter`即可。
+#### Obfuscation support
+Obfuscation is similar to encryption, in Shadowsocks-Net, it works as a filter. The logic of obfuscation can be more complicated than encryption.
+But as the other parts have been encapsulated, now only need to focus on reading and writing the network stream, and implement a `ClientFilter`.
 ```c#
 public interface IClientReaderFilter : IClientFilter
 {
@@ -73,9 +75,10 @@ public interface IClientWriterFilter : IClientFilter
     ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
 }
 ```
-Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议。
+Encryption, obfuscation and UDP encapsulation are all implemented by filters in Shadowsocks-Net. Filters are pluggable. Therefore, filters can also be used to interpret custom protocols.
 
-下面这个过滤器每次在发送之前向数据开头插入四个字节`0x12, 0x34, 0xAB, 0xCD`，相应地读取时跳过了开头四个字节：
+The following filter inserts four bytes `0x12`, `0x34`, `0xAB`, `0xCD` into the beginning of the data each time before sending, 
+and correspondingly skips the first four bytes when receiving:
 ```c#
 class TestClientFilter : ClientFilter
 {
@@ -102,9 +105,11 @@ class TestClientFilter : ClientFilter
 
 <br/>
 
-#### 对TCP或UDP之外协议的支持
-由于设计上抽象出了接口，其他通信协议现在也可以集成进来。实现自己的`IClient`和`IServer`即可，无需修改其他部分。
-`IClient`和`IServer`也很简单：
+#### Support for protocols other than TCP or UDP
+As interfaces have already been abstracted by design, other communication protocols can now also be integrated. 
+Just implement `IClient` and `IServer`, no need to change other parts.
+
+`IClient` and `IServer` are also simple:
 
 ```c#
 public partial interface IClient : IPeer
@@ -129,36 +134,38 @@ public interface IServer<TClient> : IServer
     Task<TClient> Accept();       
 }
 ```
-例如把KCP协议集成进来实现`KcpClient`和`KcpServer`，这时Shadowsocks-Net就使用KCP作为传输层协议。
-
+For instance, in order to integrate the [KCP] protocol, we implemented `KcpClient` and `KcpServer`, 
+then Shadowsocks-Net uses KCP as the transport layer protocol.
 <br/>
 
-## 编译
-#### 编译环境
-Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform），.NET Standard 2.1 & .NET Core 3.1。
-#### 如何编译
-在Visual Studio中生成整个解决方案即可。整个工程目前是100% C#，核心是.NET Standard 2.1的类库。
+## Compile
+#### Environment and dependence
+Visual Studio 2019 Community, .NET Framework 4.6 (temporarily used to design winform), .NET Standard 2.1 & .NET Core 3.1.
+#### How to compile
+Simply build the entire solution in Visual Studio. 
+<br/>This project is currently written 100% in C#, the core is .NET Standard 2.1 class library.
 <br/>
-或者使用.NET Core CLI的`dotnet build`命令。发布用`dotnet publish`，发布单独可执行文件使用`dotnet publish -r <RID> -p:PublishSingleFile=true`
+
 <br/>
 
 ## Roadmap
-#### 任务列表
-- ☑ 核心重写
-- ☐ Windows端
-- ☐ 统一规则过滤器
-- ☐ 目标IP、域名过滤
-- ☐ Linux端
+#### Task list
+- ☑ Core rewrite
+- ☐ Windows end
+- ☐ Unified filter rule
+- ☐ Target IP, domain check
+- ☐ Linux version
 
 <br/>
 
 
 
 ## Usage
-与使用其他版本的Shadowsocks类似。Minimal版已在Windows和Debian10 x64上测试，运行参数通过配置文件修改。
+Similar to using other versions of Shadowsocks.<br/>
+The Minimal version has been tested on Windows and Debian10 x64, the parameters are configured through configuration file.
 
-以Windows为例：
-服务端修改`config.json`后执行`shadowsocks-net-remote.exe`：
+Take an example on Windows:<br/>
+On server side, edit `config.json`, run `shadowsocks-net-remote.exe`:
 ```json
 {
   //"server_host": null,
@@ -172,7 +179,7 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 
 <br/>
 
-客户端修改`servers.json`和`app-config.json`后执行`shadowsocks-net-local.exe`：
+On local side, edit `servers.json` and `app-config.json`, run `shadowsocks-net-local.exe`:
 ```json
 [
   {
@@ -201,11 +208,11 @@ Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform�
 }
 
 ```
-Linux上雷同。 安装[.NET Core传送门](https://dotnet.microsoft.com/download)。
+Resemble on Linux. Installing [.NET Core Portal.](https://dotnet.microsoft.com/download)
 <br/>
 
 ## Contribute
-还有很多代码等待被添加。
+There is still a lot of code waiting to be added.
 <br/>
 
 
@@ -214,8 +221,9 @@ Linux上雷同。 安装[.NET Core传送门](https://dotnet.microsoft.com/downlo
 <br/>
 
 ---
-<a name="fn_local_http">local http</a>：即本地socks5转http。
+<a name="fn_local_http">Local HTTP</a>: Transform socks5 into HTTP.
 
+[KCP]:https://github.com/skywind3000/kcp
 [libev版]:https://github.com/shadowsocks/shadowsocks-libev
 [shadowsocks-windows]: https://github.com/shadowsocks/shadowsocks-windows
 [shadowsocks_net_arch]: https://github.com/shadowsocks/Shadowsocks-Net/blob/master/ssarch.png?
