@@ -17,7 +17,7 @@ namespace Shadowsocks.Infrastructure.Pipe
     using Sockets;
 
     /// <summary>
-    /// 1.Don't put too much logic in PipeFilter, although you can do it.
+    /// 1.Don't put too much logic in ClientFilter, although you can do it.
     /// 2.Don't do too much except process data.
     /// 3.Always copy data.
     /// </summary>

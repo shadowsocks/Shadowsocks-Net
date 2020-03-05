@@ -73,6 +73,10 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
+
+        /// <summary>
+        /// Indicates whether the pipe is piping data now.
+        /// </summary>
         public bool IsPiping
         {
             get
@@ -296,7 +300,12 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             Throw.IfNull(() => filter);
 
-            (Reader[filter.Client] as ClientReader).ApplyFilter(filter);//throw
+            if((null==ClientA && null==ClientB) || (filter.Client!=ClientA && filter.Client !=ClientB))
+            {
+                throw new InvalidOperationException("no matched client for this filter.");
+            }
+
+            (Reader[filter.Client] as ClientReader).ApplyFilter(filter);
             (Writer[filter.Client] as ClientWriter).ApplyFilter(filter);
 
             return this;

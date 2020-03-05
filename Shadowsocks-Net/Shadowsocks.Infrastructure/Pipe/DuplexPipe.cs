@@ -39,10 +39,25 @@ namespace Shadowsocks.Infrastructure.Pipe
         public event EventHandler<PipingEventArgs> OnPiping;
         #endregion
 
+        /// <summary>
+        /// Get or set the pipe's client A.
+        /// </summary>
         public virtual IClient ClientA { get; set; }
+
+        /// <summary>
+        /// Get or set the pipe's client B.
+        /// </summary>
         public virtual IClient ClientB { get; set; }
 
+
+        /// <summary>
+        /// Get the pipe's client reader by client.
+        /// </summary>
         public abstract IClientReaderAccessor Reader { get; }
+
+        /// <summary>
+        /// Get the pipe's client writer by client.
+        /// </summary>
         public abstract IClientWriterAccessor Writer { get; }
 
 
