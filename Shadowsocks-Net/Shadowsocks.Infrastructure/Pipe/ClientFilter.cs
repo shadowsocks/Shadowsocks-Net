@@ -17,9 +17,8 @@ namespace Shadowsocks.Infrastructure.Pipe
     using Sockets;
 
     /// <summary>
-    /// 1.Don't put too much logic in ClientFilter, although you can do it.
-    /// 2.Don't do too much except process data.
-    /// 3.Always copy data.
+    /// ClientFilter processes data read from and write to clients.
+    /// Note: Except for processing data, there should not be too much logic here.
     /// </summary>
     public abstract class ClientFilter : IClientReaderFilter, IClientWriterFilter, IComparer<ClientFilter>
     {
@@ -35,6 +34,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         /// <summary>
         /// Smaller value higher priority.
+        /// When sorting filters, categories will be considered first, then priority. see <see cref="Compare(ClientFilter, ClientFilter)"/>.
         /// </summary>
         public byte Priority { get; protected set; }
 
@@ -42,7 +42,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         protected ILogger _logger = null;
 
         /// <summary>
-        /// Create a filter with a client, catetory and priority.
+        /// Create a filter with a client, category and priority.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="category"></param>

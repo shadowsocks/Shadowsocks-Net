@@ -62,7 +62,7 @@ namespace Shadowsocks.Remote
                    var cipher = _remoteServerConfig.CreateCipher(_logger);
                    Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(client, cipher, _logger);
                    p.ClientA = client;
-                   p.ApplyFilter(cipherFilter);
+                   p.ApplyClientFilter(cipherFilter);
                },
                async (targetIPEndPoint) =>
                {
@@ -114,7 +114,7 @@ namespace Shadowsocks.Remote
                     var cipher = _remoteServerConfig.CreateCipher(_logger);
                     Cipher.UdpCipherFilter cipherFilter = new Cipher.UdpCipherFilter(client, cipher, _logger);
                     p.ClientA = client;
-                    p.ApplyFilter(cipherFilter);
+                    p.ApplyClientFilter(cipherFilter);
                 },
                 async (targetIPEndPoint) =>
                 {
@@ -124,7 +124,7 @@ namespace Shadowsocks.Remote
                 {
                     p.ClientB = targetClient;
                     UdpRelayEncapsulationFilter filterTarget1 = new UdpRelayEncapsulationFilter(targetClient, _logger);
-                    p.ApplyFilter(filterTarget1);
+                    p.ApplyClientFilter(filterTarget1);
 
                     _logger?.LogInformation($"Writing payload before piping...");
                     await p.Writer[targetClient].Write(request.SignificantMemory, cancellationToken);
@@ -202,7 +202,7 @@ namespace Shadowsocks.Remote
         void PipeClient(DefaultPipe p, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
             p.OnBroken += Pipe_OnBroken;
-            p.ApplyFilter(addFilters);
+            p.ApplyClientFilter(addFilters);
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);

@@ -21,10 +21,21 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
     using static ClientReadWriteResult;
+
+    /// <summary>
+    /// A client reader with filter support.
+    /// </summary>
     public sealed class ClientReader : IClientReader
     {
+        /// <summary>
+        /// The client.
+        /// </summary>
         public IClient Client { get; private set; }
 
+
+        /// <summary>
+        /// Applied filters.
+        /// </summary>
         public IReadOnlyCollection<IClientReaderFilter> Filters => _filters;
 
 
@@ -33,7 +44,12 @@ namespace Shadowsocks.Infrastructure.Pipe
         int _bufferSize = 8192;
         ILogger _logger = null;
 
-
+        /// <summary>
+        /// Create a ClientReader with a client.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="logger"></param>
         public ClientReader(IClient client, int? bufferSize = 8192, ILogger logger = null)
         {
             Client = Throw.IfNull(() => client);
@@ -43,6 +59,13 @@ namespace Shadowsocks.Infrastructure.Pipe
             _logger = logger;
         }
 
+        /// <summary>
+        /// Create a ClientReader with a client and the client's filters.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="filters"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="logger"></param>
         public ClientReader(IClient client, IEnumerable<IClientReaderFilter> filters, int? bufferSize = 8192, ILogger logger = null)
             : this(client, bufferSize, logger)
         {
@@ -54,6 +77,11 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
+        /// <summary>
+        /// Read the client.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async ValueTask<ClientReadResult> Read(CancellationToken cancellationToken)
         {
             var received = SmartBuffer.Rent(_bufferSize);
@@ -83,6 +111,11 @@ namespace Shadowsocks.Infrastructure.Pipe
             return new ClientReadResult(Succeeded, received, read);
 
         }
+
+        /// <summary>
+        /// Apply a <see cref="IClientReaderFilter"/> filter.
+        /// </summary>
+        /// <param name="filter"></param>
         public void ApplyFilter(IClientReaderFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
@@ -94,7 +127,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
         /// <summary>
-        /// Could return empty buffer.
+        /// Execute fiters. Note that filters may return empty buffer.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="data"></param>

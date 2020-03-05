@@ -82,7 +82,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
 
         /// <summary>
-        /// Create an empty pipe and link the client later.
+        /// Create an empty pipe and link the clients later.
         /// </summary>
         public DuplexPipe() { }
 

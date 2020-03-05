@@ -9,6 +9,7 @@ using System.Text;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
+
     public interface IClientObject
     {
         IClient Client { get; }

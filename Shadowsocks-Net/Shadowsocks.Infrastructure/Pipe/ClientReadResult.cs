@@ -18,6 +18,9 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
+    /// <summary>
+    /// Represent the reading result of <see cref="IClientReader"/>.
+    /// </summary>
     public struct ClientReadResult
     {
         public ClientReadWriteResult Result;

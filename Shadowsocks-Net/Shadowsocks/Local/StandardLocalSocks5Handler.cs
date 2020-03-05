@@ -146,7 +146,7 @@ namespace Shadowsocks.Local
 
                                 DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
                                 Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-                                pipe.ApplyFilter(cipherFilter);
+                                pipe.ApplyClientFilter(cipherFilter);
 
                                 var writeResult = await pipe.Writer[relayClient].Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
                                 _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
@@ -229,7 +229,7 @@ namespace Shadowsocks.Local
             DefaultPipe pipe = new DefaultPipe(client, relayClient, 1500, _logger);
             ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, server.CreateCipher(_logger), _logger);
             ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
-            pipe.ApplyFilter(filter).ApplyFilter(filter2);
+            pipe.ApplyClientFilter(filter).ApplyClientFilter(filter2);
 
             PipeClient(pipe, cancellationToken);
 

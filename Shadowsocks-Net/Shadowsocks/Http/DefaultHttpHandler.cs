@@ -102,7 +102,7 @@ namespace Shadowsocks.Http
                             var cipher = server.CreateCipher(_logger);
                             DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
                             Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-                            pipe.ApplyFilter(cipherFilter);
+                            pipe.ApplyClientFilter(cipherFilter);
 
                             var writeResult = await pipe.Writer[relayClient].Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.
                             _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");

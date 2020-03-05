@@ -21,15 +21,33 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
     using static ClientReadWriteResult;
+
+    /// <summary>
+    /// A client writer with filter support.
+    /// </summary>
     public class ClientWriter : IClientWriter
     {
+        /// <summary>
+        /// The client.
+        /// </summary>
         public IClient Client { get; private set; }
+
+        /// <summary>
+        /// Applied filters.
+        /// </summary>
         public IReadOnlyCollection<IClientWriterFilter> Filters => _filters;
 
         SortedSet<IClientWriterFilter> _filters = null;
         int _bufferSize = 8192;
         ILogger _logger = null;
 
+
+        /// <summary>
+        /// Create a ClientWriter with a client.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="logger"></param>
         public ClientWriter(IClient client, int? bufferSize = 8192, ILogger logger = null)
         {
             Client = Throw.IfNull(() => client);
@@ -39,6 +57,14 @@ namespace Shadowsocks.Infrastructure.Pipe
             _logger = logger;
         }
 
+
+        /// <summary>
+        /// Create a ClientWriter with a client and it's filters.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="filters"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="logger"></param>
         public ClientWriter(IClient client, IEnumerable<IClientWriterFilter> filters, int? bufferSize = 8192, ILogger logger = null)
           : this(client, bufferSize, logger)
         {
@@ -50,6 +76,13 @@ namespace Shadowsocks.Infrastructure.Pipe
                 this.ApplyFilter(f);
             }
         }
+
+        /// <summary>
+        /// Write to the client.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async ValueTask<ClientWriteResult> Write(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
         {
             if (data.IsEmpty)
@@ -88,6 +121,12 @@ namespace Shadowsocks.Infrastructure.Pipe
             else { return new ClientWriteResult(Succeeded, 0); }
 
         }
+
+
+        /// <summary>
+        /// Apply a <see cref="IClientWriterFilter"/>  filter.
+        /// </summary>
+        /// <param name="filter"></param>
         public void ApplyFilter(IClientWriterFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
@@ -99,13 +138,13 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
         /// <summary>
-        /// Could return empty buffer.
+        /// Execute filters.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="data"></param>
         /// <param name="filters"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Could return empty buffer.</returns>
+        /// <returns></returns>
         ClientFilterResult ExecuteFilter_BeforeWriting(IClient client, ReadOnlyMemory<byte> data, SortedSet<IClientWriterFilter> filters, CancellationToken cancellationToken)
         {
             SmartBuffer prevFilterMemory = null;

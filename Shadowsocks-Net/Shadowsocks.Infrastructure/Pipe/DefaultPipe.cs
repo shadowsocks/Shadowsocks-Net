@@ -24,7 +24,7 @@ namespace Shadowsocks.Infrastructure.Pipe
     using static ClientReadWriteResult;
 
     /// <summary>
-    /// A duplex pipe with filter support.
+    /// A duplex pipe with filterable <see cref="IClientReader"/> / <see cref="IClientWriter"/> support.
     /// </summary>
     public sealed class DefaultPipe : DuplexPipe
     {
@@ -129,7 +129,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         public DefaultPipe(IClient clientA, IClient clientB, int? bufferSize = 8192, ILogger logger = null, params ClientFilter[] filters)
             : this(clientA, clientB, bufferSize, logger)
         {
-            this.ApplyFilter(filters);
+            this.ApplyClientFilter(filters);
         }
 
         public DefaultPipe(ClientReader readerA, ClientWriter writerA, ClientReader readerB, ClientWriter writerB, ILogger logger = null)
@@ -296,7 +296,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         }
 
-        public DefaultPipe ApplyFilter(ClientFilter filter)//TODO lock
+        public DefaultPipe ApplyClientFilter(ClientFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
 
@@ -310,11 +310,11 @@ namespace Shadowsocks.Infrastructure.Pipe
 
             return this;
         }
-        public void ApplyFilter(IEnumerable<ClientFilter> filters)//TODO lock
+        public void ApplyClientFilter(IEnumerable<ClientFilter> filters)//TODO lock
         {
             foreach (var f in filters)
             {
-                ApplyFilter(f);
+                ApplyClientFilter(f);
             }
         }
 
