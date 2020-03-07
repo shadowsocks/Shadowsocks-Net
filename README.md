@@ -82,7 +82,7 @@ and correspondingly skips the first four bytes when receiving:
 ```c#
 class TestClientFilter : ClientFilter
 {
-    public override ClientFilterResult BeforeWriting(PipeFilterContext ctx)
+    public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = new byte[data.Length + 4];
@@ -91,14 +91,14 @@ class TestClientFilter : ClientFilter
         data[2] = 0xAB;
         data[3] = 0xCD;
         Array.Copy(data, 0, newData, 4, data.Length);
-        return new PipeFilterResult(ctx.Client, newData, ...);
+        return new ClientFilterResult(ctx.Client, newData, ...);
     }
 
-    public override ClientFilterResult AfterReading(PipeFilterContext ctx)
+    public override ClientFilterResult AfterReading(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newDat = data.Skip(4).ToArray();
-        return new PipeFilterResult(ctx.Client, newData, ...);
+        return new ClientFilterResult(ctx.Client, newData, ...);
     }
 }
 ```
