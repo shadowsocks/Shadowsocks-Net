@@ -30,7 +30,7 @@ namespace Shadowsocks.Remote
         public bool UseIPv6Address { set; get; }
 
         [JsonPropertyName("timeout")]
-        public byte Timeout { set; get; }
+        public int Timeout { set; get; }
 
         [JsonPropertyName("password")]
         public string Password { set; get; }
