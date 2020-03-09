@@ -18,8 +18,7 @@ using Microsoft.Extensions.Logging;
 using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
-{
-    using Shadowsocks.Infrastructure.Sockets;
+{    
     using Sockets;
     using static ClientReadWriteResult;
 

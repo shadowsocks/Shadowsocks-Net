@@ -150,7 +150,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             SmartBuffer prevFilterMemory = null;
             bool @continue = true;
             int time = 0;
-            foreach (var filter in filters.Reverse())
+            foreach (var filter in filters.Reverse())//emm
             {
                 try
                 {

@@ -8,8 +8,8 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public interface IClientWriterFilter : IClientObject
+    public interface IClientWriterFilter : IComparer<IClientWriterFilter>, IClientObject
     {
-        ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
+        ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
     }
 }
