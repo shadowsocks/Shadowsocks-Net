@@ -17,26 +17,35 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TODO.txt" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Program.cs" Link="Program.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Properties\Resources.Designer.cs" Link="Properties\Resources.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Properties\Settings.Designer.cs" Link="Properties\Settings.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.cs" Link="Ui\FrmBootstrap.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.Designer.cs" Link="Ui\FrmBootstrap.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.cs" Link="Ui\FrmSettings.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.Designer.cs" Link="Ui\FrmSettings.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\WinformEx.cs" Link="WinformEx.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="TODO.txt" />
+    <Content Include="..\Shadowsocks-Windows-Local-Design\TODO.txt" Link="TODO.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Properties\Resources.resx" Link="Properties\Resources.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.resx" Link="Ui\FrmBootstrap.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.zh-CN.resx" Link="Ui\FrmBootstrap.zh-CN.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.resx" Link="Ui\FrmSettings.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.zh-CN.resx" Link="Ui\FrmSettings.zh-CN.resx" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    <Folder Include="Ui\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Shadowsocks-Windows-Local-Design\App.config" Link="App.config" />
+    <None Include="..\Shadowsocks-Windows-Local-Design\Properties\Settings.settings" Link="Properties\Settings.settings" />
   </ItemGroup>
 
 </Project>

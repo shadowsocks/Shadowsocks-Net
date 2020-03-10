@@ -66,65 +66,61 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Shadowsocks-Windows-Local\Program.cs">
-      <Link>Program.cs</Link>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Properties\Resources.Designer.cs">
-      <Link>Properties\Resources.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Properties\Settings.Designer.cs">
-      <Link>Properties\Settings.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Ui\FrmBootstrap.cs">
-      <Link>Ui\FrmBootstrap.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Ui\FrmBootstrap.Designer.cs">
-      <Link>Ui\FrmBootstrap.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Ui\FrmSettings.cs">
-      <Link>Ui\FrmSettings.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\Ui\FrmSettings.Designer.cs">
-      <Link>Ui\FrmSettings.Designer.cs</Link>
-    </Compile>
-    <Compile Include="..\Shadowsocks-Windows-Local\WinformEx.cs">
-      <Link>WinformEx.cs</Link>
-    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="..\Shadowsocks-Windows-Local\Properties\Resources.resx">
-      <Link>Properties\Resources.resx</Link>
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <DependentUpon>Settings.settings</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Ui\FrmBootstrap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\FrmBootstrap.Designer.cs">
+      <DependentUpon>FrmBootstrap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\FrmSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ui\FrmSettings.Designer.cs">
+      <DependentUpon>FrmSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WinformEx.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Ui\FrmBootstrap.resx">
+      <DependentUpon>FrmBootstrap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Shadowsocks-Windows-Local\Ui\FrmBootstrap.resx">
-      <Link>Ui\FrmBootstrap.resx</Link>
+    <EmbeddedResource Include="Ui\FrmBootstrap.zh-CN.resx">
+      <DependentUpon>FrmBootstrap.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Shadowsocks-Windows-Local\Ui\FrmBootstrap.zh-CN.resx">
-      <Link>Ui\FrmBootstrap.zh-CN.resx</Link>
+    <EmbeddedResource Include="Ui\FrmSettings.resx">
+      <DependentUpon>FrmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Shadowsocks-Windows-Local\Ui\FrmSettings.resx">
-      <Link>Ui\FrmSettings.resx</Link>
+    <EmbeddedResource Include="Ui\FrmSettings.zh-CN.resx">
+      <DependentUpon>FrmSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Shadowsocks-Windows-Local\Ui\FrmSettings.zh-CN.resx">
-      <Link>Ui\FrmSettings.zh-CN.resx</Link>
-    </EmbeddedResource>
-    <None Include="..\Shadowsocks-Windows-Local\App.config">
-      <Link>App.config</Link>
-    </None>
-    <None Include="..\Shadowsocks-Windows-Local\Properties\Settings.settings">
-      <Link>Properties\Settings.settings</Link>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <Generator>SettingsSingleFileGenerator</Generator>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Shadowsocks-Windows-Local\Resource\logo128.png">
-      <Link>Resource\logo128.png</Link>
-    </Content>
-    <Content Include="..\Shadowsocks-Windows-Local\Resource\shadowsocks.ico">
-      <Link>Resource\shadowsocks.ico</Link>
-    </Content>
-    <Content Include="..\Shadowsocks-Windows-Local\Resource\Shadowsocks.jpg">
-      <Link>Resource\Shadowsocks.jpg</Link>
-    </Content>
+    <None Include="Resource\logo128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\shadowsocks.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resource\Shadowsocks.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\..\..\packages\Fody.6.0.0\build\Fody.targets')" />

@@ -1,3 +1,7 @@
+/*
+ * Shadowsocks-Net https://github.com/shadowsocks/Shadowsocks-Net
+ */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +18,9 @@ namespace Shadowsocks_Windows_Local
         [STAThread]
         static void Main()
         {
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+#if NETCOREAPP3_1
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
