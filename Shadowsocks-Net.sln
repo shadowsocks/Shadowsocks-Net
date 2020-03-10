@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crosspl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crossplatform-Remote", "Shadowsocks-Net\Minimal\Shadowsocks-Minimal-CrossPlatform-Remote\Shadowsocks-Minimal-Crossplatform-Remote.csproj", "{238C2D73-8648-42B9-A7A1-15D6A0B013C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks-Windows-Local", "Shadowsocks-Net\Windows\Shadowsocks-Windows-Local\Shadowsocks-Windows-Local.csproj", "{770BA706-B176-4FB0-A270-09A10B84FC20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks-Windows-Local-Design", "Shadowsocks-Net\Windows\Shadowsocks-Windows-Local-Design\Shadowsocks-Windows-Local-Design.csproj", "{770BA706-B176-4FB0-A270-09A10B84FC20}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{506187E4-E054-4A9C-A4ED-B93674113CEF}"
 	ProjectSection(SolutionItems) = preProject
@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Infrastructure", "Shadowsocks-Net\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj", "{7570133C-F669-41E2-9F79-EF5D4CAF4225}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks-Windows-Local", "Shadowsocks-Net\Windows\Shadowsocks-Windows-Local\Shadowsocks-Windows-Local.csproj", "{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +78,10 @@ Global
 		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{5CB452A1-1984-44FD-82A3-CC305AF423A8} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
 		{770BA706-B176-4FB0-A270-09A10B84FC20} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
+		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C637C6B6-CCCB-4A6F-80B2-0D8C25BB4CCC}
