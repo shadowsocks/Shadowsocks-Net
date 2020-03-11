@@ -9,12 +9,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Shadowsocks_Windows_Local</RootNamespace>
     <AssemblyName>shadowsocks-net-local</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -40,12 +41,6 @@
     </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommandLine, Version=2.7.82.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CommandLineParser.2.7.82\lib\net461\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
@@ -68,11 +63,15 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
+    <Compile Include="Properties\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Ui\FrmBootstrap.cs">
       <SubType>Form</SubType>
@@ -86,10 +85,40 @@
     <Compile Include="Ui\FrmSettings.Designer.cs">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ui\UCServerList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ui\UCServerList.Designer.cs">
+      <DependentUpon>UCServerList.cs</DependentUpon>
+    </Compile>
     <Compile Include="WinformEx.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx" />
+    <EmbeddedResource Include="Properties\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Messages.zh-CN.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\UCServerList.resx">
+      <DependentUpon>UCServerList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\UCServerList.zh-CN.resx">
+      <DependentUpon>UCServerList.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <EmbeddedResource Include="Ui\FrmBootstrap.resx">
       <DependentUpon>FrmBootstrap.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,10 +134,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Properties\Settings.settings">
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-      <Generator>SettingsSingleFileGenerator</Generator>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resource\logo128.png" />
@@ -120,15 +145,73 @@
     <None Include="Resource\Shadowsocks.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resource\icon-add-file-48.png" />
+    <Content Include="Resource\icon-add-link-50.png" />
+    <Content Include="Resource\icon-alphabetical-sorting-50.png" />
+    <Content Include="Resource\icon-ascending-sorting-50.png" />
+    <Content Include="Resource\icon-broken-link-50.png" />
+    <Content Include="Resource\icon-cloud-checked-50.png" />
+    <Content Include="Resource\icon-cloud-link-50.png" />
+    <Content Include="Resource\icon-cloud-share-symbol-50.png" />
+    <Content Include="Resource\icon-computers-connecting-50.png" />
+    <Content Include="Resource\icon-connect-50.png" />
+    <Content Include="Resource\icon-connected-50.png" />
+    <Content Include="Resource\icon-data-transfer-50.png" />
+    <Content Include="Resource\icon-delete-file-50.png" />
+    <Content Include="Resource\icon-delete-link-50.png" />
+    <Content Include="Resource\icon-descending-sorting-50.png" />
+    <Content Include="Resource\icon-direction-50.png" />
+    <Content Include="Resource\icon-disconnected-50.png" />
+    <Content Include="Resource\icon-download-50.png" />
+    <Content Include="Resource\icon-download-from-cloud-50.png" />
+    <Content Include="Resource\icon-download-from-the-cloud-50.png" />
+    <Content Include="Resource\icon-downloading-updates-50.png" />
+    <Content Include="Resource\icon-edit-link-50.png" />
+    <Content Include="Resource\icon-external-link-50.png" />
+    <Content Include="Resource\icon-facebook-50.png" />
+    <Content Include="Resource\icon-github-50.png" />
+    <Content Include="Resource\icon-incoming-data-50.png" />
+    <Content Include="Resource\icon-installing-updates-50.png" />
+    <Content Include="Resource\icon-key-50.png" />
+    <Content Include="Resource\icon-link-50.png" />
+    <Content Include="Resource\icon-list-50.png" />
+    <Content Include="Resource\icon-networking-manager-50.png" />
+    <Content Include="Resource\icon-outgoing-data-50.png" />
+    <Content Include="Resource\icon-protect-50.png" />
+    <Content Include="Resource\icon-qr-code-48.png" />
+    <Content Include="Resource\icon-qr-code-50.png" />
+    <Content Include="Resource\icon-quick-mode-off-50.png" />
+    <Content Include="Resource\icon-quick-mode-on-50.png" />
+    <Content Include="Resource\icon-reboot-50.png" />
+    <Content Include="Resource\icon-reset-50.png" />
+    <Content Include="Resource\icon-restart-50.png" />
+    <Content Include="Resource\icon-retweet-50.png" />
+    <Content Include="Resource\icon-server-50.png" />
+    <Content Include="Resource\icon-server-shutdown-50.png" />
+    <Content Include="Resource\icon-settings-50.png" />
+    <Content Include="Resource\icon-share-3-50.png" />
+    <Content Include="Resource\icon-share-50.png" />
+    <Content Include="Resource\icon-share-message-50.png" />
+    <Content Include="Resource\icon-shutdown-50.png" />
+    <Content Include="Resource\icon-slider-50.png" />
+    <Content Include="Resource\icon-sort-50.png" />
+    <Content Include="Resource\icon-sort-down-50.png" />
+    <Content Include="Resource\icon-sort-left-50.png" />
+    <Content Include="Resource\icon-sort-right-50.png" />
+    <Content Include="Resource\icon-sort-up-50.png" />
+    <Content Include="Resource\icon-sorting-50.png" />
+    <Content Include="Resource\icon-speed-50.png" />
+    <Content Include="Resource\icon-speedometer-50.png" />
+    <Content Include="Resource\icon-to-do-50.png" />
+    <Content Include="Resource\icon-tune-50.png" />
+    <Content Include="Resource\icon-twitter-squared-50.png" />
+    <Content Include="Resource\icon-up-down-arrow-50.png" />
+    <Content Include="Resource\icon-upload-50.png" />
+    <Content Include="Resource\icon-upload-to-the-cloud-50.png" />
     <Content Include="TODO.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IEProxy\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\..\..\packages\Fody.6.0.0\build\Fody.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Fody.6.0.0\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
-  </Target>
 </Project>

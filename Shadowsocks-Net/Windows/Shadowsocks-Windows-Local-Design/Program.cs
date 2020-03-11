@@ -18,7 +18,7 @@ namespace Shadowsocks_Windows_Local
         [STAThread]
         static void Main()
         {
-#if NETCOREAPP3_1
+#if NETCOREAPP3_1 || NETCOREAPP3_0
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
             Application.EnableVisualStyles();

@@ -58,5 +58,12 @@ namespace Shadowsocks_Windows_Local.Ui
             psi.UseShellExecute = true;
             Process.Start(psi);
         }
+
+
+
+        private void FrmSettings_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

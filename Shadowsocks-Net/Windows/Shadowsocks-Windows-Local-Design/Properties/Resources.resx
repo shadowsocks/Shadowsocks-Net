@@ -118,6 +118,195 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="icon_add_file_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-add-file-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_add_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-add-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_alphabetical_sorting_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-alphabetical-sorting-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_ascending_sorting_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-ascending-sorting-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_broken_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-broken-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_cloud_checked_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-cloud-checked-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_cloud_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-cloud-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_cloud_share_symbol_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-cloud-share-symbol-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_computers_connecting_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-computers-connecting-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_connected_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-connected-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_connect_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-connect-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_data_transfer_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-data-transfer-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_delete_file_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-delete-file-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_delete_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-delete-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_descending_sorting_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-descending-sorting-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_direction_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-direction-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_disconnected_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-disconnected-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_downloading_updates_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-downloading-updates-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_download_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-download-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_download_from_cloud_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-download-from-cloud-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_download_from_the_cloud_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-download-from-the-cloud-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_edit_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-edit-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_external_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-external-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_facebook_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-facebook-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_github_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-github-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_incoming_data_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-incoming-data-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_installing_updates_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-installing-updates-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_key_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-key-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_link_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-link-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_list_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-list-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_networking_manager_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-networking-manager-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_outgoing_data_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-outgoing-data-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_protect_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-protect-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_qr_code_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-qr-code-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_qr_code_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-qr-code-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_quick_mode_off_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-quick-mode-off-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_quick_mode_on_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-quick-mode-on-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_reboot_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-reboot-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_reset_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-reset-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_restart_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-restart-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_retweet_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-retweet-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_server_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-server-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_server_shutdown_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-server-shutdown-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_settings_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-settings-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_share_3_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-share-3-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_share_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-share-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_share_message_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-share-message-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_shutdown_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-shutdown-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_slider_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-slider-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sorting_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sorting-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sort_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sort-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sort_down_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sort-down-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sort_left_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sort-left-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sort_right_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sort-right-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_sort_up_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-sort-up-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_speedometer_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-speedometer-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_speed_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-speed-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_to_do_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-to-do-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_tune_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-tune-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_twitter_squared_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-twitter-squared-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_upload_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-upload-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_upload_to_the_cloud_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-upload-to-the-cloud-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="icon_up_down_arrow_50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resource\icon-up-down-arrow-50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="logo128" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resource\logo128.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

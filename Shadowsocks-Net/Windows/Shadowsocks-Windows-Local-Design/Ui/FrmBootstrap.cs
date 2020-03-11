@@ -37,7 +37,7 @@ namespace Shadowsocks_Windows_Local.Ui
         {
             Task.Factory.StartNew(() =>
             {
-                Task.Delay(2000);
+                Task.Delay(2000).Wait();
                 this.UiThread(() => 
                 { 
                     //this.WindowState = FormWindowState.Minimized;

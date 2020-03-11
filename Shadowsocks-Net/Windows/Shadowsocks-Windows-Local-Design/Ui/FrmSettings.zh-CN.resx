@@ -121,27 +121,20 @@
   <data name="tabGlobal.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tabGlobal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 267</value>
-  </data>
   <data name="tabGlobal.Text" xml:space="preserve">
     <value>全局</value>
   </data>
   <data name="tabServers.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
   </data>
-  <data name="tabServers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 267</value>
-  </data>
   <data name="tabServers.Text" xml:space="preserve">
     <value>服务器</value>
   </data>
+  <data name="tabAppearance.Text" xml:space="preserve">
+    <value>外观</value>
+  </data>
   <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>393, 267</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
@@ -150,38 +143,33 @@
   <data name="tabAbout.Text" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="tabControlSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>401, 293</value>
-  </data>
-  <data name="listBoxServers.Location" type="System.Drawing.Point, System.Drawing">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="splitContainerServerTab.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
-  <data name="listBoxServers.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 261</value>
-  </data>
-  <data name="propertyGridServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>139, 3</value>
+  <data name="userControl12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>230, 274</value>
   </data>
   <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>251, 261</value>
+    <value>223, 274</value>
   </data>
-  <data name="linkAbout.AutoSize" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="splitContainerServerTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 274</value>
   </data>
-  <data name="linkAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
+  <data name="splitContainerServerTab.SplitterDistance" type="System.Int32, mscorlib">
+    <value>230</value>
   </data>
-  <data name="linkAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 60</value>
-  </data>
-  <data name="linkAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>387, 32</value>
-  </data>
-  <data name="lblAbout.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="tableAbout.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
+  <data name="tableAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 100</value>
+  </data>
   <data name="lblAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>387, 57</value>
+    <value>449, 50</value>
+  </data>
+  <data name="linkAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 50</value>
   </data>
   <data name="btnApply.Text" xml:space="preserve">
     <value>应用(&amp;A)</value>
