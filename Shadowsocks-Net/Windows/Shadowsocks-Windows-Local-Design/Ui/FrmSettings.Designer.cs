@@ -34,23 +34,29 @@ namespace Shadowsocks_Windows_Local.Ui
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSettings));
             this.splitContainerServerTab = new System.Windows.Forms.SplitContainer();
+            this.userControl12 = new Shadowsocks_Windows_Local.Ui.UCServerList();
             this.propertyGridServer = new System.Windows.Forms.PropertyGrid();
             this.tabControlMain = new System.Windows.Forms.TabControl();
             this.tabGlobal = new System.Windows.Forms.TabPage();
-            this.groupBoxHTTP = new System.Windows.Forms.GroupBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.tableGlobal = new System.Windows.Forms.TableLayoutPanel();
             this.groupBoxSOCKS5 = new System.Windows.Forms.GroupBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.tabServers = new System.Windows.Forms.TabPage();
+            this.chk_SOCKS5_Share = new System.Windows.Forms.CheckBox();
+            this.chk_SOCKS5_Enable = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_SOCKS5_Port = new System.Windows.Forms.NumericUpDown();
+            this.groupBoxHTTP = new System.Windows.Forms.GroupBox();
+            this.chk_HTTP_Share = new System.Windows.Forms.CheckBox();
+            this.chk_HTTP_Enable = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txt_HTTP_Port = new System.Windows.Forms.NumericUpDown();
+            this.tabServer = new System.Windows.Forms.TabPage();
             this.tabAppearance = new System.Windows.Forms.TabPage();
             this.tableAppearance = new System.Windows.Forms.TableLayoutPanel();
             this.groupBoxSystrayIcon = new System.Windows.Forms.GroupBox();
-            this.flowLayoutSystrayIcon = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnSystrayIconGood = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.ucSystrayIconEditor1 = new Shadowsocks_Windows_Local.Ui.UCSystrayIconEditor();
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.tableAbout = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblAbout = new System.Windows.Forms.Label();
             this.linkAbout = new System.Windows.Forms.LinkLabel();
             this.btnApply = new System.Windows.Forms.Button();
@@ -58,23 +64,21 @@ namespace Shadowsocks_Windows_Local.Ui
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableMain = new System.Windows.Forms.TableLayoutPanel();
             this.panelBottomBar = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.userControl12 = new Shadowsocks_Windows_Local.Ui.UCServerList();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerServerTab)).BeginInit();
             this.splitContainerServerTab.Panel1.SuspendLayout();
             this.splitContainerServerTab.Panel2.SuspendLayout();
             this.splitContainerServerTab.SuspendLayout();
             this.tabControlMain.SuspendLayout();
             this.tabGlobal.SuspendLayout();
-            this.groupBoxHTTP.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            this.tableGlobal.SuspendLayout();
             this.groupBoxSOCKS5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.tabServers.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SOCKS5_Port)).BeginInit();
+            this.groupBoxHTTP.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_HTTP_Port)).BeginInit();
+            this.tabServer.SuspendLayout();
             this.tabAppearance.SuspendLayout();
             this.tableAppearance.SuspendLayout();
             this.groupBoxSystrayIcon.SuspendLayout();
-            this.flowLayoutSystrayIcon.SuspendLayout();
             this.tabAbout.SuspendLayout();
             this.tableAbout.SuspendLayout();
             this.tableMain.SuspendLayout();
@@ -88,11 +92,18 @@ namespace Shadowsocks_Windows_Local.Ui
             // 
             // splitContainerServerTab.Panel1
             // 
+            resources.ApplyResources(this.splitContainerServerTab.Panel1, "splitContainerServerTab.Panel1");
             this.splitContainerServerTab.Panel1.Controls.Add(this.userControl12);
             // 
             // splitContainerServerTab.Panel2
             // 
+            resources.ApplyResources(this.splitContainerServerTab.Panel2, "splitContainerServerTab.Panel2");
             this.splitContainerServerTab.Panel2.Controls.Add(this.propertyGridServer);
+            // 
+            // userControl12
+            // 
+            resources.ApplyResources(this.userControl12, "userControl12");
+            this.userControl12.Name = "userControl12";
             // 
             // propertyGridServer
             // 
@@ -101,59 +112,106 @@ namespace Shadowsocks_Windows_Local.Ui
             // 
             // tabControlMain
             // 
+            resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Controls.Add(this.tabGlobal);
-            this.tabControlMain.Controls.Add(this.tabServers);
+            this.tabControlMain.Controls.Add(this.tabServer);
             this.tabControlMain.Controls.Add(this.tabAppearance);
             this.tabControlMain.Controls.Add(this.tabAbout);
-            resources.ApplyResources(this.tabControlMain, "tabControlMain");
             this.tabControlMain.Multiline = true;
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Tag = "Global";
+            this.tabControlMain.Tag = "";
             // 
             // tabGlobal
             // 
-            this.tabGlobal.Controls.Add(this.groupBoxHTTP);
-            this.tabGlobal.Controls.Add(this.groupBoxSOCKS5);
             resources.ApplyResources(this.tabGlobal, "tabGlobal");
+            this.tabGlobal.Controls.Add(this.tableGlobal);
             this.tabGlobal.Name = "tabGlobal";
+            this.tabGlobal.Tag = "Global";
             this.tabGlobal.UseVisualStyleBackColor = true;
             // 
-            // groupBoxHTTP
+            // tableGlobal
             // 
-            this.groupBoxHTTP.Controls.Add(this.numericUpDown2);
-            resources.ApplyResources(this.groupBoxHTTP, "groupBoxHTTP");
-            this.groupBoxHTTP.Name = "groupBoxHTTP";
-            this.groupBoxHTTP.TabStop = false;
-            // 
-            // numericUpDown2
-            // 
-            resources.ApplyResources(this.numericUpDown2, "numericUpDown2");
-            this.numericUpDown2.Name = "numericUpDown2";
+            resources.ApplyResources(this.tableGlobal, "tableGlobal");
+            this.tableGlobal.Controls.Add(this.groupBoxSOCKS5, 0, 0);
+            this.tableGlobal.Controls.Add(this.groupBoxHTTP, 0, 1);
+            this.tableGlobal.Name = "tableGlobal";
             // 
             // groupBoxSOCKS5
             // 
-            this.groupBoxSOCKS5.Controls.Add(this.numericUpDown1);
             resources.ApplyResources(this.groupBoxSOCKS5, "groupBoxSOCKS5");
+            this.groupBoxSOCKS5.Controls.Add(this.chk_SOCKS5_Share);
+            this.groupBoxSOCKS5.Controls.Add(this.chk_SOCKS5_Enable);
+            this.groupBoxSOCKS5.Controls.Add(this.label2);
+            this.groupBoxSOCKS5.Controls.Add(this.txt_SOCKS5_Port);
             this.groupBoxSOCKS5.Name = "groupBoxSOCKS5";
             this.groupBoxSOCKS5.TabStop = false;
             // 
-            // numericUpDown1
+            // chk_SOCKS5_Share
             // 
-            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
-            this.numericUpDown1.Name = "numericUpDown1";
+            resources.ApplyResources(this.chk_SOCKS5_Share, "chk_SOCKS5_Share");
+            this.chk_SOCKS5_Share.Name = "chk_SOCKS5_Share";
+            this.chk_SOCKS5_Share.UseVisualStyleBackColor = true;
             // 
-            // tabServers
+            // chk_SOCKS5_Enable
             // 
-            this.tabServers.Controls.Add(this.splitContainerServerTab);
-            resources.ApplyResources(this.tabServers, "tabServers");
-            this.tabServers.Name = "tabServers";
-            this.tabServers.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.chk_SOCKS5_Enable, "chk_SOCKS5_Enable");
+            this.chk_SOCKS5_Enable.Name = "chk_SOCKS5_Enable";
+            this.chk_SOCKS5_Enable.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // txt_SOCKS5_Port
+            // 
+            resources.ApplyResources(this.txt_SOCKS5_Port, "txt_SOCKS5_Port");
+            this.txt_SOCKS5_Port.Name = "txt_SOCKS5_Port";
+            // 
+            // groupBoxHTTP
+            // 
+            resources.ApplyResources(this.groupBoxHTTP, "groupBoxHTTP");
+            this.groupBoxHTTP.Controls.Add(this.chk_HTTP_Share);
+            this.groupBoxHTTP.Controls.Add(this.chk_HTTP_Enable);
+            this.groupBoxHTTP.Controls.Add(this.label3);
+            this.groupBoxHTTP.Controls.Add(this.txt_HTTP_Port);
+            this.groupBoxHTTP.Name = "groupBoxHTTP";
+            this.groupBoxHTTP.TabStop = false;
+            // 
+            // chk_HTTP_Share
+            // 
+            resources.ApplyResources(this.chk_HTTP_Share, "chk_HTTP_Share");
+            this.chk_HTTP_Share.Name = "chk_HTTP_Share";
+            this.chk_HTTP_Share.UseVisualStyleBackColor = true;
+            // 
+            // chk_HTTP_Enable
+            // 
+            resources.ApplyResources(this.chk_HTTP_Enable, "chk_HTTP_Enable");
+            this.chk_HTTP_Enable.Name = "chk_HTTP_Enable";
+            this.chk_HTTP_Enable.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // txt_HTTP_Port
+            // 
+            resources.ApplyResources(this.txt_HTTP_Port, "txt_HTTP_Port");
+            this.txt_HTTP_Port.Name = "txt_HTTP_Port";
+            // 
+            // tabServer
+            // 
+            resources.ApplyResources(this.tabServer, "tabServer");
+            this.tabServer.Controls.Add(this.splitContainerServerTab);
+            this.tabServer.Name = "tabServer";
+            this.tabServer.UseVisualStyleBackColor = true;
             // 
             // tabAppearance
             // 
-            this.tabAppearance.Controls.Add(this.tableAppearance);
             resources.ApplyResources(this.tabAppearance, "tabAppearance");
+            this.tabAppearance.Controls.Add(this.tableAppearance);
             this.tabAppearance.Name = "tabAppearance";
             this.tabAppearance.UseVisualStyleBackColor = true;
             // 
@@ -165,50 +223,21 @@ namespace Shadowsocks_Windows_Local.Ui
             // 
             // groupBoxSystrayIcon
             // 
-            this.groupBoxSystrayIcon.Controls.Add(this.flowLayoutSystrayIcon);
             resources.ApplyResources(this.groupBoxSystrayIcon, "groupBoxSystrayIcon");
+            this.groupBoxSystrayIcon.Controls.Add(this.ucSystrayIconEditor1);
             this.groupBoxSystrayIcon.Name = "groupBoxSystrayIcon";
             this.groupBoxSystrayIcon.TabStop = false;
             // 
-            // flowLayoutSystrayIcon
+            // ucSystrayIconEditor1
             // 
-            this.flowLayoutSystrayIcon.Controls.Add(this.btnSystrayIconGood);
-            this.flowLayoutSystrayIcon.Controls.Add(this.button1);
-            this.flowLayoutSystrayIcon.Controls.Add(this.button2);
-            resources.ApplyResources(this.flowLayoutSystrayIcon, "flowLayoutSystrayIcon");
-            this.flowLayoutSystrayIcon.Name = "flowLayoutSystrayIcon";
-            // 
-            // btnSystrayIconGood
-            // 
-            this.btnSystrayIconGood.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSystrayIconGood.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.btnSystrayIconGood, "btnSystrayIconGood");
-            this.btnSystrayIconGood.Image = global::Shadowsocks_Windows_Local.Properties.Resources.icon_speed_50;
-            this.btnSystrayIconGood.Name = "btnSystrayIconGood";
-            this.btnSystrayIconGood.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Image = global::Shadowsocks_Windows_Local.Properties.Resources.icon_speed_50;
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.button2, "button2");
-            this.button2.Image = global::Shadowsocks_Windows_Local.Properties.Resources.icon_speed_50;
-            this.button2.Name = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.ucSystrayIconEditor1, "ucSystrayIconEditor1");
+            this.ucSystrayIconEditor1.BackColor = System.Drawing.Color.White;
+            this.ucSystrayIconEditor1.Name = "ucSystrayIconEditor1";
             // 
             // tabAbout
             // 
-            this.tabAbout.Controls.Add(this.tableAbout);
             resources.ApplyResources(this.tabAbout, "tabAbout");
+            this.tabAbout.Controls.Add(this.tableAbout);
             this.tabAbout.Name = "tabAbout";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
@@ -219,6 +248,11 @@ namespace Shadowsocks_Windows_Local.Ui
             this.tableAbout.Controls.Add(this.lblAbout, 0, 0);
             this.tableAbout.Controls.Add(this.linkAbout, 0, 1);
             this.tableAbout.Name = "tableAbout";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
             // 
             // lblAbout
             // 
@@ -262,21 +296,11 @@ namespace Shadowsocks_Windows_Local.Ui
             // 
             // panelBottomBar
             // 
+            resources.ApplyResources(this.panelBottomBar, "panelBottomBar");
             this.panelBottomBar.Controls.Add(this.btnApply);
             this.panelBottomBar.Controls.Add(this.btnCancel);
             this.panelBottomBar.Controls.Add(this.btnOK);
-            resources.ApplyResources(this.panelBottomBar, "panelBottomBar");
             this.panelBottomBar.Name = "panelBottomBar";
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // userControl12
-            // 
-            resources.ApplyResources(this.userControl12, "userControl12");
-            this.userControl12.Name = "userControl12";
             // 
             // FrmSettings
             // 
@@ -293,15 +317,17 @@ namespace Shadowsocks_Windows_Local.Ui
             this.splitContainerServerTab.ResumeLayout(false);
             this.tabControlMain.ResumeLayout(false);
             this.tabGlobal.ResumeLayout(false);
-            this.groupBoxHTTP.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            this.tableGlobal.ResumeLayout(false);
             this.groupBoxSOCKS5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.tabServers.ResumeLayout(false);
+            this.groupBoxSOCKS5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_SOCKS5_Port)).EndInit();
+            this.groupBoxHTTP.ResumeLayout(false);
+            this.groupBoxHTTP.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.txt_HTTP_Port)).EndInit();
+            this.tabServer.ResumeLayout(false);
             this.tabAppearance.ResumeLayout(false);
             this.tableAppearance.ResumeLayout(false);
             this.groupBoxSystrayIcon.ResumeLayout(false);
-            this.flowLayoutSystrayIcon.ResumeLayout(false);
             this.tabAbout.ResumeLayout(false);
             this.tableAbout.ResumeLayout(false);
             this.tableMain.ResumeLayout(false);
@@ -314,7 +340,7 @@ namespace Shadowsocks_Windows_Local.Ui
 
         private System.Windows.Forms.TabControl tabControlMain;
         private System.Windows.Forms.TabPage tabGlobal;
-        private System.Windows.Forms.TabPage tabServers;
+        private System.Windows.Forms.TabPage tabServer;
         private System.Windows.Forms.TabPage tabAbout;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.Button btnOK;
@@ -329,15 +355,19 @@ namespace Shadowsocks_Windows_Local.Ui
         private System.Windows.Forms.TableLayoutPanel tableMain;
         private System.Windows.Forms.Panel panelBottomBar;
         private System.Windows.Forms.TabPage tabAppearance;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Button btnSystrayIconGood;
+        private System.Windows.Forms.NumericUpDown txt_HTTP_Port;
+        private System.Windows.Forms.NumericUpDown txt_SOCKS5_Port;
         private System.Windows.Forms.TableLayoutPanel tableAppearance;
         private System.Windows.Forms.GroupBox groupBoxSystrayIcon;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutSystrayIcon;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private UCServerList userControl12;
         private System.Windows.Forms.Label label1;
+        private UCSystrayIconEditor ucSystrayIconEditor1;
+        private System.Windows.Forms.TableLayoutPanel tableGlobal;
+        private System.Windows.Forms.CheckBox chk_SOCKS5_Enable;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox chk_HTTP_Enable;
+        private System.Windows.Forms.CheckBox chk_SOCKS5_Share;
+        private System.Windows.Forms.CheckBox chk_HTTP_Share;
     }
 }

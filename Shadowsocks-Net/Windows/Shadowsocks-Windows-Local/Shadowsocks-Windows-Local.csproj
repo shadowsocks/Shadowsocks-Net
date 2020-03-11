@@ -16,7 +16,16 @@
     <ApplicationIcon>Resource\shadowsocks.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\IconGenerator.cs" Link="IconGenerator.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Program.cs" Link="Program.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Properties\Messages.Designer.cs" Link="Properties\Messages.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Properties\Resources.Designer.cs" Link="Properties\Resources.Designer.cs" />
@@ -27,6 +36,8 @@
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.Designer.cs" Link="Ui\FrmSettings.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.cs" Link="Ui\UCServerList.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.Designer.cs" Link="Ui\UCServerList.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.cs" Link="Ui\UCSystrayIconEditor.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.Designer.cs" Link="Ui\UCSystrayIconEditor.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\WinformEx.cs" Link="WinformEx.cs" />
   </ItemGroup>
 
@@ -44,6 +55,8 @@
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.zh-CN.resx" Link="Ui\FrmSettings.zh-CN.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.resx" Link="Ui\UCServerList.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.zh-CN.resx" Link="Ui\UCServerList.zh-CN.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.resx" Link="Ui\UCSystrayIconEditor.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.zh-CN.resx" Link="Ui\UCSystrayIconEditor.zh-CN.resx" />
   </ItemGroup>
 
   <ItemGroup>

@@ -117,59 +117,122 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="userControl12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>232, 274</value>
+  </data>
+  <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 274</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="splitContainerServerTab.SplitterDistance" type="System.Int32, mscorlib">
+    <value>232</value>
+  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="tabGlobal.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+    <value>5, 5, 5, 5</value>
   </data>
   <data name="tabGlobal.Text" xml:space="preserve">
     <value>全局</value>
   </data>
-  <data name="tabServers.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="tableGlobal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
   </data>
-  <data name="tabServers.Text" xml:space="preserve">
+  <data name="tableGlobal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 270</value>
+  </data>
+  <data name="groupBoxSOCKS5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 119</value>
+  </data>
+  <data name="chk_SOCKS5_Share.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="chk_SOCKS5_Share.Text" xml:space="preserve">
+    <value>分享</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>端口</value>
+  </data>
+  <data name="groupBoxHTTP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 119</value>
+  </data>
+  <data name="groupBoxHTTP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 119</value>
+  </data>
+  <data name="chk_HTTP_Share.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="chk_HTTP_Share.Text" xml:space="preserve">
+    <value>分享</value>
+  </data>
+  <data name="chk_HTTP_Enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="chk_HTTP_Enable.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>端口</value>
+  </data>
+  <data name="tabServer.Text" xml:space="preserve">
     <value>服务器</value>
+  </data>
+  <data name="tabAppearance.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
   </data>
   <data name="tabAppearance.Text" xml:space="preserve">
     <value>外观</value>
   </data>
-  <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="tableAppearance.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tableAppearance.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 270</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 131</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Text" xml:space="preserve">
+    <value>通知区域图标</value>
+  </data>
+  <data name="ucSystrayIconEditor1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>439, 107</value>
+  </data>
+  <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
   <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="tabAbout.Text" xml:space="preserve">
     <value>关于</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="splitContainerServerTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="userControl12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 274</value>
-  </data>
-  <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 274</value>
-  </data>
-  <data name="splitContainerServerTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 274</value>
-  </data>
-  <data name="splitContainerServerTab.SplitterDistance" type="System.Int32, mscorlib">
-    <value>230</value>
-  </data>
   <data name="tableAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>5, 5</value>
   </data>
   <data name="tableAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 100</value>
+    <value>451, 270</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>451, 180</value>
   </data>
   <data name="lblAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 50</value>
+    <value>451, 50</value>
   </data>
   <data name="linkAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>449, 50</value>
+    <value>451, 50</value>
   </data>
   <data name="btnApply.Text" xml:space="preserve">
     <value>应用(&amp;A)</value>

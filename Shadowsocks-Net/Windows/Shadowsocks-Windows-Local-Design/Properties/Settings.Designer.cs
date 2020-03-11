@@ -34,5 +34,53 @@ namespace Shadowsocks_Windows_Local.Properties {
                 this["Language"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Orchid")]
+        public global::System.Drawing.Color SystrayIconFast {
+            get {
+                return ((global::System.Drawing.Color)(this["SystrayIconFast"]));
+            }
+            set {
+                this["SystrayIconFast"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("LimeGreen")]
+        public global::System.Drawing.Color SystrayIconGood {
+            get {
+                return ((global::System.Drawing.Color)(this["SystrayIconGood"]));
+            }
+            set {
+                this["SystrayIconGood"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Yellow")]
+        public global::System.Drawing.Color SystrayIconSlow {
+            get {
+                return ((global::System.Drawing.Color)(this["SystrayIconSlow"]));
+            }
+            set {
+                this["SystrayIconSlow"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Coral")]
+        public global::System.Drawing.Color SystrayIconBad {
+            get {
+                return ((global::System.Drawing.Color)(this["SystrayIconBad"]));
+            }
+            set {
+                this["SystrayIconBad"] = value;
+            }
+        }
     }
 }

@@ -5,5 +5,17 @@
     <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SystrayIconFast" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Orchid</Value>
+    </Setting>
+    <Setting Name="SystrayIconGood" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LimeGreen</Value>
+    </Setting>
+    <Setting Name="SystrayIconSlow" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Yellow</Value>
+    </Setting>
+    <Setting Name="SystrayIconBad" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Coral</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
