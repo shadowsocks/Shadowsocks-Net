@@ -14,9 +14,10 @@ using System.Windows.Forms;
 
 namespace Shadowsocks_Windows_Local.Ui
 {
+    using Properties;
     public partial class UCSystrayIconEditor : UserControl
     {
-        int _iconSize = 50;
+        const int SIZE_ICON = 50;
         public UCSystrayIconEditor()
         {
             InitializeComponent();
@@ -25,37 +26,28 @@ namespace Shadowsocks_Windows_Local.Ui
 
         private void UCSystrayIconEditor_Load(object sender, EventArgs e)
         {
-            IconGenerator.GetBitmap(out Bitmap fast, _iconSize, Properties.Settings.Default.SystrayIconFast);
-            btnSystrayIconFast.Image = fast;
 
-            IconGenerator.GetBitmap(out Bitmap good, _iconSize, Properties.Settings.Default.SystrayIconGood);
-            btnSystrayIconGood.Image = good;
-
-            IconGenerator.GetBitmap(out Bitmap slow, _iconSize, Properties.Settings.Default.SystrayIconSlow);
-            btnSystrayIconSlow.Image = slow;
-
-            IconGenerator.GetBitmap(out Bitmap bad, _iconSize, Properties.Settings.Default.SystrayIconBad);
-            btnSystrayIconBad.Image = bad;
-
-            IconGenerator.GetBitmap(out Bitmap @default, _iconSize, Properties.Settings.Default.SystrayIconDefault);
-            btnSystrayIconDefault.Image = @default;
-
+            btnSystrayIconFast.Image = IconGenerator.GetImage(SIZE_ICON, Settings.Default.SystrayIconFast);
+            btnSystrayIconGood.Image = IconGenerator.GetImage(SIZE_ICON, Settings.Default.SystrayIconGood);
+            btnSystrayIconSlow.Image = IconGenerator.GetImage(SIZE_ICON, Settings.Default.SystrayIconSlow);
+            btnSystrayIconBad.Image = IconGenerator.GetImage(SIZE_ICON, Settings.Default.SystrayIconBad);
+            btnSystrayIconDefault.Image = IconGenerator.GetImage(SIZE_ICON, Settings.Default.SystrayIconDefault);
         }
 
         private void btnSystrayIcon_Click(object sender, EventArgs e)
         {
             Button btn = sender as Button;
             var name = btn.Tag.ToString();
-            colorDialog1.Color = (Color)Properties.Settings.Default.PropertyValues[name].PropertyValue;
+            colorDialog1.Color = (Color)Settings.Default.PropertyValues[name].PropertyValue;
             if (DialogResult.OK == colorDialog1.ShowDialog())
             {
-                Color c = colorDialog1.Color;
+                Color newColor = colorDialog1.Color;
+               
+                btn.Image = IconGenerator.GetImage(SIZE_ICON, newColor);
 
-                IconGenerator.GetBitmap(out Bitmap icon, _iconSize, c);
-                btn.Image = icon;
-
-                Properties.Settings.Default.PropertyValues[name].PropertyValue = c;
-                Properties.Settings.Default.Save();
+                Settings.Default.PropertyValues[name].PropertyValue = newColor;
+                //Settings.Default.Save();
+                IconCache.Reload();
             }
         }
     }

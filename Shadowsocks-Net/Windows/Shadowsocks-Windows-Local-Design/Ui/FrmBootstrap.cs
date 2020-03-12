@@ -17,21 +17,21 @@ using System.Windows.Forms;
 
 namespace Shadowsocks_Windows_Local.Ui
 {
+    using Properties;
     public partial class FrmBootstrap : Form
     {
         public FrmBootstrap()
         {
             this.BackColor = Color.LightGray;
             this.TransparencyKey = Color.LightGray;
-          
+
             InitializeComponent();
 
-            
-            IconGenerator.GetBitmap(out Bitmap logo, Properties.Settings.Default.SystrayIconDefault);
-
             this.BackgroundImageLayout = ImageLayout.Zoom;
-            this.BackgroundImage = logo;
-          
+            this.BackgroundImage = IconGenerator.GetImage(Settings.Default.SystrayIconDefault);
+
+            this.notifyIcon.Icon = IconCache.Default;
+
         }
         private void FrmBootstrap_Load(object sender, EventArgs e)
         {
@@ -67,9 +67,7 @@ namespace Shadowsocks_Windows_Local.Ui
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
         {
-            //FrmSettings f = new FrmSettings();
-            //f.ShowDialog(this);
-            // contextMenuStrip.Show(MousePosition);
+            //TODO switch server
         }
 
 
@@ -80,7 +78,34 @@ namespace Shadowsocks_Windows_Local.Ui
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
             base.OnPaintBackground(e);
+        }
 
+        
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            notifyIcon.Text = DateTime.Now.ToLongTimeString();
+
+            int sec = DateTime.Now.Second;
+            if (0 == sec % 2)
+            {
+                notifyIcon.Icon = IconCache.Fast;
+            }
+            else if (0 == sec % 3)
+            {
+                notifyIcon.Icon = IconCache.Good;
+            }
+            else if (0 == sec % 5)
+            {
+                notifyIcon.Icon = IconCache.Slow;
+            }
+            else if (0 == sec % 7)
+            {
+                notifyIcon.Icon = IconCache.Bad;
+            }
+            else
+            {
+                notifyIcon.Icon = IconCache.Default;
+            }
         }
     }
 }

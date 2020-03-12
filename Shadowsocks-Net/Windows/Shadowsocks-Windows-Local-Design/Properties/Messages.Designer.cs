@@ -59,5 +59,14 @@ namespace Shadowsocks_Windows_Local.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Invalid value. 的本地化字符串。
+        /// </summary>
+        internal static string invalid_value {
+            get {
+                return ResourceManager.GetString("invalid_value", resourceCulture);
+            }
+        }
     }
 }

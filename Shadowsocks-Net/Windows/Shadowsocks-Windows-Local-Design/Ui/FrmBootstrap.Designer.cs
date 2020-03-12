@@ -39,11 +39,13 @@ namespace Shadowsocks_Windows_Local.Ui
             this.settingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // notifyIcon
             // 
+            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             resources.ApplyResources(this.notifyIcon, "notifyIcon");
             this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
@@ -75,6 +77,12 @@ namespace Shadowsocks_Windows_Local.Ui
             resources.ApplyResources(this.quitToolStripMenuItem, "quitToolStripMenuItem");
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.quitToolStripMenuItem_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 200;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // FrmBootstrap
             // 
             resources.ApplyResources(this, "$this");
@@ -95,6 +103,7 @@ namespace Shadowsocks_Windows_Local.Ui
         private System.Windows.Forms.ToolStripMenuItem settingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

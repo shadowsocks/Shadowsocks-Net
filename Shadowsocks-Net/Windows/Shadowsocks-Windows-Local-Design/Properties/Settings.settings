@@ -23,5 +23,26 @@
     <Setting Name="SettingWindowSize" Type="System.Drawing.Size" Scope="User">
       <Value Profile="(Default)">485, 400</Value>
     </Setting>
+    <Setting Name="EnableDynamicSystrayIcon" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SOCKS5_Enabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SOCKS5_Share" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SOCKS5_Port" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">2080</Value>
+    </Setting>
+    <Setting Name="HTTP_Enabled" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="HTTP_Share" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="HTTP_Port" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">8080</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

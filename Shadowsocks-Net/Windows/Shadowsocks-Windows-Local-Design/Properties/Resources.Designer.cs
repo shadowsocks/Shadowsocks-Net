@@ -691,21 +691,21 @@ namespace Shadowsocks_Windows_Local.Properties {
         }
         
         /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap logo128 {
+        internal static System.Drawing.Icon ss_icon_128x128 {
             get {
-                object obj = ResourceManager.GetObject("logo128", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("ss_icon_128x128", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
         /// <summary>
         ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Icon shadowsocks1 {
+        internal static System.Drawing.Icon ss_icon_32x32 {
             get {
-                object obj = ResourceManager.GetObject("shadowsocks1", resourceCulture);
+                object obj = ResourceManager.GetObject("ss_icon_32x32", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

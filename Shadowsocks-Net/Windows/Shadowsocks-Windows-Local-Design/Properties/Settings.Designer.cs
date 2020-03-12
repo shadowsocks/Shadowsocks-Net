@@ -106,5 +106,89 @@ namespace Shadowsocks_Windows_Local.Properties {
                 this["SettingWindowSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableDynamicSystrayIcon {
+            get {
+                return ((bool)(this["EnableDynamicSystrayIcon"]));
+            }
+            set {
+                this["EnableDynamicSystrayIcon"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SOCKS5_Enabled {
+            get {
+                return ((bool)(this["SOCKS5_Enabled"]));
+            }
+            set {
+                this["SOCKS5_Enabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SOCKS5_Share {
+            get {
+                return ((bool)(this["SOCKS5_Share"]));
+            }
+            set {
+                this["SOCKS5_Share"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2080")]
+        public ushort SOCKS5_Port {
+            get {
+                return ((ushort)(this["SOCKS5_Port"]));
+            }
+            set {
+                this["SOCKS5_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HTTP_Enabled {
+            get {
+                return ((bool)(this["HTTP_Enabled"]));
+            }
+            set {
+                this["HTTP_Enabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool HTTP_Share {
+            get {
+                return ((bool)(this["HTTP_Share"]));
+            }
+            set {
+                this["HTTP_Share"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8080")]
+        public ushort HTTP_Port {
+            get {
+                return ((ushort)(this["HTTP_Port"]));
+            }
+            set {
+                this["HTTP_Port"] = value;
+            }
+        }
     }
 }

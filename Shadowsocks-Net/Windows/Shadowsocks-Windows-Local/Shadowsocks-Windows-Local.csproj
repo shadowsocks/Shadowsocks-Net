@@ -13,7 +13,7 @@
     <PackageLicenseExpression>https://github.com/shadowsocks/Shadowsocks-Net</PackageLicenseExpression>
     <Product>Shadowsocks-Net</Product>
     <AssemblyName>shadowsocks-net-local</AssemblyName>
-    <ApplicationIcon>Resource\shadowsocks.ico</ApplicationIcon>
+    <ApplicationIcon>Resource\ss-icon-128x128.ico</ApplicationIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,6 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\IconCache.cs" Link="IconCache.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\IconGenerator.cs" Link="IconGenerator.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Program.cs" Link="Program.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Properties\Messages.Designer.cs" Link="Properties\Messages.Designer.cs" />

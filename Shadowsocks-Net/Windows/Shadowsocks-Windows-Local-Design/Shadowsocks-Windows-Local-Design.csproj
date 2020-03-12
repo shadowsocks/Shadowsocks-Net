@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IconGenerator.cs" />
+    <Compile Include="IconCache.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Messages.Designer.cs">
@@ -153,12 +154,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resource\logo128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resource\shadowsocks.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resource\icon-add-file-48.png" />
     <Content Include="Resource\icon-add-link-50.png" />
     <Content Include="Resource\icon-alphabetical-sorting-50.png" />
@@ -222,6 +217,8 @@
     <Content Include="Resource\icon-up-down-arrow-50.png" />
     <Content Include="Resource\icon-upload-50.png" />
     <Content Include="Resource\icon-upload-to-the-cloud-50.png" />
+    <None Include="Resource\ss-icon-32x32.ico" />
+    <None Include="Resource\ss-icon-128x128.ico" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
