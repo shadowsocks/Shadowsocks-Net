@@ -85,7 +85,7 @@ namespace Shadowsocks_Windows_Local.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("33, 37, 41")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0, 81, 162")]
         public global::System.Drawing.Color SystrayIconDefault {
             get {
                 return ((global::System.Drawing.Color)(this["SystrayIconDefault"]));
@@ -97,7 +97,7 @@ namespace Shadowsocks_Windows_Local.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("485, 400")]
+        [global::System.Configuration.DefaultSettingValueAttribute("528, 400")]
         public global::System.Drawing.Size SettingWindowSize {
             get {
                 return ((global::System.Drawing.Size)(this["SettingWindowSize"]));
@@ -169,7 +169,7 @@ namespace Shadowsocks_Windows_Local.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool HTTP_Share {
             get {
                 return ((bool)(this["HTTP_Share"]));

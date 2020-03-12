@@ -18,10 +18,10 @@
       <Value Profile="(Default)">Coral</Value>
     </Setting>
     <Setting Name="SystrayIconDefault" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">33, 37, 41</Value>
+      <Value Profile="(Default)">0, 81, 162</Value>
     </Setting>
     <Setting Name="SettingWindowSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">485, 400</Value>
+      <Value Profile="(Default)">528, 400</Value>
     </Setting>
     <Setting Name="EnableDynamicSystrayIcon" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -39,7 +39,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="HTTP_Share" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="HTTP_Port" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">8080</Value>

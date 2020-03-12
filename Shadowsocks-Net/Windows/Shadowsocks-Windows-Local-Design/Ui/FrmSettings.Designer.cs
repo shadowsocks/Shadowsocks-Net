@@ -258,8 +258,8 @@ namespace Shadowsocks_Windows_Local.Ui
             // groupBoxSystrayIcon
             // 
             resources.ApplyResources(this.groupBoxSystrayIcon, "groupBoxSystrayIcon");
-            this.groupBoxSystrayIcon.Controls.Add(this.ucSystrayIconEditor1);
             this.groupBoxSystrayIcon.Controls.Add(this.chkEnableDynamicSystrayIcon);
+            this.groupBoxSystrayIcon.Controls.Add(this.ucSystrayIconEditor1);
             this.groupBoxSystrayIcon.Name = "groupBoxSystrayIcon";
             this.groupBoxSystrayIcon.TabStop = false;
             // 
