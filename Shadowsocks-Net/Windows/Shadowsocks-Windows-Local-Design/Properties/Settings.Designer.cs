@@ -82,5 +82,29 @@ namespace Shadowsocks_Windows_Local.Properties {
                 this["SystrayIconBad"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("33, 37, 41")]
+        public global::System.Drawing.Color SystrayIconDefault {
+            get {
+                return ((global::System.Drawing.Color)(this["SystrayIconDefault"]));
+            }
+            set {
+                this["SystrayIconDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("485, 400")]
+        public global::System.Drawing.Size SettingWindowSize {
+            get {
+                return ((global::System.Drawing.Size)(this["SettingWindowSize"]));
+            }
+            set {
+                this["SettingWindowSize"] = value;
+            }
+        }
     }
 }

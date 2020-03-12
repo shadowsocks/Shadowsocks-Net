@@ -27,7 +27,7 @@ namespace Shadowsocks_Windows_Local.Ui
             InitializeComponent();
 
             
-            IconGenerator.GetBitmap(out Bitmap logo, Color.FromArgb(0x21, 0x25, 0x29));
+            IconGenerator.GetBitmap(out Bitmap logo, Properties.Settings.Default.SystrayIconDefault);
 
             this.BackgroundImageLayout = ImageLayout.Zoom;
             this.BackgroundImage = logo;

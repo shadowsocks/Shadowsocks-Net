@@ -117,143 +117,1021 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lblAbout.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 9pt</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="chk_HTTP_Enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
-  </data>
-  <data name="&gt;&gt;txt_HTTP_Port.Name" xml:space="preserve">
-    <value>txt_HTTP_Port</value>
-  </data>
-  <data name="tableAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="splitContainerServerTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="splitContainerServerTab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
   </data>
-  <data name="tabServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="splitContainerServerTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="&gt;&gt;groupBoxSystrayIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ucServerList.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="&gt;&gt;lblAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ucServerList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="ucServerList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 274</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="tableAppearance.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableMain.RowCount" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;txt_SOCKS5_Port.Name" xml:space="preserve">
-    <value>txt_SOCKS5_Port</value>
-  </data>
-  <data name="groupBoxHTTP.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 124</value>
-  </data>
-  <data name="tableMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Enable.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="chk_HTTP_Share.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tabControlMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 280</value>
-  </data>
-  <data name="&gt;&gt;tableAbout.Parent" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSystrayIcon.Name" xml:space="preserve">
-    <value>groupBoxSystrayIcon</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Text" xml:space="preserve">
-    <value>Systray Icon</value>
-  </data>
-  <data name="&gt;&gt;tableGlobal.ZOrder" xml:space="preserve">
+  <data name="ucServerList.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;panelBottomBar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;ucServerList.Name" xml:space="preserve">
+    <value>ucServerList</value>
   </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel2.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;ucServerList.Type" xml:space="preserve">
+    <value>Shadowsocks_Windows_Local.Ui.UCServerList, shadowsocks-net-local, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;tabAppearance.Name" xml:space="preserve">
-    <value>tabAppearance</value>
+  <data name="&gt;&gt;ucServerList.Parent" xml:space="preserve">
+    <value>splitContainerServerTab.Panel1</value>
   </data>
-  <data name="linkAbout.Text" xml:space="preserve">
-    <value>https://github.com/shadowsocks/Shadowsocks-Net/</value>
+  <data name="&gt;&gt;ucServerList.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>138, 21</value>
+  <data name="&gt;&gt;splitContainerServerTab.Panel1.Name" xml:space="preserve">
+    <value>splitContainerServerTab.Panel1</value>
   </data>
-  <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
+  <data name="&gt;&gt;splitContainerServerTab.Panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="tabAppearance.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
+  <data name="&gt;&gt;splitContainerServerTab.Panel1.Parent" xml:space="preserve">
+    <value>splitContainerServerTab</value>
   </data>
   <data name="&gt;&gt;splitContainerServerTab.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
-    <value>panelBottomBar</value>
+  <data name="propertyGridServer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="propertyGridServer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
-  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="tabControlMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="propertyGridServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="&gt;&gt;groupBoxHTTP.Name" xml:space="preserve">
-    <value>groupBoxHTTP</value>
+  <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>235, 274</value>
+  </data>
+  <data name="propertyGridServer.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;propertyGridServer.Name" xml:space="preserve">
+    <value>propertyGridServer</value>
+  </data>
+  <data name="&gt;&gt;propertyGridServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PropertyGrid, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;propertyGridServer.Parent" xml:space="preserve">
+    <value>splitContainerServerTab.Panel2</value>
+  </data>
+  <data name="&gt;&gt;propertyGridServer.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Panel2.Name" xml:space="preserve">
+    <value>splitContainerServerTab.Panel2</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Panel2.Parent" xml:space="preserve">
+    <value>splitContainerServerTab</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="splitContainerServerTab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 274</value>
+  </data>
+  <data name="splitContainerServerTab.SplitterDistance" type="System.Int32, mscorlib">
+    <value>218</value>
+  </data>
+  <data name="splitContainerServerTab.SplitterWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="splitContainerServerTab.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Name" xml:space="preserve">
+    <value>splitContainerServerTab</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Type" xml:space="preserve">
+    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.Parent" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;splitContainerServerTab.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutGlobal.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="chk_SOCKS5_Share.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="chk_SOCKS5_Share.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;linkAbout.ZOrder" xml:space="preserve">
+  <data name="chk_SOCKS5_Share.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 22</value>
+  </data>
+  <data name="chk_SOCKS5_Share.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 16</value>
+  </data>
+  <data name="chk_SOCKS5_Share.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="btnApply.Text" xml:space="preserve">
-    <value>&amp;Apply</value>
+  <data name="chk_SOCKS5_Share.Text" xml:space="preserve">
+    <value>Share</value>
   </data>
-  <data name="&gt;&gt;lblAbout.Name" xml:space="preserve">
-    <value>lblAbout</value>
+  <data name="&gt;&gt;chk_SOCKS5_Share.Name" xml:space="preserve">
+    <value>chk_SOCKS5_Share</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Share.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Share.Parent" xml:space="preserve">
+    <value>groupBoxSOCKS5</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Share.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 22</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="chk_SOCKS5_Enable.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Enable.Name" xml:space="preserve">
+    <value>chk_SOCKS5_Enable</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Enable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Enable.Parent" xml:space="preserve">
+    <value>groupBoxSOCKS5</value>
+  </data>
+  <data name="&gt;&gt;chk_SOCKS5_Enable.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 23</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 12</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBoxSOCKS5</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txt_SOCKS5_Port.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 15</value>
+  </data>
+  <data name="txt_SOCKS5_Port.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 21</value>
+  </data>
+  <data name="txt_SOCKS5_Port.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txt_SOCKS5_Port.Name" xml:space="preserve">
+    <value>txt_SOCKS5_Port</value>
+  </data>
+  <data name="&gt;&gt;txt_SOCKS5_Port.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_SOCKS5_Port.Parent" xml:space="preserve">
+    <value>groupBoxSOCKS5</value>
+  </data>
+  <data name="&gt;&gt;txt_SOCKS5_Port.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxSOCKS5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBoxSOCKS5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="groupBoxSOCKS5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="groupBoxSOCKS5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 5, 5, 5</value>
+  </data>
+  <data name="groupBoxSOCKS5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 124</value>
+  </data>
+  <data name="groupBoxSOCKS5.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBoxSOCKS5.Text" xml:space="preserve">
+    <value>SOCKS5</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSOCKS5.Name" xml:space="preserve">
+    <value>groupBoxSOCKS5</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSOCKS5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSOCKS5.Parent" xml:space="preserve">
+    <value>layoutGlobal</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSOCKS5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chk_HTTP_Share.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_HTTP_Share.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_HTTP_Share.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 20</value>
+  </data>
+  <data name="chk_HTTP_Share.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 16</value>
+  </data>
+  <data name="chk_HTTP_Share.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="chk_HTTP_Share.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Share.Name" xml:space="preserve">
+    <value>chk_HTTP_Share</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Share.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Share.Parent" xml:space="preserve">
+    <value>groupBoxHTTP</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Share.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chk_HTTP_Enable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_HTTP_Enable.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_HTTP_Enable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 20</value>
+  </data>
+  <data name="chk_HTTP_Enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 16</value>
+  </data>
+  <data name="chk_HTTP_Enable.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="chk_HTTP_Enable.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Enable.Name" xml:space="preserve">
+    <value>chk_HTTP_Enable</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Enable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Enable.Parent" xml:space="preserve">
+    <value>groupBoxHTTP</value>
+  </data>
+  <data name="&gt;&gt;chk_HTTP_Enable.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>138, 21</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 12</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBoxHTTP</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txt_HTTP_Port.Location" type="System.Drawing.Point, System.Drawing">
+    <value>182, 13</value>
+  </data>
+  <data name="txt_HTTP_Port.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 21</value>
+  </data>
+  <data name="txt_HTTP_Port.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txt_HTTP_Port.Name" xml:space="preserve">
+    <value>txt_HTTP_Port</value>
+  </data>
+  <data name="&gt;&gt;txt_HTTP_Port.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_HTTP_Port.Parent" xml:space="preserve">
+    <value>groupBoxHTTP</value>
+  </data>
+  <data name="&gt;&gt;txt_HTTP_Port.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxHTTP.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBoxHTTP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 124</value>
+  </data>
+  <data name="groupBoxHTTP.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="groupBoxHTTP.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 5, 5, 5</value>
+  </data>
+  <data name="groupBoxHTTP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 124</value>
+  </data>
+  <data name="groupBoxHTTP.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="groupBoxHTTP.Text" xml:space="preserve">
+    <value>HTTP</value>
+  </data>
+  <data name="&gt;&gt;groupBoxHTTP.Name" xml:space="preserve">
+    <value>groupBoxHTTP</value>
+  </data>
+  <data name="&gt;&gt;groupBoxHTTP.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxHTTP.Parent" xml:space="preserve">
+    <value>layoutGlobal</value>
+  </data>
+  <data name="&gt;&gt;groupBoxHTTP.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="layoutGlobal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="layoutGlobal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="layoutGlobal.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="layoutGlobal.RowCount" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="layoutGlobal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 274</value>
+  </data>
+  <data name="layoutGlobal.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;layoutGlobal.Name" xml:space="preserve">
+    <value>layoutGlobal</value>
+  </data>
+  <data name="&gt;&gt;layoutGlobal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;layoutGlobal.Parent" xml:space="preserve">
+    <value>tabGlobal</value>
+  </data>
+  <data name="&gt;&gt;layoutGlobal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutGlobal.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBoxSOCKS5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxHTTP" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tabGlobal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabGlobal.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabGlobal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>461, 280</value>
+  </data>
+  <data name="tabGlobal.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabGlobal.Text" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="&gt;&gt;tabGlobal.Name" xml:space="preserve">
+    <value>tabGlobal</value>
+  </data>
+  <data name="&gt;&gt;tabGlobal.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabGlobal.Parent" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabGlobal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tabServer.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>461, 280</value>
+  </data>
+  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tabServer.Text" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Name" xml:space="preserve">
+    <value>tabServer</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="layoutAppearance.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="groupBoxSystrayIcon.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ucSystrayIconEditor1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 50</value>
+  </data>
+  <data name="ucSystrayIconEditor1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="ucSystrayIconEditor1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>396, 83</value>
+  </data>
+  <data name="ucSystrayIconEditor1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;ucSystrayIconEditor1.Name" xml:space="preserve">
     <value>ucSystrayIconEditor1</value>
   </data>
-  <data name="userControl12.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="&gt;&gt;ucSystrayIconEditor1.Type" xml:space="preserve">
+    <value>Shadowsocks_Windows_Local.Ui.UCSystrayIconEditor, shadowsocks-net-local, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;ucSystrayIconEditor1.Parent" xml:space="preserve">
+    <value>groupBoxSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;ucSystrayIconEditor1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 22</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 16</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.Text" xml:space="preserve">
+    <value>Enable Dynamic Icon</value>
+  </data>
+  <data name="&gt;&gt;chkEnableDynamicSystrayIcon.Name" xml:space="preserve">
+    <value>chkEnableDynamicSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;chkEnableDynamicSystrayIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chkEnableDynamicSystrayIcon.Parent" xml:space="preserve">
+    <value>groupBoxSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;chkEnableDynamicSystrayIcon.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>7, 5, 5, 5</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 152</value>
+  </data>
+  <data name="groupBoxSystrayIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="groupBoxSystrayIcon.Text" xml:space="preserve">
+    <value>Systray Icon</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSystrayIcon.Name" xml:space="preserve">
+    <value>groupBoxSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSystrayIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSystrayIcon.Parent" xml:space="preserve">
+    <value>layoutAppearance</value>
+  </data>
+  <data name="&gt;&gt;groupBoxSystrayIcon.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutAppearance.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="layoutAppearance.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="layoutAppearance.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="layoutAppearance.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="layoutAppearance.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 274</value>
+  </data>
+  <data name="layoutAppearance.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;layoutAppearance.Name" xml:space="preserve">
+    <value>layoutAppearance</value>
+  </data>
+  <data name="&gt;&gt;layoutAppearance.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;layoutAppearance.Parent" xml:space="preserve">
+    <value>tabAppearance</value>
+  </data>
+  <data name="&gt;&gt;layoutAppearance.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutAppearance.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBoxSystrayIcon" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tabAppearance.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabAppearance.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabAppearance.Size" type="System.Drawing.Size, System.Drawing">
+    <value>461, 280</value>
+  </data>
+  <data name="tabAppearance.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tabAppearance.Text" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="&gt;&gt;tabAppearance.Name" xml:space="preserve">
+    <value>tabAppearance</value>
+  </data>
+  <data name="&gt;&gt;tabAppearance.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabAppearance.Parent" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabAppearance.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="layoutAbout.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="label1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt, style=Bold</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 100</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="label1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 0, 0</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 180</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>This is not an official Shadowsocks release. Use at your own risk. 
+
+</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>layoutAbout</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="lblAbout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="lblAbout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lblAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="lblAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="lblAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 0, 0</value>
+  </data>
+  <data name="lblAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 50</value>
+  </data>
+  <data name="lblAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblAbout.Text" xml:space="preserve">
+    <value>Shadowsocks-Net is a free, open source, cross platform software developed in C# and licensed under Apache License 2.0.</value>
+  </data>
+  <data name="&gt;&gt;lblAbout.Name" xml:space="preserve">
+    <value>lblAbout</value>
+  </data>
+  <data name="&gt;&gt;lblAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblAbout.Parent" xml:space="preserve">
+    <value>layoutAbout</value>
+  </data>
+  <data name="&gt;&gt;lblAbout.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="linkAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="linkAbout.Font" type="System.Drawing.Font, System.Drawing">
+    <value>微软雅黑, 9pt</value>
+  </data>
+  <data name="linkAbout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 50</value>
+  </data>
+  <data name="linkAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="linkAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 0, 0</value>
+  </data>
+  <data name="linkAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 50</value>
+  </data>
+  <data name="linkAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="linkAbout.Text" xml:space="preserve">
+    <value>https://github.com/shadowsocks/Shadowsocks-Net/</value>
+  </data>
+  <data name="&gt;&gt;linkAbout.Name" xml:space="preserve">
+    <value>linkAbout</value>
+  </data>
+  <data name="&gt;&gt;linkAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkAbout.Parent" xml:space="preserve">
+    <value>layoutAbout</value>
+  </data>
+  <data name="&gt;&gt;linkAbout.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="layoutAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="layoutAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="layoutAbout.RowCount" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="layoutAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 274</value>
+  </data>
+  <data name="layoutAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;layoutAbout.Name" xml:space="preserve">
+    <value>layoutAbout</value>
+  </data>
+  <data name="&gt;&gt;layoutAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;layoutAbout.Parent" xml:space="preserve">
+    <value>tabAbout</value>
+  </data>
+  <data name="&gt;&gt;layoutAbout.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutAbout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblAbout" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="linkAbout" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="tabAbout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
+    <value>461, 280</value>
+  </data>
+  <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tabAbout.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="&gt;&gt;tabAbout.Name" xml:space="preserve">
+    <value>tabAbout</value>
+  </data>
+  <data name="&gt;&gt;tabAbout.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabAbout.Parent" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="tabControlMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tabControlMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tabControlMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="tabControlMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>469, 306</value>
+  </data>
+  <data name="tabControlMain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;tabControlMain.Name" xml:space="preserve">
+    <value>tabControlMain</value>
+  </data>
+  <data name="&gt;&gt;tabControlMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabControlMain.Parent" xml:space="preserve">
+    <value>layoutMain</value>
+  </data>
+  <data name="&gt;&gt;tabControlMain.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnApply.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnApply.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnApply.Location" type="System.Drawing.Point, System.Drawing">
+    <value>380, 18</value>
+  </data>
+  <data name="btnApply.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnApply.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnApply.Text" xml:space="preserve">
+    <value>&amp;Apply</value>
+  </data>
+  <data name="&gt;&gt;btnApply.Name" xml:space="preserve">
+    <value>btnApply</value>
+  </data>
+  <data name="&gt;&gt;btnApply.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnApply.Parent" xml:space="preserve">
     <value>panelBottomBar</value>
+  </data>
+  <data name="&gt;&gt;btnApply.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnOK.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 18</value>
+  </data>
+  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnOK.Text" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
+    <value>btnOK</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
+    <value>panelBottomBar</value>
+  </data>
+  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 18</value>
+  </data>
+  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="btnCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>&amp;Cancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
+    <value>btnCancel</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.Parent" xml:space="preserve">
+    <value>panelBottomBar</value>
+  </data>
+  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="layoutMain.ColumnCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="panelBottomBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelBottomBar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 306</value>
+  </data>
+  <data name="panelBottomBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="panelBottomBar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>469, 54</value>
+  </data>
+  <data name="panelBottomBar.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;panelBottomBar.Name" xml:space="preserve">
+    <value>panelBottomBar</value>
+  </data>
+  <data name="&gt;&gt;panelBottomBar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelBottomBar.Parent" xml:space="preserve">
+    <value>layoutMain</value>
+  </data>
+  <data name="&gt;&gt;panelBottomBar.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="layoutMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="layoutMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="layoutMain.RowCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="layoutMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>469, 360</value>
+  </data>
+  <data name="layoutMain.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;layoutMain.Name" xml:space="preserve">
+    <value>layoutMain</value>
+  </data>
+  <data name="&gt;&gt;layoutMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;layoutMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;layoutMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="layoutMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelBottomBar" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tabControlMain" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,85,Percent,15" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>469, 360</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -583,861 +1461,22 @@
         sP8HnX+c8U4DeOMAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="chk_HTTP_Enable.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="btnOK.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="chk_SOCKS5_Share.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tableAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="tabControlMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>469, 306</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel2.Name" xml:space="preserve">
-    <value>splitContainerServerTab.Panel2</value>
-  </data>
-  <data name="&gt;&gt;txt_SOCKS5_Port.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>469, 360</value>
-  </data>
-  <data name="tabAbout.Text" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="&gt;&gt;groupBoxHTTP.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panelBottomBar.Parent" xml:space="preserve">
-    <value>tableMain</value>
-  </data>
-  <data name="&gt;&gt;txt_SOCKS5_Port.Parent" xml:space="preserve">
-    <value>groupBoxSOCKS5</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel1.Name" xml:space="preserve">
-    <value>splitContainerServerTab.Panel1</value>
-  </data>
-  <data name="tableMain.Size" type="System.Drawing.Size, System.Drawing">
-    <value>469, 360</value>
-  </data>
-  <data name="btnCancel.Text" xml:space="preserve">
-    <value>&amp;Cancel</value>
-  </data>
-  <data name="chk_SOCKS5_Enable.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="txt_HTTP_Port.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 13</value>
-  </data>
-  <data name="splitContainerServerTab.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 274</value>
-  </data>
-  <data name="btnApply.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="chk_SOCKS5_Share.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 22</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBoxSOCKS5.Text" xml:space="preserve">
-    <value>SOCKS5</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 12</value>
-  </data>
-  <data name="tabAppearance.Text" xml:space="preserve">
-    <value>Appearance</value>
-  </data>
-  <data name="tableAppearance.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBoxSystrayIcon" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;groupBoxHTTP.Parent" xml:space="preserve">
-    <value>tableGlobal</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 5, 5, 5</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableMain.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelBottomBar" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="tabControlMain" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="Percent,85,Percent,15" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>96, 96</value>
-  </data>
-  <data name="&gt;&gt;btnOK.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;lblAbout.Parent" xml:space="preserve">
-    <value>tableAbout</value>
-  </data>
-  <data name="tabControlMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="userControl12.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 274</value>
-  </data>
-  <data name="panelBottomBar.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="chk_SOCKS5_Enable.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBoxHTTP</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Share.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="linkAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 50</value>
-  </data>
-  <data name="&gt;&gt;propertyGridServer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PropertyGrid, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="linkAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSystrayIcon.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>138, 23</value>
-  </data>
-  <data name="tabAppearance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 280</value>
-  </data>
-  <data name="tabGlobal.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Share.Parent" xml:space="preserve">
-    <value>groupBoxSOCKS5</value>
-  </data>
-  <data name="&gt;&gt;propertyGridServer.Name" xml:space="preserve">
-    <value>propertyGridServer</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;propertyGridServer.Parent" xml:space="preserve">
-    <value>splitContainerServerTab.Panel2</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tabAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 280</value>
-  </data>
-  <data name="chk_HTTP_Enable.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Share.Name" xml:space="preserve">
-    <value>chk_HTTP_Share</value>
-  </data>
-  <data name="&gt;&gt;tabGlobal.Name" xml:space="preserve">
-    <value>tabGlobal</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Name" xml:space="preserve">
-    <value>btnCancel</value>
-  </data>
-  <data name="&gt;&gt;tableGlobal.Parent" xml:space="preserve">
-    <value>tabGlobal</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="txt_HTTP_Port.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tableAbout.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="splitContainerServerTab.SplitterWidth" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnOK.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSystrayIcon.Parent" xml:space="preserve">
-    <value>tableAppearance</value>
-  </data>
-  <data name="tabGlobal.Text" xml:space="preserve">
-    <value>Global</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>tableAbout</value>
-  </data>
-  <data name="&gt;&gt;tabAppearance.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="tableAppearance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;ucSystrayIconEditor1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableAppearance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 274</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>350, 300</value>
   </data>
-  <data name="groupBoxSOCKS5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;tabServer.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 180</value>
-  </data>
-  <data name="tabServer.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="tabGlobal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>461, 280</value>
-  </data>
-  <data name="&gt;&gt;userControl12.Parent" xml:space="preserve">
-    <value>splitContainerServerTab.Panel1</value>
-  </data>
-  <data name="btnApply.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;lblAbout.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="linkAbout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="chk_HTTP_Share.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Enable.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnCancel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabGlobal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tabAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="chk_SOCKS5_Share.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="groupBoxSOCKS5.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="linkAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="tableAppearance.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tableAbout.RowCount" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="tableGlobal.RowCount" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSOCKS5.Parent" xml:space="preserve">
-    <value>tableGlobal</value>
-  </data>
-  <data name="&gt;&gt;userControl12.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>This is not an official Shadowsocks release. Use at your own risk. 
-
-</value>
-  </data>
-  <data name="tableGlobal.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;tableAppearance.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tableMain.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="splitContainerServerTab.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;txt_HTTP_Port.Parent" xml:space="preserve">
-    <value>groupBoxHTTP</value>
-  </data>
-  <data name="tableGlobal.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="lblAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="groupBoxSOCKS5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Enable.Parent" xml:space="preserve">
-    <value>groupBoxSOCKS5</value>
-  </data>
-  <data name="&gt;&gt;tabServer.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel2.Parent" xml:space="preserve">
-    <value>splitContainerServerTab</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Name" xml:space="preserve">
-    <value>splitContainerServerTab</value>
-  </data>
-  <data name="ucSystrayIconEditor1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="groupBoxHTTP.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 5, 5, 5</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel1.Parent" xml:space="preserve">
-    <value>splitContainerServerTab</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>35, 12</value>
-  </data>
-  <data name="ucSystrayIconEditor1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 19</value>
-  </data>
-  <data name="chk_HTTP_Share.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="groupBoxHTTP.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="chk_HTTP_Enable.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableGlobal.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="groupBoxSOCKS5" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="groupBoxHTTP" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="chk_HTTP_Share.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
-  </data>
-  <data name="chk_SOCKS5_Share.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 16</value>
-  </data>
-  <data name="tabAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="linkAbout.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="groupBoxHTTP.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Port:</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Port:</value>
-  </data>
-  <data name="tabAppearance.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="&gt;&gt;ucSystrayIconEditor1.Type" xml:space="preserve">
-    <value>Shadowsocks_Windows_Local.Ui.UCSystrayIconEditor, shadowsocks-net-local, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;tableAbout.Name" xml:space="preserve">
-    <value>tableAbout</value>
-  </data>
-  <data name="lblAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 50</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitContainer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="txt_SOCKS5_Port.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 15</value>
-  </data>
-  <data name="panelBottomBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 306</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Enable.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="lblAbout.Text" xml:space="preserve">
-    <value>Shadowsocks-Net is a free, open source, cross platform software developed in C# and licensed under Apache License 2.0.</value>
-  </data>
-  <data name="lblAbout.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="tableAppearance.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 131</value>
-  </data>
-  <data name="splitContainerServerTab.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="linkAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 50</value>
-  </data>
-  <data name="propertyGridServer.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnApply.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="groupBoxSOCKS5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 124</value>
-  </data>
-  <data name="userControl12.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="groupBoxSOCKS5.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="chk_SOCKS5_Enable.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Share.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Parent" xml:space="preserve">
-    <value>panelBottomBar</value>
-  </data>
-  <data name="chk_SOCKS5_Enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>60, 16</value>
-  </data>
-  <data name="tabServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="userControl12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>219, 274</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Share.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tabControlMain.Name" xml:space="preserve">
-    <value>tabControlMain</value>
-  </data>
-  <data name="splitContainerServerTab.SplitterDistance" type="System.Int32, mscorlib">
-    <value>219</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 100</value>
-  </data>
-  <data name="btnCancel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="splitContainerServerTab.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Enable.Parent" xml:space="preserve">
-    <value>groupBoxHTTP</value>
-  </data>
-  <data name="chk_HTTP_Share.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 20</value>
-  </data>
-  <data name="&gt;&gt;tableAbout.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableMain.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;linkAbout.Parent" xml:space="preserve">
-    <value>tableAbout</value>
-  </data>
-  <data name="groupBoxHTTP.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;linkAbout.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="lblAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;txt_SOCKS5_Port.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="tableAbout.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 274</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBoxSOCKS5</value>
-  </data>
-  <data name="btnApply.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>FrmSettings</value>
-  </data>
-  <data name="tableMain.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="linkAbout.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 9pt</value>
-  </data>
-  <data name="&gt;&gt;txt_HTTP_Port.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="panelBottomBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="lblAbout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="btnOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 18</value>
-  </data>
-  <data name="tableGlobal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 274</value>
-  </data>
-  <data name="groupBoxHTTP.Text" xml:space="preserve">
-    <value>HTTP</value>
-  </data>
-  <data name="&gt;&gt;propertyGridServer.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabAppearance.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tableMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnApply.Location" type="System.Drawing.Point, System.Drawing">
-    <value>380, 18</value>
-  </data>
-  <data name="&gt;&gt;tableAppearance.Parent" xml:space="preserve">
-    <value>tabAppearance</value>
-  </data>
-  <data name="&gt;&gt;tabServer.Parent" xml:space="preserve">
-    <value>tabControlMain</value>
-  </data>
-  <data name="chk_HTTP_Enable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 20</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Share.Parent" xml:space="preserve">
-    <value>groupBoxHTTP</value>
-  </data>
-  <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="&gt;&gt;txt_HTTP_Port.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;tableGlobal.Name" xml:space="preserve">
-    <value>tableGlobal</value>
-  </data>
-  <data name="groupBoxSOCKS5.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>7, 5, 5, 5</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Enable.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="tabGlobal.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 3</value>
-  </data>
-  <data name="tabAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Parent" xml:space="preserve">
-    <value>tabControlMain</value>
-  </data>
-  <data name="&gt;&gt;tabAppearance.Parent" xml:space="preserve">
-    <value>tabControlMain</value>
-  </data>
-  <data name="btnOK.Text" xml:space="preserve">
-    <value>&amp;OK</value>
-  </data>
-  <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="tableGlobal.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="&gt;&gt;groupBoxHTTP.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Parent" xml:space="preserve">
-    <value>tabServer</value>
-  </data>
-  <data name="groupBoxSystrayIcon.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="chk_HTTP_Share.Text" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="chk_HTTP_Enable.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="chk_SOCKS5_Enable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 22</value>
-  </data>
-  <data name="&gt;&gt;tabGlobal.Parent" xml:space="preserve">
-    <value>tabControlMain</value>
-  </data>
-  <data name="txt_SOCKS5_Port.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tabGlobal.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="panelBottomBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>469, 54</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="label1.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Enable.Name" xml:space="preserve">
-    <value>chk_SOCKS5_Enable</value>
-  </data>
-  <data name="&gt;&gt;btnApply.Name" xml:space="preserve">
-    <value>btnApply</value>
-  </data>
-  <data name="tableMain.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="groupBoxSystrayIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="tableAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="tableGlobal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>299, 18</value>
-  </data>
-  <data name="tabGlobal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 22</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;tabControlMain.Parent" xml:space="preserve">
-    <value>tableMain</value>
-  </data>
-  <data name="&gt;&gt;chk_SOCKS5_Share.Name" xml:space="preserve">
-    <value>chk_SOCKS5_Share</value>
-  </data>
-  <data name="tableGlobal.ColumnCount" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="chk_SOCKS5_Share.Text" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="txt_SOCKS5_Port.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
-  </data>
-  <data name="&gt;&gt;tableMain.Name" xml:space="preserve">
-    <value>tableMain</value>
-  </data>
-  <data name="groupBoxHTTP.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 124</value>
-  </data>
-  <data name="&gt;&gt;tableAppearance.Name" xml:space="preserve">
-    <value>tableAppearance</value>
-  </data>
-  <data name="&gt;&gt;ucSystrayIconEditor1.Parent" xml:space="preserve">
-    <value>groupBoxSystrayIcon</value>
-  </data>
-  <data name="&gt;&gt;btnApply.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="propertyGridServer.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="propertyGridServer.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="propertyGridServer.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="tabControlMain.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tabAppearance.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="linkAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>5, 5, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;tableGlobal.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ucSystrayIconEditor1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;panelBottomBar.Name" xml:space="preserve">
-    <value>panelBottomBar</value>
-  </data>
-  <data name="btnOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="&gt;&gt;linkAbout.Name" xml:space="preserve">
-    <value>linkAbout</value>
-  </data>
-  <data name="panelBottomBar.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="ucSystrayIconEditor1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>443, 107</value>
-  </data>
-  <data name="tableAppearance.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>微软雅黑, 9pt, style=Bold</value>
-  </data>
-  <data name="&gt;&gt;panelBottomBar.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tableAppearance.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSOCKS5.Name" xml:space="preserve">
-    <value>groupBoxSOCKS5</value>
-  </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;userControl12.Type" xml:space="preserve">
-    <value>Shadowsocks_Windows_Local.Ui.UCServerList, shadowsocks-net-local, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSOCKS5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
-  <data name="&gt;&gt;tableMain.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>FrmSettings</value>
   </data>
-  <data name="&gt;&gt;tabControlMain.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnApply.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="lblAbout.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="splitContainerServerTab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Share.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="tabServer.Text" xml:space="preserve">
-    <value>Server</value>
-  </data>
-  <data name="lblAbout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;groupBoxSOCKS5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="tableAbout.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="label1" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="lblAbout" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="linkAbout" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0" /&gt;&lt;/TableLayoutSettings&gt;</value>
-  </data>
-  <data name="&gt;&gt;tableAppearance.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tableMain.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;tabAbout.Name" xml:space="preserve">
-    <value>tabAbout</value>
-  </data>
-  <data name="&gt;&gt;tabControlMain.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="txt_HTTP_Port.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 21</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chk_HTTP_Enable.Name" xml:space="preserve">
-    <value>chk_HTTP_Enable</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="ucSystrayIconEditor1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;userControl12.Name" xml:space="preserve">
-    <value>userControl12</value>
-  </data>
-  <data name="&gt;&gt;splitContainerServerTab.Panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.SplitterPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;btnOK.Name" xml:space="preserve">
-    <value>btnOK</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
 </root>

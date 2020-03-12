@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="userControl12.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="ucServerList.Size" type="System.Drawing.Size, System.Drawing">
     <value>232, 274</value>
   </data>
   <data name="propertyGridServer.Size" type="System.Drawing.Size, System.Drawing">
@@ -135,10 +135,10 @@
   <data name="tabGlobal.Text" xml:space="preserve">
     <value>全局</value>
   </data>
-  <data name="tableGlobal.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="layoutGlobal.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
-  <data name="tableGlobal.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="layoutGlobal.Size" type="System.Drawing.Size, System.Drawing">
     <value>451, 270</value>
   </data>
   <data name="groupBoxSOCKS5.Size" type="System.Drawing.Size, System.Drawing">
@@ -195,20 +195,29 @@
   <data name="tabAppearance.Text" xml:space="preserve">
     <value>外观</value>
   </data>
-  <data name="tableAppearance.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="layoutAppearance.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
-  <data name="tableAppearance.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="layoutAppearance.Size" type="System.Drawing.Size, System.Drawing">
     <value>451, 270</value>
   </data>
   <data name="groupBoxSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>451, 131</value>
+    <value>451, 164</value>
   </data>
   <data name="groupBoxSystrayIcon.Text" xml:space="preserve">
     <value>通知区域图标</value>
   </data>
+  <data name="ucSystrayIconEditor1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="ucSystrayIconEditor1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>439, 107</value>
+    <value>398, 95</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 16</value>
+  </data>
+  <data name="chkEnableDynamicSystrayIcon.Text" xml:space="preserve">
+    <value>使用动态图标</value>
   </data>
   <data name="tabAbout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>5, 5, 5, 5</value>
@@ -219,10 +228,10 @@
   <data name="tabAbout.Text" xml:space="preserve">
     <value>关于</value>
   </data>
-  <data name="tableAbout.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="layoutAbout.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 5</value>
   </data>
-  <data name="tableAbout.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="layoutAbout.Size" type="System.Drawing.Size, System.Drawing">
     <value>451, 270</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">

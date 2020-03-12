@@ -17,5 +17,11 @@
     <Setting Name="SystrayIconBad" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Coral</Value>
     </Setting>
+    <Setting Name="SystrayIconDefault" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">33, 37, 41</Value>
+    </Setting>
+    <Setting Name="SettingWindowSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">485, 400</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

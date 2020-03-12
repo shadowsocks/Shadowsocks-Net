@@ -20,6 +20,8 @@ namespace Shadowsocks_Windows_Local.Ui
         public FrmSettings()
         {
             InitializeComponent();
+
+            this.Size = Properties.Settings.Default.SettingWindowSize;
         }
 
 
@@ -63,7 +65,8 @@ namespace Shadowsocks_Windows_Local.Ui
 
         private void FrmSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            Properties.Settings.Default.SettingWindowSize = this.Size;
+            //Application.Exit();
         }
     }
 }

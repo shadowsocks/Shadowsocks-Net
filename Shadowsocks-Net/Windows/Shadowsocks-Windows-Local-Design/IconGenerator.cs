@@ -20,6 +20,22 @@ namespace Shadowsocks_Windows_Local
 {
     static class IconGenerator
     {
+
+        public static void GetBitmap(out Bitmap bitmap, int size, Color fgColor, Color bgColor = default)
+        {
+            GetBitmap(out Bitmap rawImg, fgColor, bgColor);
+            bitmap = new Bitmap(size, size, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.Clear(default == bgColor ? Color.Transparent : bgColor);
+
+                g.DrawImage(rawImg, new Rectangle(0, 0, size, size), new Rectangle(0, 0, rawImg.Width, rawImg.Height), GraphicsUnit.Pixel);
+            }
+            rawImg.Dispose();
+        }
         public static void GetBitmap(out Bitmap bitmap, Color fgColor, Color bgColor = default)
         {
             using (var rawImg = GetImage(fgColor))

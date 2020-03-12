@@ -118,225 +118,367 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnSystrayIconSlow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="btnSystrayIconFast.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="btnSystrayIconFast.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnSystrayIconFast.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAppJREFUaEPt
+        2juL1FAYxvFRRDtFxNuC2utXEAsR77D6DaxVsPPSqZ2lWtmoWFp6XTsvrah4KbWyE7UVxcv/EQ/E8Mzm
+        zTnZSRjmgR/szk7evENykpMzO5plllkmnsd43kDvGXS24XfQVgw2R+Gado5gsLkI17RzAYPNPbimnbsY
+        XJbhAD7DNe3ovdpG204sp7ALy//+9n8O4xVcsxEvcQj1aF/ap/bdSXYj7fQjLmMn1uAaqk2VuI212IHz
+        +ID0t30oygq8QXWHyTfzWqlxNdWDesnOSbjCfTiBrOgwf4Ir2ocvWIfWuQpXsE9X0Crb8QOuWNRP6Ny+
+        /49+1mvuvVHqSb2F8wiuUITuD2ewCfVsxlnoNHHbRqi3UPbAFYh4gvVoygY8hasRoR4bsxK34AosRh9C
+        20aj9+Z8GPUW3o+mDZrU/YIrVqfTKXIk6tGRiZ5m6kU9ZU1pjuE7XOGq08iNxoyrWaUe1EtRNF1wxRNd
+        idzAjkYXgKarmXooziW44slrlOYtXO1EPRTnJlzx5AFK8xCudnIDxVERVzxRE6VZgKudXEdxmk4t3bFL
+        M5FTKzLYNWBzM4emy3zxYI9efnUJzc05uJpV2ZfftjdE3dR0c2ubjfgKV7Ou9Q0xd4qi6UabKcoqPIOr
+        tZjwFKVk0qgPEzkyOhI5HyIJTRqVkmm8TjONGXcB0MDWmIieTk54Gq909WD1Drphin6OjrlxWj9YKXqs
+        dMX6pKWo1hna4oMeFbIWHxQtwbiifTiO7EzNAp0ybsl0NZZyyfQ90t/2opM0LWJrIbraVBsvcBD1dL6I
+        HYmmDfvR9msFbTPI6Msb17RzB4ONJnWuaaeT5/Clir7gdE078xhs9JWza9rZgkFnKv5hYJZZpiuj0R8X
+        UajzXi+z9AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnSystrayIconFast.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="btnSystrayIconFast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="btnSystrayIconSlow.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
+  <data name="btnSystrayIconFast.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="btnSystrayIconFast.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 10, 0</value>
+  </data>
+  <data name="btnSystrayIconFast.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 79</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnSystrayIconFast.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="flowLayoutSystrayIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="flowLayoutSystrayIcon.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconBad.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconFast.Parent" xml:space="preserve">
-    <value>flowLayoutSystrayIcon</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="flowLayoutSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>330, 98</value>
-  </data>
-  <data name="btnSystrayIconSlow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 92</value>
-  </data>
-  <data name="btnSystrayIconSlow.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnSystrayIconBad.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomCenter</value>
-  </data>
-  <data name="btnSystrayIconGood.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+  <data name="btnSystrayIconFast.Text" xml:space="preserve">
+    <value>Fast</value>
   </data>
   <data name="btnSystrayIconFast.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomCenter</value>
   </data>
-  <data name="btnSystrayIconBad.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 92</value>
-  </data>
-  <data name="btnSystrayIconGood.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 92</value>
-  </data>
-  <data name="btnSystrayIconGood.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconFast.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="btnSystrayIconFast.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSystrayIconBad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="btnSystrayIconGood.Text" xml:space="preserve">
-    <value>Good</value>
-  </data>
-  <data name="btnSystrayIconSlow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 10, 0</value>
-  </data>
-  <data name="&gt;&gt;flowLayoutSystrayIcon.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconBad.Name" xml:space="preserve">
-    <value>btnSystrayIconBad</value>
-  </data>
-  <data name="btnSystrayIconBad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 10, 0</value>
-  </data>
-  <data name="btnSystrayIconBad.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="btnSystrayIconBad.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconGood.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="btnSystrayIconSlow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomCenter</value>
-  </data>
-  <data name="btnSystrayIconGood.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
-    <value>Flat</value>
-  </data>
-  <data name="btnSystrayIconSlow.Text" xml:space="preserve">
-    <value>Slow</value>
-  </data>
-  <data name="btnSystrayIconSlow.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="&gt;&gt;colorDialog1.Name" xml:space="preserve">
-    <value>colorDialog1</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconGood.Name" xml:space="preserve">
-    <value>btnSystrayIconGood</value>
+  <data name="btnSystrayIconFast.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
   </data>
   <data name="&gt;&gt;btnSystrayIconFast.Name" xml:space="preserve">
     <value>btnSystrayIconFast</value>
   </data>
-  <data name="btnSystrayIconFast.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
-  </data>
-  <data name="btnSystrayIconBad.Text" xml:space="preserve">
-    <value>Bad</value>
-  </data>
-  <data name="btnSystrayIconFast.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 92</value>
-  </data>
-  <data name="btnSystrayIconFast.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 10, 0</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconSlow.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnSystrayIconFast.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="btnSystrayIconGood.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomCenter</value>
-  </data>
-  <data name="btnSystrayIconBad.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 0</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconGood.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="btnSystrayIconFast.Text" xml:space="preserve">
-    <value>Fast</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconBad.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnSystrayIconFast.Parent" xml:space="preserve">
     <value>flowLayoutSystrayIcon</value>
   </data>
-  <data name="btnSystrayIconBad.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
-  </data>
-  <data name="btnSystrayIconGood.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 10, 0</value>
-  </data>
-  <data name="btnSystrayIconFast.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Zoom</value>
-  </data>
-  <data name="&gt;&gt;colorDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;btnSystrayIconFast.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="btnSystrayIconGood.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
-  <data name="&gt;&gt;btnSystrayIconFast.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnSystrayIconGood.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
-  <data name="&gt;&gt;flowLayoutSystrayIcon.ZOrder" xml:space="preserve">
+  <data name="btnSystrayIconGood.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAppJREFUaEPt
+        2juL1FAYxvFRRDtFxNuC2utXEAsR77D6DaxVsPPSqZ2lWtmoWFp6XTsvrah4KbWyE7UVxcv/EQ/E8Mzm
+        zTnZSRjmgR/szk7evENykpMzO5plllkmnsd43kDvGXS24XfQVgw2R+Gado5gsLkI17RzAYPNPbimnbsY
+        XJbhAD7DNe3ovdpG204sp7ALy//+9n8O4xVcsxEvcQj1aF/ap/bdSXYj7fQjLmMn1uAaqk2VuI212IHz
+        +ID0t30oygq8QXWHyTfzWqlxNdWDesnOSbjCfTiBrOgwf4Ir2ocvWIfWuQpXsE9X0Crb8QOuWNRP6Ny+
+        /49+1mvuvVHqSb2F8wiuUITuD2ewCfVsxlnoNHHbRqi3UPbAFYh4gvVoygY8hasRoR4bsxK34AosRh9C
+        20aj9+Z8GPUW3o+mDZrU/YIrVqfTKXIk6tGRiZ5m6kU9ZU1pjuE7XOGq08iNxoyrWaUe1EtRNF1wxRNd
+        idzAjkYXgKarmXooziW44slrlOYtXO1EPRTnJlzx5AFK8xCudnIDxVERVzxRE6VZgKudXEdxmk4t3bFL
+        M5FTKzLYNWBzM4emy3zxYI9efnUJzc05uJpV2ZfftjdE3dR0c2ubjfgKV7Ou9Q0xd4qi6UabKcoqPIOr
+        tZjwFKVk0qgPEzkyOhI5HyIJTRqVkmm8TjONGXcB0MDWmIieTk54Gq909WD1Drphin6OjrlxWj9YKXqs
+        dMX6pKWo1hna4oMeFbIWHxQtwbiifTiO7EzNAp0ybsl0NZZyyfQ90t/2opM0LWJrIbraVBsvcBD1dL6I
+        HYmmDfvR9msFbTPI6Msb17RzB4ONJnWuaaeT5/Clir7gdE078xhs9JWza9rZgkFnKv5hYJZZpiuj0R8X
+        UajzXi+z9AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnSystrayIconGood.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="btnSystrayIconGood.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSystrayIconGood.Location" type="System.Drawing.Point, System.Drawing">
+    <value>74, 0</value>
+  </data>
+  <data name="btnSystrayIconGood.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 10, 0</value>
+  </data>
+  <data name="btnSystrayIconGood.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 79</value>
+  </data>
+  <data name="btnSystrayIconGood.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;flowLayoutSystrayIcon.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnSystrayIconGood.Text" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="btnSystrayIconGood.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="btnSystrayIconGood.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconGood.Name" xml:space="preserve">
+    <value>btnSystrayIconGood</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconGood.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;btnSystrayIconGood.Parent" xml:space="preserve">
     <value>flowLayoutSystrayIcon</value>
   </data>
-  <data name="flowLayoutSystrayIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="&gt;&gt;btnSystrayIconGood.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>UCSystrayIconEditor</value>
+  <data name="btnSystrayIconSlow.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
   </data>
-  <data name="&gt;&gt;btnSystrayIconBad.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnSystrayIconSlow.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>330, 98</value>
+  <data name="btnSystrayIconSlow.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAppJREFUaEPt
+        2juL1FAYxvFRRDtFxNuC2utXEAsR77D6DaxVsPPSqZ2lWtmoWFp6XTsvrah4KbWyE7UVxcv/EQ/E8Mzm
+        zTnZSRjmgR/szk7evENykpMzO5plllkmnsd43kDvGXS24XfQVgw2R+Gado5gsLkI17RzAYPNPbimnbsY
+        XJbhAD7DNe3ovdpG204sp7ALy//+9n8O4xVcsxEvcQj1aF/ap/bdSXYj7fQjLmMn1uAaqk2VuI212IHz
+        +ID0t30oygq8QXWHyTfzWqlxNdWDesnOSbjCfTiBrOgwf4Ir2ocvWIfWuQpXsE9X0Crb8QOuWNRP6Ny+
+        /49+1mvuvVHqSb2F8wiuUITuD2ewCfVsxlnoNHHbRqi3UPbAFYh4gvVoygY8hasRoR4bsxK34AosRh9C
+        20aj9+Z8GPUW3o+mDZrU/YIrVqfTKXIk6tGRiZ5m6kU9ZU1pjuE7XOGq08iNxoyrWaUe1EtRNF1wxRNd
+        idzAjkYXgKarmXooziW44slrlOYtXO1EPRTnJlzx5AFK8xCudnIDxVERVzxRE6VZgKudXEdxmk4t3bFL
+        M5FTKzLYNWBzM4emy3zxYI9efnUJzc05uJpV2ZfftjdE3dR0c2ubjfgKV7Ou9Q0xd4qi6UabKcoqPIOr
+        tZjwFKVk0qgPEzkyOhI5HyIJTRqVkmm8TjONGXcB0MDWmIieTk54Gq909WD1Drphin6OjrlxWj9YKXqs
+        dMX6pKWo1hna4oMeFbIWHxQtwbiifTiO7EzNAp0ybsl0NZZyyfQ90t/2opM0LWJrIbraVBsvcBD1dL6I
+        HYmmDfvR9msFbTPI6Msb17RzB4ONJnWuaaeT5/Clir7gdE078xhs9JWza9rZgkFnKv5hYJZZpiuj0R8X
+        UajzXi+z9AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnSystrayIconSlow.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="btnSystrayIconSlow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="btnSystrayIconSlow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>120, 0</value>
+    <value>148, 0</value>
   </data>
-  <data name="&gt;&gt;flowLayoutSystrayIcon.Name" xml:space="preserve">
+  <data name="btnSystrayIconSlow.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 10, 0</value>
+  </data>
+  <data name="btnSystrayIconSlow.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 79</value>
+  </data>
+  <data name="btnSystrayIconSlow.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="btnSystrayIconSlow.Text" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="btnSystrayIconSlow.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="btnSystrayIconSlow.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconSlow.Name" xml:space="preserve">
+    <value>btnSystrayIconSlow</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconSlow.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconSlow.Parent" xml:space="preserve">
     <value>flowLayoutSystrayIcon</value>
   </data>
   <data name="&gt;&gt;btnSystrayIconSlow.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="btnSystrayIconFast.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="&gt;&gt;btnSystrayIconSlow.Parent" xml:space="preserve">
-    <value>flowLayoutSystrayIcon</value>
-  </data>
   <data name="btnSystrayIconBad.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
-  <data name="&gt;&gt;btnSystrayIconSlow.Name" xml:space="preserve">
-    <value>btnSystrayIconSlow</value>
-  </data>
-  <data name="btnSystrayIconFast.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="btnSystrayIconBad.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
-  <data name="btnSystrayIconGood.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 0</value>
+  <data name="btnSystrayIconBad.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAppJREFUaEPt
+        2juL1FAYxvFRRDtFxNuC2utXEAsR77D6DaxVsPPSqZ2lWtmoWFp6XTsvrah4KbWyE7UVxcv/EQ/E8Mzm
+        zTnZSRjmgR/szk7evENykpMzO5plllkmnsd43kDvGXS24XfQVgw2R+Gado5gsLkI17RzAYPNPbimnbsY
+        XJbhAD7DNe3ovdpG204sp7ALy//+9n8O4xVcsxEvcQj1aF/ap/bdSXYj7fQjLmMn1uAaqk2VuI212IHz
+        +ID0t30oygq8QXWHyTfzWqlxNdWDesnOSbjCfTiBrOgwf4Ir2ocvWIfWuQpXsE9X0Crb8QOuWNRP6Ny+
+        /49+1mvuvVHqSb2F8wiuUITuD2ewCfVsxlnoNHHbRqi3UPbAFYh4gvVoygY8hasRoR4bsxK34AosRh9C
+        20aj9+Z8GPUW3o+mDZrU/YIrVqfTKXIk6tGRiZ5m6kU9ZU1pjuE7XOGq08iNxoyrWaUe1EtRNF1wxRNd
+        idzAjkYXgKarmXooziW44slrlOYtXO1EPRTnJlzx5AFK8xCudnIDxVERVzxRE6VZgKudXEdxmk4t3bFL
+        M5FTKzLYNWBzM4emy3zxYI9efnUJzc05uJpV2ZfftjdE3dR0c2ubjfgKV7Ou9Q0xd4qi6UabKcoqPIOr
+        tZjwFKVk0qgPEzkyOhI5HyIJTRqVkmm8TjONGXcB0MDWmIieTk54Gq909WD1Drphin6OjrlxWj9YKXqs
+        dMX6pKWo1hna4oMeFbIWHxQtwbiifTiO7EzNAp0ybsl0NZZyyfQ90t/2opM0LWJrIbraVBsvcBD1dL6I
+        HYmmDfvR9msFbTPI6Msb17RzB4ONJnWuaaeT5/Clir7gdE078xhs9JWza9rZgkFnKv5hYJZZpiuj0R8X
+        UajzXi+z9AAAAABJRU5ErkJggg==
+</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="btnSystrayIconGood.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="btnSystrayIconSlow.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+  <data name="btnSystrayIconBad.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopCenter</value>
+  </data>
+  <data name="btnSystrayIconBad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSystrayIconBad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>222, 0</value>
+  </data>
+  <data name="btnSystrayIconBad.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 10, 0</value>
+  </data>
+  <data name="btnSystrayIconBad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 79</value>
+  </data>
+  <data name="btnSystrayIconBad.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="btnSystrayIconBad.Text" xml:space="preserve">
+    <value>Bad</value>
+  </data>
+  <data name="btnSystrayIconBad.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="btnSystrayIconBad.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconBad.Name" xml:space="preserve">
+    <value>btnSystrayIconBad</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconBad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconBad.Parent" xml:space="preserve">
+    <value>flowLayoutSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconBad.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnSystrayIconDefault.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="btnSystrayIconDefault.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
+  <data name="btnSystrayIconDefault.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAppJREFUaEPt
+        2juL1FAYxvFRRDtFxNuC2utXEAsR77D6DaxVsPPSqZ2lWtmoWFp6XTsvrah4KbWyE7UVxcv/EQ/E8Mzm
+        zTnZSRjmgR/szk7evENykpMzO5plllkmnsd43kDvGXS24XfQVgw2R+Gado5gsLkI17RzAYPNPbimnbsY
+        XJbhAD7DNe3ovdpG204sp7ALy//+9n8O4xVcsxEvcQj1aF/ap/bdSXYj7fQjLmMn1uAaqk2VuI212IHz
+        +ID0t30oygq8QXWHyTfzWqlxNdWDesnOSbjCfTiBrOgwf4Ir2ocvWIfWuQpXsE9X0Crb8QOuWNRP6Ny+
+        /49+1mvuvVHqSb2F8wiuUITuD2ewCfVsxlnoNHHbRqi3UPbAFYh4gvVoygY8hasRoR4bsxK34AosRh9C
+        20aj9+Z8GPUW3o+mDZrU/YIrVqfTKXIk6tGRiZ5m6kU9ZU1pjuE7XOGq08iNxoyrWaUe1EtRNF1wxRNd
+        idzAjkYXgKarmXooziW44slrlOYtXO1EPRTnJlzx5AFK8xCudnIDxVERVzxRE6VZgKudXEdxmk4t3bFL
+        M5FTKzLYNWBzM4emy3zxYI9efnUJzc05uJpV2ZfftjdE3dR0c2ubjfgKV7Ou9Q0xd4qi6UabKcoqPIOr
+        tZjwFKVk0qgPEzkyOhI5HyIJTRqVkmm8TjONGXcB0MDWmIieTk54Gq909WD1Drphin6OjrlxWj9YKXqs
+        dMX6pKWo1hna4oMeFbIWHxQtwbiifTiO7EzNAp0ybsl0NZZyyfQ90t/2opM0LWJrIbraVBsvcBD1dL6I
+        HYmmDfvR9msFbTPI6Msb17RzB4ONJnWuaaeT5/Clir7gdE078xhs9JWza9rZgkFnKv5hYJZZpiuj0R8X
+        UajzXi+z9AAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnSystrayIconDefault.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="btnSystrayIconDefault.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnSystrayIconDefault.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 0</value>
+  </data>
+  <data name="btnSystrayIconDefault.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 10, 0</value>
+  </data>
+  <data name="btnSystrayIconDefault.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 79</value>
+  </data>
+  <data name="btnSystrayIconDefault.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnSystrayIconDefault.Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="btnSystrayIconDefault.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="btnSystrayIconDefault.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconDefault.Name" xml:space="preserve">
+    <value>btnSystrayIconDefault</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconDefault.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconDefault.Parent" xml:space="preserve">
+    <value>flowLayoutSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;btnSystrayIconDefault.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <data name="flowLayoutSystrayIcon.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <data name="flowLayoutSystrayIcon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="flowLayoutSystrayIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="flowLayoutSystrayIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 83</value>
+  </data>
+  <data name="flowLayoutSystrayIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutSystrayIcon.Name" xml:space="preserve">
+    <value>flowLayoutSystrayIcon</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutSystrayIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.FlowLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutSystrayIcon.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;flowLayoutSystrayIcon.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="colorDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>378, 83</value>
+  </data>
+  <data name="&gt;&gt;colorDialog1.Name" xml:space="preserve">
+    <value>colorDialog1</value>
+  </data>
+  <data name="&gt;&gt;colorDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColorDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>UCSystrayIconEditor</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
