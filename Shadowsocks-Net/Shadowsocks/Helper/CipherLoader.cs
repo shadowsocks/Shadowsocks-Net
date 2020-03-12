@@ -25,18 +25,12 @@ namespace Shadowsocks.Helper
     {
         public static Dictionary<string, Type> LoadCiphers()
         {
-            //var ciphers = from t in Assembly.GetExecutingAssembly().GetTypes()
-            //              where t.IsSubclassOf(typeof(Cipher.ShadowsocksCipher)) && t.GetCustomAttribute<Cipher.CipherAttribute>() != null
-            //              select new KeyValuePair<string, Type>(t.GetCustomAttribute<Cipher.CipherAttribute>().Name, t);
-            //return new Dictionary<string, Type>(ciphers);
-
             var ciphers = from t in Assembly.GetExecutingAssembly().GetTypes()
                           where t.IsSubclassOf(typeof(Cipher.ShadowsocksCipher))
                           let attr = t.GetCustomAttribute<Cipher.CipherAttribute>()
                           where attr != null
                           select new KeyValuePair<string, Type>(attr.Name, t);
             return new Dictionary<string, Type>(ciphers);
-
         }
     }
 }
