@@ -351,6 +351,8 @@ namespace Shadowsocks.Cipher.AeadCipher
 
             _hkdf.Init(new HkdfParameters(materKey, salt, info));
             _hkdf.GenerateBytes(subkeyBuffer, 0, subKeyLength);
+            //TODO hkdf .NET Core 5.0 //HKDF implementation by krwq · Pull Request #42567 · dotnet/corefx  https://github.com/dotnet/corefx/pull/42567
+            //https://gist.github.com/charlesportwoodii/09ffd6868c2a6e55826c4d5ebb509651
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
