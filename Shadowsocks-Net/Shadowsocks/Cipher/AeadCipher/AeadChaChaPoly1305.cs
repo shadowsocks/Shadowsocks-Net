@@ -23,13 +23,14 @@ namespace Shadowsocks.Cipher.AeadCipher
     using Cryptography;
     public abstract class AeadChaChaPoly1305 : ShadowosocksAeadCipher
     {
+        //TODO chacha memory optimization.
         protected static RecyclableMemoryStreamManager MemoryStreamManager = null;
         public AeadChaChaPoly1305(string password, ValueTuple<int, int> key_salt_size, NonceLength nonceLength = NonceLength.LEN_12, ILogger logger = null)
           : base(password, key_salt_size, nonceLength, logger)
         {
             if (null == MemoryStreamManager)
             {
-                int blockSize = 2048;
+                int blockSize = 1024;
                 int largeBufferMultiple = 2048 * 16;
                 int maxBufferSize = 16 * largeBufferMultiple;
 
