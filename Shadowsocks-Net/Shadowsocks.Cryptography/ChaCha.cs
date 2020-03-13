@@ -221,7 +221,7 @@ namespace Shadowsocks.Cryptography
                 throw new ArgumentException(message: "source stream is not able to be read from", paramName: nameof(source));
             }
 
-            if (null ==destination)
+            if (null == destination)
             {
                 throw new ArgumentNullException(paramName: nameof(destination));
             }
@@ -243,18 +243,21 @@ namespace Shadowsocks.Cryptography
                 transformer = new CryptoStream(source, CreateEncryptor(Key, IV), CryptoStreamMode.Read);
 
                 var bufferSize = 4096;
-                var buffer = new byte[bufferSize];
-                var numBytesRead = 0;
-
-                while (0 < (numBytesRead = transformer.Read(buffer, 0, bufferSize)))
+                using (var buffer = Infrastructure.RecyclableByteArray.Rent(bufferSize))
                 {
-                    if (source == destination)
-                    {
-                        destination.Position -= numBytesRead;
-                    }
+                    var numBytesRead = 0;
 
-                    destination.Write(buffer, 0, numBytesRead);
+                    while (0 < (numBytesRead = transformer.Read(buffer.Array, 0, bufferSize)))
+                    {
+                        if (source == destination)
+                        {
+                            destination.Position -= numBytesRead;
+                        }
+
+                        destination.Write(buffer.Array, 0, numBytesRead);
+                    }
                 }
+
             }
             finally
             {
