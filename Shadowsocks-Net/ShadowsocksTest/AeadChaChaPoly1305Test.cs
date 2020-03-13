@@ -13,8 +13,8 @@ namespace ShadowsocksTest
 
     [TestClass]
     public class AeadChaChaPoly1305Test
-    {        
-      
+    {
+
 
         [TestMethod]
         public void chacha20_ietf_poly1305_basics()
@@ -60,23 +60,6 @@ namespace ShadowsocksTest
                 Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
             }
 
-            aead = new AEAD_AES_192_GCM("password2");
-            for (int i = 0; i < 1000; i++)
-            {
-                RandomNumberGenerator.Fill(raw);
-                var c = aead.EncryptTcp(raw);
-                var p = aead.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
-                Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
-            }
-
-            aead = new AEAD_AES_256_GCM("password3");
-            for (int i = 0; i < 1000; i++)
-            {
-                RandomNumberGenerator.Fill(raw);
-                var c = aead.EncryptTcp(raw);
-                var p = aead.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
-                Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
-            }
         }
 
         [TestMethod]
@@ -124,25 +107,7 @@ namespace ShadowsocksTest
                 Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
             }
 
-            aead = new AEAD_AES_192_GCM("password2");
-            for (int i = 0; i < 1000; i++)
-            {
-                RandomNumberGenerator.Fill(raw);
-                var c = aead.EncryptTcp(raw);
-                var p = aead.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
-                Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
-            }
-
-            aead = new AEAD_AES_256_GCM("password3");
-            for (int i = 0; i < 1000; i++)
-            {
-                RandomNumberGenerator.Fill(raw);
-                var c = aead.EncryptTcp(raw);
-                var p = aead.DecryptTcp(c.Memory.Slice(0, c.SignificantLength));
-                Assert.IsTrue(p.SignificantMemory.Span.SequenceEqual(raw.AsSpan()));
-            }
         }
-
 
     }
 }
