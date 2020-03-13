@@ -7,23 +7,18 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text;
 using System.Buffers;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.IO;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
+using System.Text;
 
 namespace Shadowsocks.Cipher.AeadCipher
 {
-    [Cipher("aes-128-gcm")]
-    public class AEAD_AES_128_GCM : AeadAesGcm
+    public enum NonceLength
     {
-        public AEAD_AES_128_GCM(string password, ILogger logger = null)
-            : base(password, new ValueTuple<int, int>(16, 16), logger)
-        {
-
-        }
-
+        LEN_12 = 12,
+        LEN_24 = 24
     }
 }

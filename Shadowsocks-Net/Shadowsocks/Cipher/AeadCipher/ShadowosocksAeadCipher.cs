@@ -33,17 +33,20 @@ namespace Shadowsocks.Cipher.AeadCipher
     {
         //Shadowsocks - AEAD Ciphers  https://shadowsocks.org/en/spec/AEAD-Ciphers.html
 
-
-
-        protected const int LEN_NONCE = 12;
         protected const int LEN_TAG = 16;
         protected static readonly byte[] SubkeyInfoBytes = Encoding.ASCII.GetBytes("ss-subkey");
-        protected static readonly byte[] NonceZero = new byte[LEN_NONCE];
+
 
         protected readonly ValueTuple<int, int> _keySize_SaltSize = default;
+        protected readonly NonceLength _nonceLength = NonceLength.LEN_12;
+
 
         protected readonly HkdfBytesGenerator _hkdf = null;
         protected readonly byte[] _masterKeyBytes = null;
+
+        #region UDP
+        protected readonly byte[] _nonceZero = null;
+        #endregion
 
         #region TCP
         public const int LEN_TCP_PAYLOADLEN_LENGTH = 2;//
@@ -59,10 +62,12 @@ namespace Shadowsocks.Cipher.AeadCipher
         protected ILogger _logger = null;
 
 
-        public ShadowosocksAeadCipher(string password, ValueTuple<int, int> key_salt_size, ILogger logger = null)
+        public ShadowosocksAeadCipher(string password, ValueTuple<int, int> key_salt_size, NonceLength nonceLength = NonceLength.LEN_12, ILogger logger = null)
             : base(password)
         {
             _keySize_SaltSize = key_salt_size;
+            _nonceLength = nonceLength;
+            _nonceZero = new byte[(int)_nonceLength];
             _logger = logger;
 
             _hkdf = new HkdfBytesGenerator(new Sha1Digest());
@@ -70,10 +75,10 @@ namespace Shadowsocks.Cipher.AeadCipher
 
             _logger?.LogInformation($"ShadowosocksAeadCipher ctor " +
                 $"_keySize_SaltSize={_keySize_SaltSize.Item1},{_keySize_SaltSize.Item2}");
-            _tcpCtx加密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2);
-            _tcpCtx解密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2);
+            _tcpCtx加密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2, (int)_nonceLength);
+            _tcpCtx解密 = new TcpCipherContext(_keySize_SaltSize.Item1, _keySize_SaltSize.Item2, (int)_nonceLength);
 
-            
+
         }
 
         ~ShadowosocksAeadCipher()
@@ -150,7 +155,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             if (cipher.IsEmpty) { _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp plain.IsEmpty."); return null; }
             bool decrypteFailed = false;
             #region crumb
-            if (null !=_tcp_decrypt_crumb && _tcp_decrypt_crumb.SignificantLength > 0)//have crumb left lasttime.
+            if (null != _tcp_decrypt_crumb && _tcp_decrypt_crumb.SignificantLength > 0)//have crumb left lasttime.
             {
                 _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp crumb {_tcp_decrypt_crumb.SignificantLength} bytes found.");
                 using (var combCipher = SmartBuffer.Rent(cipher.Length + _tcp_decrypt_crumb.SignificantLength))
@@ -201,7 +206,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                     using (var len = this.DecryptChunk(arrPayloadLen, _tcpCtx解密.Key, _tcpCtx解密.Nonce))
                     {
                         _tcpCtx解密.IncreaseNonce();
-                        if (0 >= len.SignificantLength)
+                        if (null == len || 0 >= len.SignificantLength)
                         {
                             decrypteFailed = true;//TODO close client or not
                             break;
@@ -248,7 +253,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain= " +
                             $"{payload.SignificantMemory.ToArray().ToHexString()}");
                         _logger?.LogInformation($"ShadowosocksAeadCipher DecryptTcp decrypted plain.UTF8= " +
-                           $"{Encoding.UTF8.GetString( payload.SignificantMemory.ToArray())}\r\n");
+                           $"{Encoding.UTF8.GetString(payload.SignificantMemory.ToArray())}\r\n");
                     }
                 }
                 //-----
@@ -284,7 +289,7 @@ namespace Shadowsocks.Cipher.AeadCipher
 
 
             //[encrypted payload][tag]
-            using (var payload = this.EncryptChunk(plain, key.AsSpan(), NonceZero.AsSpan()))
+            using (var payload = this.EncryptChunk(plain, key.AsSpan(), _nonceZero.AsSpan()))
             {
                 cipherPacketStream.Write(salt.AsMemory());
                 cipherPacketStream.Write(payload.SignificantMemory);
@@ -308,7 +313,7 @@ namespace Shadowsocks.Cipher.AeadCipher
             byte[] key = new byte[_keySize_SaltSize.Item1];
             DeriveSubKey(_masterKeyBytes, cipher.Slice(0, _keySize_SaltSize.Item2).ToArray(), SubkeyInfoBytes, key, key.Length);
 
-            return this.DecryptChunk(cipher.Slice(_keySize_SaltSize.Item2), key.AsSpan(), NonceZero.AsSpan());
+            return this.DecryptChunk(cipher.Slice(_keySize_SaltSize.Item2), key.AsSpan(), _nonceZero.AsSpan());
         }
 
 
@@ -319,9 +324,9 @@ namespace Shadowsocks.Cipher.AeadCipher
         /// <param name="raw">[Plain]</param>
         /// <param name="key"></param>
         /// <param name="nonce"></param>
-        /// <param name="add"></param>
+        /// <param name="aad"></param>
         /// <returns>[Cipher][Tag]</returns>
-        protected abstract SmartBuffer EncryptChunk(ReadOnlyMemory<byte> raw, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default);
+        protected abstract SmartBuffer EncryptChunk(ReadOnlyMemory<byte> raw, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> aad = default);
 
         /// <summary>
         /// 
@@ -329,9 +334,9 @@ namespace Shadowsocks.Cipher.AeadCipher
         /// <param name="cipher">[Cipher][Tag]</param>
         /// <param name="key"></param>
         /// <param name="nonce"></param>
-        /// <param name="add"></param>
+        /// <param name="aad"></param>
         /// <returns>[Plain]</returns>
-        protected abstract SmartBuffer DecryptChunk(ReadOnlyMemory<byte> cipher, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default);
+        protected abstract SmartBuffer DecryptChunk(ReadOnlyMemory<byte> cipher, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> aad = default);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -370,10 +375,10 @@ namespace Shadowsocks.Cipher.AeadCipher
             private bool _haveSalt;
             //public readonly byte[] PayloadLenCipherBuffer;
 
-            public TcpCipherContext(int keyLen, int saltLen)
+            public TcpCipherContext(int keyLen, int saltLen, int nonceLen)
             {
                 NonceValue = 0U;
-                Nonce = new byte[LEN_NONCE];
+                Nonce = new byte[nonceLen];
                 BinaryPrimitives.TryWriteUInt64LittleEndian(Nonce, NonceValue);
 
                 Key = new byte[keyLen];
@@ -411,7 +416,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                 --NonceValue;
                 BinaryPrimitives.TryWriteUInt64LittleEndian(Nonce, NonceValue);
             }
-          
+
         }
 
     }

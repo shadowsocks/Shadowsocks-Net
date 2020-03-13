@@ -24,14 +24,14 @@ namespace Shadowsocks.Cipher.AeadCipher
     public class AeadAesGcm : ShadowosocksAeadCipher
     {
         public AeadAesGcm(string password, ValueTuple<int, int> key_salt_size, ILogger logger = null)
-            : base(password, key_salt_size, logger)
-        {            
+            : base(password, key_salt_size, NonceLength.LEN_12, logger)
+        {
         }
         ~AeadAesGcm()
         {
             Cleanup();
         }
-        protected override SmartBuffer EncryptChunk(ReadOnlyMemory<byte> raw, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default)
+        protected override SmartBuffer EncryptChunk(ReadOnlyMemory<byte> raw, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> aad = default)
         {
             using (var aes = new AesGcm(key))
             {
@@ -39,7 +39,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                 var cipherSpan = cipherPacket.Memory.Span;
                 try
                 {
-                    aes.Encrypt(nonce, raw.Span, cipherSpan.Slice(0, raw.Length), cipherSpan.Slice(raw.Length, LEN_TAG), add);
+                    aes.Encrypt(nonce, raw.Span, cipherSpan.Slice(0, raw.Length), cipherSpan.Slice(raw.Length, LEN_TAG), aad);
                     cipherPacket.SignificantLength = raw.Length + LEN_TAG;
                 }
                 catch (Exception ex)
@@ -50,7 +50,7 @@ namespace Shadowsocks.Cipher.AeadCipher
                 return cipherPacket;
             }
         }
-        protected override SmartBuffer DecryptChunk(ReadOnlyMemory<byte> cipher, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> add = default)
+        protected override SmartBuffer DecryptChunk(ReadOnlyMemory<byte> cipher, ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> aad = default)
         {
             using (var aes = new AesGcm(key))
             {
@@ -59,20 +59,20 @@ namespace Shadowsocks.Cipher.AeadCipher
                 var plainSpan = plainPacket.Memory.Span;
                 try
                 {
-                    aes.Decrypt(nonce, cipher.Span.Slice(0, cipher.Length - LEN_TAG), cipher.Span.Slice(cipher.Length - LEN_TAG), plainSpan.Slice(0, cipher.Length - LEN_TAG), add);
+                    aes.Decrypt(nonce, cipher.Span.Slice(0, cipher.Length - LEN_TAG), cipher.Span.Slice(cipher.Length - LEN_TAG), plainSpan.Slice(0, cipher.Length - LEN_TAG), aad);
                     plainPacket.SignificantLength = cipher.Length - LEN_TAG;
                 }
                 catch (Exception ex)
                 {
                     plainPacket.SignificantLength = 0;
                     _logger?.LogWarning($"AeadAesGcm DecryptChunk failed. {ex.Message}");
-                }              
+                }
                 return plainPacket;
             }
         }
 
         protected void Cleanup()
-        {          
+        {
         }
 
     }
