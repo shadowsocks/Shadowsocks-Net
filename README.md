@@ -19,7 +19,7 @@ Shadowsocks-Net plans to release multiple versions, the feature comparison is sh
 The Minimal vesion is available for testing now, supported encryption algorithms:
 
 ```console
-aes-256-gcm, aes-192-gcm, aes-128-gcm.
+aes-256-gcm, aes-192-gcm, aes-128-gcm, chacha20-ietf-poly1305, xchacha20-ietf-poly1305
 ```
 
 <br/>

@@ -18,7 +18,7 @@ Shadowsocks-Net计划会有多个发布版本，功能特性比较见下表。
 Minimal版现已可测试，支持的加密算法：
 
 ```console
-aes-256-gcm, aes-192-gcm, aes-128-gcm.
+aes-256-gcm, aes-192-gcm, aes-128-gcm, chacha20-ietf-poly1305, xchacha20-ietf-poly1305
 ```
 
 <br/>
