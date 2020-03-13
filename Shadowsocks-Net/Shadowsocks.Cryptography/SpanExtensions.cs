@@ -12,23 +12,6 @@ namespace Shadowsocks.Cryptography
     public static class SpanExtensions
     {
         /// <summary>
-        /// Returns a new value containing the contents of both specified spans.
-        /// </summary>
-        /// <typeparam name="T">The type that is encapsulated by each span.</typeparam>
-        /// <param name="x">The first span that will be copied.</param>
-        /// <param name="y">The second span that will be copied.</param>
-        public static ReadOnlySpan<T> Append<T>(this ReadOnlySpan<T> x, ReadOnlySpan<T> y)
-        {
-            var spanLength = x.Length;
-            var buffer = new T[(spanLength + y.Length)];
-            var bufferSpan = buffer.AsSpan();
-
-            x.CopyTo(bufferSpan.Slice(0, spanLength));
-            y.CopyTo(bufferSpan.Slice(spanLength));
-
-            return new ReadOnlySpan<T>(buffer);
-        }
-        /// <summary>
         /// Compares the contents of two spans for equality in constant time.
         /// </summary>
         /// <param name="x">The first span that will be compared.</param>

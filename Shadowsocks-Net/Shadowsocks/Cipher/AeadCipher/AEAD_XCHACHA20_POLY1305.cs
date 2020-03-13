@@ -16,17 +16,17 @@ using Argument.Check;
 
 namespace Shadowsocks.Cipher.AeadCipher
 {
-    [Cipher("chacha20-ietf-poly1305")]
-    public class AEAD_CHACHA20_POLY1305 : AeadChaChaPoly1305
+    [Cipher("xchacha20-ietf-poly1305")]
+    public class AEAD_XCHACHA20_POLY1305 : AeadChaChaPoly1305
     {
-        public AEAD_CHACHA20_POLY1305(string password, ILogger logger = null)
-           : base(password, new ValueTuple<int, int>(32, 32), NonceLength.LEN_12, logger)
+        public AEAD_XCHACHA20_POLY1305(string password, ILogger logger = null)
+            : base(password, new ValueTuple<int, int>(32, 32), NonceLength.LEN_24, logger)
         {
         }
 
         protected override Cryptography.AeadChaChaPoly1305 CreateCipher(ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, ReadOnlySpan<byte> ad)
         {
-            return Cryptography.AeadChaCha20Poly1305.New(key, nonce, ad);
+            return Cryptography.AeadXChaCha20Poly1305.New(key, nonce, ad);
         }
     }
 }
