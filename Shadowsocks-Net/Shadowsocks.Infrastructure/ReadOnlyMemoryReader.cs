@@ -8,12 +8,14 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using Argument.Check;
+using System.Runtime.CompilerServices;
 
 namespace Shadowsocks.Infrastructure
 {
     public class ReadOnlyMemoryReader
     {
         public ReadOnlyMemory<byte> Memory => _mem;
+
         public int Length => _mem.Length;
 
         public int Position => _pos;
@@ -23,9 +25,10 @@ namespace Shadowsocks.Infrastructure
         int _pos = 0;
         public ReadOnlyMemoryReader(ReadOnlyMemory<byte> readOnlyMemory)
         {
-            ; ResetMemory(readOnlyMemory);
+            ResetMemory(readOnlyMemory);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlyMemory<byte> Read(int length)
         {
             if (_mem.IsEmpty) { throw new NullReferenceException("_mem"); ; }
@@ -36,6 +39,7 @@ namespace Shadowsocks.Infrastructure
             return slc;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void ResetMemory(ReadOnlyMemory<byte> readOnlyMemory)
         {
             _mem = readOnlyMemory;
