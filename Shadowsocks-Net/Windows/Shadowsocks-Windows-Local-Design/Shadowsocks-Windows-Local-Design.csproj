@@ -52,6 +52,7 @@
       <HintPath>..\..\..\packages\System.Drawing.Common.4.5.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -90,6 +91,12 @@
     <Compile Include="Ui\FrmSettings.Designer.cs">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ui\UCProfiler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ui\UCProfiler.Designer.cs">
+      <DependentUpon>UCProfiler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ui\UCServerList.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -114,6 +121,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\UCProfiler.resx">
+      <DependentUpon>UCProfiler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ui\UCProfiler.zh-CN.resx">
+      <DependentUpon>UCProfiler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Ui\UCServerList.resx">
       <DependentUpon>UCServerList.cs</DependentUpon>
@@ -176,6 +189,7 @@
     <Content Include="Resource\icon-download-from-the-cloud-50.png" />
     <Content Include="Resource\icon-downloading-updates-50.png" />
     <Content Include="Resource\icon-edit-link-50.png" />
+    <Content Include="Resource\icon-event-log-48.png" />
     <Content Include="Resource\icon-external-link-50.png" />
     <Content Include="Resource\icon-facebook-50.png" />
     <Content Include="Resource\icon-github-50.png" />

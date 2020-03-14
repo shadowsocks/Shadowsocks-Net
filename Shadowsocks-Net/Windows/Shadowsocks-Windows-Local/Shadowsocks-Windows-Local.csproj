@@ -35,6 +35,8 @@
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.Designer.cs" Link="Ui\FrmBootstrap.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.cs" Link="Ui\FrmSettings.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.Designer.cs" Link="Ui\FrmSettings.Designer.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCProfiler.cs" Link="Ui\UCProfiler.cs" />
+    <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCProfiler.Designer.cs" Link="Ui\UCProfiler.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.cs" Link="Ui\UCServerList.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.Designer.cs" Link="Ui\UCServerList.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.cs" Link="Ui\UCSystrayIconEditor.cs" />
@@ -54,6 +56,8 @@
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmBootstrap.zh-CN.resx" Link="Ui\FrmBootstrap.zh-CN.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.resx" Link="Ui\FrmSettings.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\FrmSettings.zh-CN.resx" Link="Ui\FrmSettings.zh-CN.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCProfiler.resx" Link="Ui\UCProfiler.resx" />
+    <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCProfiler.zh-CN.resx" Link="Ui\UCProfiler.zh-CN.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.resx" Link="Ui\UCServerList.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCServerList.zh-CN.resx" Link="Ui\UCServerList.zh-CN.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.resx" Link="Ui\UCSystrayIconEditor.resx" />
@@ -72,6 +76,7 @@
   <ItemGroup>
     <PackageReference Include="QRCoder" Version="1.3.6" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+    <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
   </ItemGroup>
 
   <ItemGroup>
