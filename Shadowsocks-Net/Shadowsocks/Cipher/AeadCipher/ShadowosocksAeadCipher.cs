@@ -21,10 +21,6 @@ using Argument.Check;
 namespace Shadowsocks.Cipher.AeadCipher
 {
     using Infrastructure;
-    using Org.BouncyCastle.Crypto.Digests;
-    using Org.BouncyCastle.Crypto.Generators;
-    using Org.BouncyCastle.Crypto.Parameters;
-    using Org.BouncyCastle.Security;
 
     /// <summary>
     /// Not thread-safe.
@@ -40,8 +36,6 @@ namespace Shadowsocks.Cipher.AeadCipher
         protected readonly ValueTuple<int, int> _keySize_SaltSize = default;
         protected readonly NonceLength _nonceLength = NonceLength.LEN_12;
 
-
-        protected readonly HkdfBytesGenerator _hkdf = null;
         protected readonly byte[] _masterKeyBytes = null;
 
         #region UDP
@@ -70,7 +64,6 @@ namespace Shadowsocks.Cipher.AeadCipher
             _nonceZero = new byte[(int)_nonceLength];
             _logger = logger;
 
-            _hkdf = new HkdfBytesGenerator(new Sha1Digest());
             _masterKeyBytes = MasterKeyGenerator.PasswordToKey(password, _keySize_SaltSize.Item1);
 
             _logger?.LogInformation($"ShadowosocksAeadCipher ctor " +
@@ -353,11 +346,8 @@ namespace Shadowsocks.Cipher.AeadCipher
             //Throw.IfNull(() => materKey);
             //Throw.IfNull(() => salt);
             //Throw.IfNull(() => info);
-
-            _hkdf.Init(new HkdfParameters(materKey, salt, info));
-            _hkdf.GenerateBytes(subkeyBuffer, 0, subKeyLength);
-            //TODO hkdf .NET Core 5.0 //HKDF implementation by krwq · Pull Request #42567 · dotnet/corefx  https://github.com/dotnet/corefx/pull/42567
-            //https://gist.github.com/charlesportwoodii/09ffd6868c2a6e55826c4d5ebb509651
+            var k = HKDF.DeriveKey(HashAlgorithmName.SHA1, materKey, subKeyLength, salt, info);
+            Buffer.BlockCopy(k, 0, subkeyBuffer, 0, k.Length);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
