@@ -16,7 +16,7 @@ namespace Shadowsocks.Http
     using Infrastructure;
     using Infrastructure.Sockets;
 
-    public class HttpProxySeverConfig : ServerConfig
+    public class HttpProxyServerConfig : ServerConfig
     {
         //[JsonPropertyName("http_port")]
         public int Port { set; get; }
@@ -27,7 +27,7 @@ namespace Shadowsocks.Http
 
         //[JsonPropertyName("use_loopback")]
         public bool UseLoopbackAddress { set; get; }
-        public HttpProxySeverConfig()
+        public HttpProxyServerConfig()
         {
             if (0 == Port) { Port = 8080; }
         }

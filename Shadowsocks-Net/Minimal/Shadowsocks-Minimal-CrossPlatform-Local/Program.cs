@@ -31,13 +31,13 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
     class Program
     {
         static LocalServer localServer = null;
-        static Shadowsocks.Http.HttpProxySever httpProxySever = null;
+        static Shadowsocks.Http.HttpProxyServer httpProxyServer = null;
 
         static async Task Main(string[] args)
         {
             var config = new ConfigurationBuilder().AddJsonFile("app-config.json", optional: true, reloadOnChange: true).Build();
             var socks5Config = config.GetSection("Socks5Proxy").Get<LocalServerConfig>();
-            var httpConfig = config.GetSection("HttpProxy").Get<Shadowsocks.Http.HttpProxySeverConfig>();
+            var httpConfig = config.GetSection("HttpProxy").Get<Shadowsocks.Http.HttpProxyServerConfig>();
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {
@@ -58,12 +58,12 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
             {
                 localServer = new LocalServer(socks5Config, serverLoader, logger);
             }                      
-            if (null == httpProxySever)
+            if (null == httpProxyServer)
             {
-                httpProxySever = new Shadowsocks.Http.HttpProxySever(httpConfig, serverLoader, logger);
+                httpProxyServer = new Shadowsocks.Http.HttpProxyServer(httpConfig, serverLoader, logger);
             }
             localServer.Start();
-            httpProxySever.Start();
+            httpProxyServer.Start();
             
            
             await Task.CompletedTask;
@@ -71,7 +71,7 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
             Console.WriteLine("press any key to stop server");           
             Console.ReadKey();
             localServer.Stop();
-            httpProxySever.Stop();
+            httpProxyServer.Stop();
 
             Console.WriteLine("press any key to exit");
             Console.ReadKey();

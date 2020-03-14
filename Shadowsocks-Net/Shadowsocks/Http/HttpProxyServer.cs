@@ -25,18 +25,18 @@ namespace Shadowsocks.Http
     /// <summary>
     /// Http proxy is not part of Shadowsocks, but it is very practical for client computers.
     /// </summary>
-    public class HttpProxySever : IShadowsocksServer
+    public class HttpProxyServer : IShadowsocksServer
     {
         ILogger _logger = null;
-        HttpProxySeverConfig _config = null;
+        HttpProxyServerConfig _config = null;
         TcpServer _tcpServer = null;
         IHttpHandler _httpHandler = null;
 
         IServerLoader _serverLoader = null;
         CancellationTokenSource _cancellationStop = null;
-        public HttpProxySever(HttpProxySeverConfig httpProxySeverConfig, IServerLoader serverLoader, ILogger logger = null)
+        public HttpProxyServer(HttpProxyServerConfig httpProxyServerConfig, IServerLoader serverLoader, ILogger logger = null)
         {
-            _config = Throw.IfNull(() => httpProxySeverConfig);
+            _config = Throw.IfNull(() => httpProxyServerConfig);
             _serverLoader = Throw.IfNull(() => serverLoader);
             _logger = logger;
             ServerConfig serverConfig = new ServerConfig()
@@ -48,7 +48,7 @@ namespace Shadowsocks.Http
 
         }
 
-        ~HttpProxySever()
+        ~HttpProxyServer()
         {
             Stop();
         }
