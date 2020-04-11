@@ -32,18 +32,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         public event EventHandler<PipingEventArgs> OnPiping;
         #endregion
 
-
         #region IDuplexPipe
-        public IClientReaderAccessor Reader 
-        {
-            get 
-            {
-                //Throw.IfNull(()=>_pipeA2B);
-                if(null!=_pipeA2B && _pipeA2B.Reader.Client==value)
-            } 
-        }
-        public IClientReaderAccessor Writer => _writerPair;
-
         public IClient ClientA
         {
             get => _clientA;
@@ -57,10 +46,10 @@ namespace Shadowsocks.Infrastructure.Pipe
                         Throw.IfNull(() => value);
                         Throw.IfEqualsTo(() => value, _clientB);
 
-
                         _clientA = value;
-                        _readerPair.ReaderA = new ClientReader(value, false, _bufferSize, _logger);
-                        _writerPair.WriterA = new ClientWriter(value, true, _bufferSize, _logger);
+                        _clientAReaderWriterPair.Set(_clientA, _bufferSize, _logger);
+
+                        CreatePipe();
                     }
                 }
             }
@@ -79,11 +68,27 @@ namespace Shadowsocks.Infrastructure.Pipe
                         Throw.IfEqualsTo(() => value, _clientA);
 
                         _clientB = value;
-                        _readerPair.ReaderB = new ClientReader(value, false, _bufferSize, _logger);
-                        _writerPair.WriterB = new ClientWriter(value, true, _bufferSize, _logger);
+                        _clientBReaderWriterPair.Set(_clientB, _bufferSize, _logger);
+
+                        CreatePipe();
                     }
                 }
             }
+        }
+
+        public IReader GetReader(IClient client)
+        {
+            Throw.IfNull(() => client);
+            if (object.ReferenceEquals(client, _clientAReaderWriterPair.Client)) { return _clientAReaderWriterPair.Reader; }
+            if (object.ReferenceEquals(client, _clientBReaderWriterPair.Client)) { return _clientBReaderWriterPair.Reader; }
+            return null;
+        }
+        public IWriter GetWriter(IClient client)
+        {
+            Throw.IfNull(() => client);
+            if (object.ReferenceEquals(client, _clientAReaderWriterPair.Client)) { return _clientAReaderWriterPair.Writer; }
+            if (object.ReferenceEquals(client, _clientBReaderWriterPair.Client)) { return _clientBReaderWriterPair.Writer; }
+            return null;
         }
         #endregion
 
@@ -109,75 +114,37 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
 
-        IClient _clientA = null;
-        IClient _clientB = null;
+        IClient _clientA = null, _clientB = null;
+        ClientReaderWriterPair _clientAReaderWriterPair = null, _clientBReaderWriterPair = null;
 
         SimplexPipe _pipeA2B = null, _pipeB2A = null;
-
+        Task _taskPipeA2B = null, _taskPipeB2A = null;
 
         int _bufferSize = 8192;
         CancellationTokenSource _cancellation = null;
-        Task _taskPipeA2B = null, _taskPipeB2A = null;
         object _clientLinkLock = new object();
 
         ILogger _logger = null;
         public DuplexPipe(IClient clientA, IClient clientB, int? bufferSize = 8192, ILogger logger = null)
+            : this(bufferSize, logger)
         {
             _clientA = Throw.IfNull(() => clientA);
             _clientB = Throw.IfNull(() => clientB);
             Throw.IfEqualsTo(() => _clientA, _clientB);
 
-            _bufferSize = bufferSize ?? Defaults.ReceiveBufferSize;
-            _logger = logger;
+            _clientAReaderWriterPair.Set(_clientA, _bufferSize, _logger);
+            _clientBReaderWriterPair.Set(_clientB, _bufferSize, _logger);
 
-            _readerPair = new ClientReaderPair(
-                   new ClientReader(ClientA, bufferSize, logger),
-                   new ClientReader(ClientB, bufferSize, logger));
-
-            _writerPair = new ClientWriterPair(
-                new ClientWriter(ClientA, bufferSize, logger),
-                new ClientWriter(ClientB, bufferSize, logger));
-
-        }
-
-        public DuplexPipe(IClient clientA, IClient clientB, int? bufferSize = 8192, ILogger logger = null, params ClientFilter[] filters)
-            : this(clientA, clientB, bufferSize, logger)
-        {
-            this.AddClientFilter(filters);
-        }
-
-        public DuplexPipe(ClientReader readerA, ClientWriter writerA, ClientReader readerB, ClientWriter writerB, ILogger logger = null)
-           : base(readerA, writerA, readerB, writerB)
-        {
-            Throw.IfNull(() => readerA);
-            Throw.IfNull(() => writerA);
-            Throw.IfNotEqualsTo(() => readerA.Client, writerA.Client);
-
-            Throw.IfNull(() => readerB);
-            Throw.IfNull(() => writerB);
-            Throw.IfNotEqualsTo(() => readerB.Client, writerB.Client);
-
-            Throw.IfEqualsTo(() => readerA.Client, readerB.Client);
-            Throw.IfEqualsTo(() => writerA.Client, writerB.Client);
-
-            _clientA = readerA.Client;
-            _clientB = readerB.Client;
-
-
-            _logger = logger;
-
-            _readerPair = new ClientReaderPair(readerA, readerB);
-            _writerPair = new ClientWriterPair(writerA, writerB);
+            CreatePipe();
         }
 
         public DuplexPipe(int? bufferSize = 8192, ILogger logger = null)
-            : base()
         {
+            _clientAReaderWriterPair = new ClientReaderWriterPair();
+            _clientBReaderWriterPair = new ClientReaderWriterPair();
+
             _bufferSize = bufferSize ?? Defaults.ReceiveBufferSize;
             _logger = logger;
-
-            _readerPair = new ClientReaderPair();
-            _writerPair = new ClientWriterPair();
         }
 
         ~DuplexPipe()
@@ -187,7 +154,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public override void StartPipe(CancellationToken cancellationToken)
+        public void StartPipe(CancellationToken cancellationToken)
         {
             StopPipe();
             if (null != _taskPipeA2B)
@@ -217,12 +184,12 @@ namespace Shadowsocks.Infrastructure.Pipe
 
                     var lnkCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cancellation.Token);
 
-                    _taskPipeA2B = Task.Run(async () => { await PipeA2B(lnkCts.Token); }, lnkCts.Token);
-                    _taskPipeB2A = Task.Run(async () => { await PipeB2A(lnkCts.Token); }, lnkCts.Token);
+                    _taskPipeA2B = Task.Run(async () => { await DoPipe(_pipeA2B, lnkCts.Token); }, lnkCts.Token);
+                    _taskPipeB2A = Task.Run(async () => { await DoPipe(_pipeB2A, lnkCts.Token); }, lnkCts.Token);
                 }
             }
         }
-        public override void StopPipe()
+        public void StopPipe()
         {
             if (null != _cancellation)
             {
@@ -233,87 +200,6 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
 
-        async Task PipeA2B(CancellationToken cancellationToken)
-        {
-
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                var readerResult = await Reader[ClientA].Read(cancellationToken);
-                if (Failed == readerResult.Result)
-                {
-                    ReportBroken(PipeBrokenCause.Exception);
-                    break;
-                }
-                if (BrokeByFilter == readerResult.Result)
-                {
-                    _logger?.LogInformation($"Pipe broke by filterA [{ClientA.EndPoint.ToString()}].");
-                    ReportBroken(PipeBrokenCause.FilterBreak);
-                    break;
-                }
-
-                if (readerResult.Read > 0)//happens sometimes, [AfterReading] filter may not return data.
-                {
-                    var writeResult = await Writer[ClientB].Write(readerResult.Memory.SignificantMemory, cancellationToken);
-                    if (Failed == writeResult.Result)
-                    {
-                        ReportBroken(PipeBrokenCause.Exception);
-                        break;
-                    }
-                    if (BrokeByFilter == writeResult.Result)
-                    {
-                        _logger?.LogInformation($"Pipe broke by filterB [{ClientB.EndPoint.ToString()}].");
-                        ReportBroken(PipeBrokenCause.FilterBreak);
-                        break;
-                    }
-                    _logger?.LogInformation($"Pipe [{ClientA.EndPoint.ToString()}] => [{ClientB.EndPoint.ToString()}] {writeResult.Written} bytes.");
-                    ReportPiping(new PipingEventArgs { Bytes = writeResult.Written, Origin = ClientA.EndPoint, Destination = ClientB.EndPoint });
-                }
-                readerResult.Memory?.Dispose();
-            }//continue piping
-            if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
-
-        }
-        async Task PipeB2A(CancellationToken cancellationToken)
-        {
-
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                var readerResult = await Reader[ClientB].Read(cancellationToken);
-
-                if (Failed == readerResult.Result)
-                {
-                    ReportBroken(PipeBrokenCause.Exception);
-                    break;
-                }
-                if (BrokeByFilter == readerResult.Result)
-                {
-                    _logger?.LogInformation($"Pipe broke by ClientB [{ClientB.EndPoint.ToString()}].");
-                    ReportBroken(PipeBrokenCause.FilterBreak);
-                    break;
-                }
-                if (readerResult.Read > 0)
-                {
-                    var writeResult = await Writer[ClientA].Write(readerResult.Memory.SignificantMemory, cancellationToken);
-                    if (Failed == writeResult.Result)
-                    {
-                        ReportBroken(PipeBrokenCause.Exception);
-                        break;
-                    }
-                    if (BrokeByFilter == writeResult.Result)
-                    {
-                        _logger?.LogInformation($"Pipe broke by ClientA [{ClientA.EndPoint.ToString()}].");
-                        ReportBroken(PipeBrokenCause.FilterBreak);
-                        break;
-                    }
-                    _logger?.LogInformation($"Pipe [{ClientB.EndPoint.ToString()}] => [{ClientA.EndPoint.ToString()}] {writeResult.Written} bytes.");
-                    ReportPiping(new PipingEventArgs { Bytes = writeResult.Written, Origin = ClientB.EndPoint, Destination = ClientA.EndPoint });
-                }
-                readerResult.Memory?.Dispose();
-            } //continue piping
-            if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
-
-        }
-
         public DuplexPipe AddClientFilter(ClientFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
@@ -323,8 +209,8 @@ namespace Shadowsocks.Infrastructure.Pipe
                 throw new InvalidOperationException("no matched client for this filter.");
             }
 
-            (Reader[filter.Client] as ClientReader).AddFilter(filter);
-            (Writer[filter.Client] as ClientWriter).AddFilter(filter);
+            (GetReader(filter.Client) as ClientReader)?.AddFilter(filter);
+            (GetWriter(filter.Client) as ClientWriter)?.AddFilter(filter);
 
             return this;
         }
@@ -336,6 +222,35 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
+        async Task DoPipe(SimplexPipe pipe, CancellationToken cancellationToken)
+        {           
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var r = await pipe.Pipe(cancellationToken);               
+                if (r.Broken)
+                {                   
+                    ReportBroken(r.BrokenCause);
+                    break;
+                }
+                else
+                {                   
+                    ReportPiping(new PipingEventArgs { Bytes = r.BytesPiped, Origin = pipe.Reader.Client.EndPoint, Destination = pipe.Writer.Client.EndPoint });
+                }
+            }//continue piping
+            if (cancellationToken.IsCancellationRequested) { ReportBroken(PipeBrokenCause.Cancelled); }
+        }
+
+
+        void CreatePipe()
+        {
+            if (null != _clientA && null != _clientB)
+            {
+                Throw.IfEqualsTo(() => _clientA, _clientB);
+
+                _pipeA2B = new SimplexPipe(_clientAReaderWriterPair.Reader, _clientBReaderWriterPair.Writer, _logger);
+                _pipeB2A = new SimplexPipe(_clientBReaderWriterPair.Reader, _clientAReaderWriterPair.Writer, _logger);
+            }
+        }
 
         void ReportBroken(PipeBrokenCause cause, PipeException exception = null)
         {

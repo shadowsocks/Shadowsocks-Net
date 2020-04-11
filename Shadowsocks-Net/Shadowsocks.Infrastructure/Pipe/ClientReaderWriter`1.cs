@@ -64,8 +64,9 @@ namespace Shadowsocks.Infrastructure.Pipe
         public void AddFilter(TFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
+            Throw.IfNotEqualsTo(()=>filter.Client, this.Client);
 
-            if (object.ReferenceEquals(filter.Client, Client) && !FilterChain.Contains(filter))
+            if (!FilterChain.Contains(filter))
             {
                 FilterChain.Add(filter);
             }

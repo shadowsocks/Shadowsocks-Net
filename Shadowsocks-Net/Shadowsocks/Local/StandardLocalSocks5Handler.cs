@@ -148,7 +148,7 @@ namespace Shadowsocks.Local
                                 Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
                                 pipe.AddClientFilter(cipherFilter);
 
-                                var writeResult = await pipe.Writer[relayClient].Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
+                                var writeResult = await pipe.GetWriter(relayClient).Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
                                 _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
 
                                 await client.WriteAsync(NegotiationResponse.CommandConnectOK, cancellationToken);//D. notify client to send data.

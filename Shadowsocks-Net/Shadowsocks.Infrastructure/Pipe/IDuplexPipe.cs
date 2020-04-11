@@ -29,8 +29,8 @@ namespace Shadowsocks.Infrastructure.Pipe
         IClient ClientA { get; set; }
         IClient ClientB { get; set; }
 
-        IClientReaderAccessor Reader { get; }
-        IClientReaderAccessor Writer { get; }
+        IReader GetReader(IClient client);
+        IWriter GetWriter(IClient client);
 
     }
 }

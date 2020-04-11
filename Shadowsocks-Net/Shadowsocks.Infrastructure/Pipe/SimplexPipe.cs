@@ -19,31 +19,31 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    using Shadowsocks.Infrastructure.Sockets;
     using Sockets;
     using static ReadWriteResult;
 
     /// <summary>
     /// 
     /// </summary>
-    public class SimplexPipe : ISimplexPipe<ClientReader, ClientWriter>, IClientReaderAccessor, IClientWriterAccessor
+    public class SimplexPipe : ISimplexPipe<ClientReader, ClientWriter>
     {
         public virtual ClientReader Reader { protected set; get; }
 
         public virtual ClientWriter Writer { protected set; get; }
 
-        IReader IClientReaderAccessor.this[IClient client] => throw new NotImplementedException();
 
-        public IWriter this[IClient client] => throw new NotImplementedException();
+
 
         protected ILogger _logger = null;
-
-
         public SimplexPipe(ClientReader clientReader, ClientWriter clientWriter, ILogger logger = null)
+            : this(logger)
         {
             Reader = Throw.IfNull(() => clientReader);
             Writer = Throw.IfNull(() => clientWriter);
+        }
 
+        protected SimplexPipe(ILogger logger = null)
+        {
             _logger = logger;
         }
 

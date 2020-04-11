@@ -104,7 +104,7 @@ namespace Shadowsocks.Http
                             Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
                             pipe.AddClientFilter(cipherFilter);
 
-                            var writeResult = await pipe.Writer[relayClient].Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.
+                            var writeResult = await pipe.GetWriter(relayClient).Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.
                             _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
 
                             if (HttpProxyHeaderResolver.Verb.CONNECT == httpVerb)

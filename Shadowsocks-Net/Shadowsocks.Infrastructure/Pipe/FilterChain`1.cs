@@ -44,7 +44,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             Throw.IfNull(() => filter);
 
-            if (_chain.Contains(filter))
+            if (!_chain.Contains(filter))
             {
                 _chain.Add(filter);
             }
