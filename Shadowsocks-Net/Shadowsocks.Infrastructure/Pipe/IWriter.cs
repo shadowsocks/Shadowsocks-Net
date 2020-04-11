@@ -10,7 +10,11 @@ using System.Threading.Tasks;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public interface IClientFilter : IClientObject, IComparer<IClientFilter>
+    /// <summary>
+    /// Represent a data writer.
+    /// </summary>
+    public interface IWriter
     {
+        ValueTask<WriteResult> Write(ReadOnlyMemory<byte> data, CancellationToken cancellationToken);
     }
 }

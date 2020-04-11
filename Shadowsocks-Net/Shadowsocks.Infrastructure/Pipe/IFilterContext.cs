@@ -8,9 +8,11 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    using Sockets;
-    public interface IClientReaderAccessor
+    /// <summary>
+    /// Filter context for Reading / Writing.
+    /// </summary>
+    public interface IFilterContext
     {
-        IClientReader this[IClient client] { get; }
+        ReadOnlyMemory<byte> Memory { get; }
     }
 }

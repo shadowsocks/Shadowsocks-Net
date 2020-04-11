@@ -14,15 +14,15 @@ namespace Shadowsocks.Infrastructure.Pipe
     /// <summary>
     /// Stores contextual data traveling through filters. Each filter should copy memory from context when needed, rather than reference it.
     /// </summary>
-    public readonly struct ClientFilterContext
+    public readonly struct ClientFilterContext : IFilterContext, IClientObject
     {
-        public readonly IClient Client;
-        public readonly ReadOnlyMemory<byte> Memory;
+        public readonly IClient Client { get; }
+        public readonly ReadOnlyMemory<byte> Memory { get; }
 
         public ClientFilterContext(IClient client, ReadOnlyMemory<byte> memory = default)
         {
             Client = client;
-            Memory = memory;           
-        }
+            Memory = memory;
+        }        
     }
 }

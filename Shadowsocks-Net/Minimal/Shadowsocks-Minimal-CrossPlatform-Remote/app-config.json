@@ -1,14 +1,14 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Debug",
+      "Default": "Trace",
       "System": "Information",
       "Microsoft": "Information"
     },
     "Console": {
       "IncludeScopes": true,
       "LogLevel": {
-        "Default": "Information"
+        "Default": "Trace"
       }
     }
   }

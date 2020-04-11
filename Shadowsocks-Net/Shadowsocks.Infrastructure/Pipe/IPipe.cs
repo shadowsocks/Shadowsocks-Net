@@ -10,11 +10,7 @@ using System.Threading.Tasks;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    /// <summary>
-    /// Represent a reader that read data from <see cref="Sockets.IClient"/>.
-    /// </summary>
-    public interface IClientReader : IClientObject
+    public interface IPipe
     {
-        ValueTask<ClientReadResult> Read(CancellationToken cancellationToken);
     }
 }
