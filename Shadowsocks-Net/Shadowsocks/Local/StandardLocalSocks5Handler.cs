@@ -30,14 +30,14 @@ namespace Shadowsocks.Local
 
         ILogger _logger = null;
 
-        List<DefaultPipe> _pipes = null;
+        List<DuplexPipe> _pipes = null;
         object _pipesReadWriteLock = new object();
 
         IServerLoader _serverLoader = null;
 
         public StandardLocalSocks5Handler(IServerLoader serverLoader, ILogger logger = null)
         {
-            _pipes = new List<DefaultPipe>();
+            _pipes = new List<DuplexPipe>();
             _serverLoader = Throw.IfNull(() => serverLoader);
 
             _logger = logger;
@@ -144,9 +144,9 @@ namespace Shadowsocks.Local
                             {
                                 var cipher = server.CreateCipher(_logger);
 
-                                DefaultPipe pipe = new DefaultPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
+                                DuplexPipe pipe = new DuplexPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
                                 Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-                                pipe.ApplyClientFilter(cipherFilter);
+                                pipe.AddClientFilter(cipherFilter);
 
                                 var writeResult = await pipe.Writer[relayClient].Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
                                 _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
@@ -226,16 +226,16 @@ namespace Shadowsocks.Local
                 return;
             }
 
-            DefaultPipe pipe = new DefaultPipe(client, relayClient, 1500, _logger);
+            DuplexPipe pipe = new DuplexPipe(client, relayClient, 1500, _logger);
             ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, server.CreateCipher(_logger), _logger);
             ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
-            pipe.ApplyClientFilter(filter).ApplyClientFilter(filter2);
+            pipe.AddClientFilter(filter).AddClientFilter(filter2);
 
             PipeClient(pipe, cancellationToken);
 
         }
 
-        void PipeClient(DefaultPipe pipe, CancellationToken cancellationToken)
+        void PipeClient(DuplexPipe pipe, CancellationToken cancellationToken)
         {
 
             pipe.OnBroken += this.Pipe_OnBroken;
@@ -243,16 +243,16 @@ namespace Shadowsocks.Local
             {
                 this._pipes.Add(pipe);
             }
-            pipe.Pipe(cancellationToken);
+            pipe.StartPipe(cancellationToken);
         }
         
 
 
         private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
-            var p = e.Pipe as DefaultPipe;
+            var p = e.Pipe as DuplexPipe;
             p.OnBroken -= this.Pipe_OnBroken;
-            p.UnPipe();
+            p.StopPipe();
 
             _logger?.LogInformation($"Pipe_OnBroken" +
                 $" A={p.ClientA.EndPoint.ToString()}, B={p.ClientB.EndPoint.ToString()}, Cause={Enum.GetName(typeof(PipeBrokenCause), e.Cause)}");
@@ -306,7 +306,7 @@ namespace Shadowsocks.Local
             {
                 foreach (var p in this._pipes)
                 {
-                    p.UnPipe();
+                    p.StopPipe();
                     p.ClientA.Close();
                     p.ClientB.Close();
                 }

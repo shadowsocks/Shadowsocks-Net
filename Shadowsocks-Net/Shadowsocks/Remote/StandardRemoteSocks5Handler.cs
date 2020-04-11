@@ -35,7 +35,7 @@ namespace Shadowsocks.Remote
         RemoteServerConfig _remoteServerConfig = null;
         DnsCache _dnsCache = null;
 
-        List<DefaultPipe> _pipes = null;
+        List<DuplexPipe> _pipes = null;
         object _pipesReadWriteLock = new object();
 
         public StandardRemoteSocks5Handler(RemoteServerConfig remoteServerConfig, DnsCache dnsCache, ILogger logger = null)
@@ -44,7 +44,7 @@ namespace Shadowsocks.Remote
             _dnsCache = Throw.IfNull(() => dnsCache);
             _logger = logger;
 
-            _pipes = new List<DefaultPipe>();
+            _pipes = new List<DuplexPipe>();
         }
         ~StandardRemoteSocks5Handler()
         {
@@ -62,7 +62,7 @@ namespace Shadowsocks.Remote
                    var cipher = _remoteServerConfig.CreateCipher(_logger);
                    Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(client, cipher, _logger);
                    p.ClientA = client;
-                   p.ApplyClientFilter(cipherFilter);
+                   p.AddClientFilter(cipherFilter);
                },
                async (targetIPEndPoint) =>
                {
@@ -114,7 +114,7 @@ namespace Shadowsocks.Remote
                     var cipher = _remoteServerConfig.CreateCipher(_logger);
                     Cipher.UdpCipherFilter cipherFilter = new Cipher.UdpCipherFilter(client, cipher, _logger);
                     p.ClientA = client;
-                    p.ApplyClientFilter(cipherFilter);
+                    p.AddClientFilter(cipherFilter);
                 },
                 async (targetIPEndPoint) =>
                 {
@@ -124,7 +124,7 @@ namespace Shadowsocks.Remote
                 {
                     p.ClientB = targetClient;
                     UdpRelayEncapsulationFilter filterTarget1 = new UdpRelayEncapsulationFilter(targetClient, _logger);
-                    p.ApplyClientFilter(filterTarget1);
+                    p.AddClientFilter(filterTarget1);
 
                     _logger?.LogInformation($"Writing payload before piping...");
                     await p.Writer[targetClient].Write(request.SignificantMemory, cancellationToken);
@@ -138,19 +138,19 @@ namespace Shadowsocks.Remote
 
 
         async Task HandleClient(IClient client, int pipeBufferSize,
-            Action<DefaultPipe> pipeCreatedAction,
+            Action<DuplexPipe> pipeCreatedAction,
             Func<IPEndPoint, Task<IClient>> createTargetClientFunc,
-            Action<SmartBuffer, DefaultPipe, IClient, ShadowsocksAddress> targetClientConnectedAction,
+            Action<SmartBuffer, DuplexPipe, IClient, ShadowsocksAddress> targetClientConnectedAction,
             CancellationToken cancellationToken)
         {
 
-            DefaultPipe pipe = new DefaultPipe(pipeBufferSize, _logger);
+            DuplexPipe pipe = new DuplexPipe(pipeBufferSize, _logger);
 
             pipeCreatedAction(pipe);///////////////////
 
 
             var readClientResult = await pipe.Reader[client].Read(cancellationToken);//A. Read target addr (and payload).
-            if (readClientResult.Result != ClientReadWriteResult.Succeeded) { client.Close(); return; }
+            if (readClientResult.Result != ReadWriteResult.Succeeded) { client.Close(); return; }
 
             if (readClientResult.Read <= 0)
             {
@@ -199,22 +199,22 @@ namespace Shadowsocks.Remote
         }
 
 
-        void PipeClient(DefaultPipe p, CancellationToken cancellationToken, params ClientFilter[] addFilters)
+        void PipeClient(DuplexPipe p, CancellationToken cancellationToken, params ClientFilter[] addFilters)
         {
             p.OnBroken += Pipe_OnBroken;
-            p.ApplyClientFilter(addFilters);
+            p.AddClientFilter(addFilters);
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);
             }
-            p.Pipe(cancellationToken);
+            p.StartPipe(cancellationToken);
         }
 
         void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)
         {
-            var p = e.Pipe as DefaultPipe;
+            var p = e.Pipe as DuplexPipe;
             p.OnBroken -= this.Pipe_OnBroken;
-            p.UnPipe();
+            p.StopPipe();
             p.ClientA.Close();
             p.ClientB.Close();
 
@@ -230,7 +230,7 @@ namespace Shadowsocks.Remote
             {
                 foreach (var p in this._pipes)
                 {
-                    p.UnPipe();
+                    p.StopPipe();
                     p.ClientA.Close();
                     p.ClientB.Close();
                 }

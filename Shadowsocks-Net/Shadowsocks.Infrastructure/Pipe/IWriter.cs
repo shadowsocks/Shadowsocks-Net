@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     /// <summary>
-    /// Represent a reader that read data from <see cref="Sockets.IClient"/>.
+    /// Represent a data writer.
     /// </summary>
-    public interface IClientReader : IClientObject
+    public interface IWriter
     {
-        ValueTask<ClientReadResult> Read(CancellationToken cancellationToken);
+        ValueTask<WriteResult> Write(ReadOnlyMemory<byte> data, CancellationToken cancellationToken);
     }
 }

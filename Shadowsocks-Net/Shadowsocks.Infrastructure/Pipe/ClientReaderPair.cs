@@ -22,7 +22,7 @@ namespace Shadowsocks.Infrastructure.Pipe
     using Sockets;
     public class ClientReaderPair : IClientReaderAccessor
     {
-        public IClientReader this[IClient client]
+        public IReader this[IClient client]
         {
             get
             {
@@ -33,10 +33,10 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
-        private IClientReader _readerA = null;
-        private IClientReader _readerB = null;
+        private IReader _readerA = null;
+        private IReader _readerB = null;
 
-        public IClientReader ReaderA
+        public IReader ReaderA
         {
             get => _readerA;
             set
@@ -46,7 +46,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 _readerA = value;
             }
         }
-        public IClientReader ReaderB
+        public IReader ReaderB
         {
             get => _readerB;
             set
@@ -57,7 +57,7 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
-        public ClientReaderPair(IClientReader readerA, IClientReader readerB)
+        public ClientReaderPair(IReader readerA, IReader readerB)
         {
             Throw.IfNull(() => readerA);
             Throw.IfNull(() => readerB);

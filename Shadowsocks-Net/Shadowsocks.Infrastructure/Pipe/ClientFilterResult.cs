@@ -9,11 +9,11 @@ using System.Text;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-    public readonly struct ClientFilterResult
+    public readonly struct ClientFilterResult : IFilterResult, IClientObject
     {
-        public readonly IClient Client;
-        public readonly SmartBuffer Buffer;
-        public readonly bool Continue;
+        public readonly IClient Client { get; }
+        public readonly SmartBuffer Buffer { get; }
+        public readonly bool Continue { get; }
 
         public ClientFilterResult(IClient client, SmartBuffer buffer = null, bool @continue = true)
         {

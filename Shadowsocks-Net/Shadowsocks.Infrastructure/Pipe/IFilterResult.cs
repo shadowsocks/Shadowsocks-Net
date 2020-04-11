@@ -8,9 +8,9 @@ using System.Text;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    using Sockets;
-    public interface IClientReaderAccessor
+    public interface IFilterResult
     {
-        IReader this[IClient client] { get; }
+        SmartBuffer Buffer { get; }
+        bool Continue { get; }
     }
 }

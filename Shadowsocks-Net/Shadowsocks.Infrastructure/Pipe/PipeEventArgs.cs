@@ -11,7 +11,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
     public class PipeEventArgs : EventArgs
     {
-        public DuplexPipe Pipe { set; get; }
+        public IPipe Pipe { set; get; }
         public PipeException Exception { set; get; }
 
     }
@@ -35,4 +35,12 @@ namespace Shadowsocks.Infrastructure.Pipe
         FilterBreak,
         Exception
     }
+    public struct PipeResult
+    {
+        public bool Broken;
+        public PipeBrokenCause BrokenCause;
+        public int BytesPiped;
+    }
+
+
 }

@@ -18,10 +18,20 @@ using Argument.Check;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public enum ClientReadWriteResult
+    /// <summary>
+    /// Represent the reading result of <see cref="IReader"/>.
+    /// </summary>
+    public struct ReadResult
     {
-        Succeeded,
-        Failed,
-        BrokeByFilter
+        public ReadWriteResult Result;
+        public SmartBuffer Memory;
+        public int Read;
+
+        public ReadResult(ReadWriteResult result, SmartBuffer memory, int read)
+        {
+            Result = result;
+            Memory = memory;
+            Read = read;
+        }
     }
 }

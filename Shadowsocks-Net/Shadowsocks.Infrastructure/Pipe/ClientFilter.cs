@@ -63,7 +63,8 @@ namespace Shadowsocks.Infrastructure.Pipe
             int c = (int)x.Category.CompareTo((int)y.Category);
             return c != 0 ? c : x.Priority.CompareTo(y.Priority);
         }      
-        public int Compare(IClientFilter x, IClientFilter y)
+      
+        public int Compare(IFilter x, IFilter y)
         {
             return this.Compare(x as ClientFilter, y as ClientFilter);
         }

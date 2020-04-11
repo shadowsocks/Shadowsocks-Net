@@ -20,61 +20,24 @@ using Argument.Check;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-    using static ClientReadWriteResult;
+    using static ReadWriteResult;
 
     /// <summary>
-    /// A client writer with filter support.
+    /// A client Writer with filter support.
     /// </summary>
-    public class ClientWriter : IClientWriter
+    public sealed class ClientWriter : ClientReaderWriter<IClientWriterFilter>, IWriter
     {
-        /// <summary>
-        /// The client.
-        /// </summary>
-        public IClient Client { get; private set; }
 
         /// <summary>
-        /// Applied filters.
-        /// </summary>
-        public IReadOnlyCollection<IClientWriterFilter> Filters => _filters;
-
-        SortedSet<IClientWriterFilter> _filters = null;
-        int _bufferSize = 8192;
-        ILogger _logger = null;
-
-
-        /// <summary>
-        /// Create a ClientWriter with a client.
+        /// 
         /// </summary>
         /// <param name="client"></param>
+        /// <param name="reverseFilterChain"></param>
         /// <param name="bufferSize"></param>
         /// <param name="logger"></param>
-        public ClientWriter(IClient client, int? bufferSize = 8192, ILogger logger = null)
+        public ClientWriter(IClient client, bool reverseFilterChain = false, int? bufferSize = 8192, ILogger logger = null)
+        : base(client, reverseFilterChain, bufferSize, logger)
         {
-            Client = Throw.IfNull(() => client);
-            _filters = new SortedSet<IClientWriterFilter>();
-            _bufferSize = bufferSize ?? 8192;
-
-            _logger = logger;
-        }
-
-
-        /// <summary>
-        /// Create a ClientWriter with a client and it's filters.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="filters"></param>
-        /// <param name="bufferSize"></param>
-        /// <param name="logger"></param>
-        public ClientWriter(IClient client, IEnumerable<IClientWriterFilter> filters, int? bufferSize = 8192, ILogger logger = null)
-          : this(client, bufferSize, logger)
-        {
-
-            Throw.IfNull(() => filters);
-
-            foreach (var f in filters)
-            {
-                this.ApplyFilter(f);
-            }
         }
 
         /// <summary>
@@ -83,24 +46,24 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="data"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async ValueTask<ClientWriteResult> Write(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
+        public async ValueTask<WriteResult> Write(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
         {
             if (data.IsEmpty)
             {
                 _logger?.LogWarning($"PipeWriter Try to write empty memory. [{Client.EndPoint.ToString()}].");
-                return new ClientWriteResult(Failed, 0);
+                return new WriteResult(Failed, 0);
             }
 
             ReadOnlyMemory<byte> toWrite = data;
             SmartBuffer filterResultBuffer = null;
-            if (_filters.Count > 0)
+            if (FilterEnabled && FilterChain.Count > 0)
             {
-                var result = ExecuteFilter_BeforeWriting(Client, data, _filters, cancellationToken);
+                var result = ExecuteFilter(data, cancellationToken);
                 if (!result.Continue)
                 {
                     result.Buffer?.Dispose();
                     _logger?.LogInformation($"Pipe broke by filter [{Client.EndPoint.ToString()}].");
-                    return new ClientWriteResult(BrokeByFilter, 0);
+                    return new WriteResult(BrokeByFilter, 0);
                 }
                 else
                 {
@@ -114,48 +77,32 @@ namespace Shadowsocks.Infrastructure.Pipe
                 int written = await Client.WriteAsync(toWrite, cancellationToken);
                 filterResultBuffer?.Dispose();
 
-                if (0 >= written) { return new ClientWriteResult(Failed, written); }
-                else { return new ClientWriteResult(Succeeded, written); }
+                if (0 >= written) { return new WriteResult(Failed, written); }
+                else { return new WriteResult(Succeeded, written); }
 
             }
-            else { return new ClientWriteResult(Succeeded, 0); }
+            else { return new WriteResult(Succeeded, 0); }
 
         }
 
 
         /// <summary>
-        /// Apply a <see cref="IClientWriterFilter"/>  filter.
+        /// 
         /// </summary>
-        /// <param name="filter"></param>
-        public void ApplyFilter(IClientWriterFilter filter)//TODO lock
-        {
-            Throw.IfNull(() => filter);
-
-            if (object.ReferenceEquals(filter.Client, Client) && !_filters.Contains(filter))
-            {
-                _filters.Add(filter);
-            }
-        }
-
-        /// <summary>
-        /// Execute filters.
-        /// </summary>
-        /// <param name="client"></param>
         /// <param name="data"></param>
-        /// <param name="filters"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        ClientFilterResult ExecuteFilter_BeforeWriting(IClient client, ReadOnlyMemory<byte> data, SortedSet<IClientWriterFilter> filters, CancellationToken cancellationToken)
+        protected override ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
         {
             SmartBuffer prevFilterMemory = null;
             bool @continue = true;
             int time = 0;
-            foreach (var filter in filters.Reverse())//emm
+            foreach (var filter in FilterChain)
             {
                 try
                 {
                     if (time > 0 && null == prevFilterMemory) { @continue = true; break; }
-                    var result = filter.BeforeWriting(new ClientFilterContext(client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
+                    var result = filter.BeforeWriting(new ClientFilterContext(Client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
                     time++;
                     prevFilterMemory?.Dispose();
                     prevFilterMemory = result.Buffer;
@@ -166,10 +113,10 @@ namespace Shadowsocks.Infrastructure.Pipe
                 catch (Exception ex)
                 {
                     @continue = false;
-                    _logger?.LogError(ex, $"ExecuteFilter_BeforeWriting [{client.EndPoint.ToString()}].");
+                    _logger?.LogError(ex, $"ExecuteFilter_BeforeWriting [{Client.EndPoint.ToString()}].");
                 }
             }
-            return new ClientFilterResult(client, prevFilterMemory, @continue);
+            return new ClientFilterResult(Client, prevFilterMemory, @continue);
         }
 
 

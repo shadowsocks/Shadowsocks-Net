@@ -20,9 +20,9 @@ using Argument.Check;
 namespace Shadowsocks.Infrastructure.Pipe
 {
     using Sockets;
-    public class ClientWriterPair : IClientWriterAccessor
+    public class ClientWriterPair : IClientReaderAccessor
     {
-        public IClientWriter this[IClient client]
+        public IWriter this[IClient client]
         {
             get
             {
@@ -33,11 +33,11 @@ namespace Shadowsocks.Infrastructure.Pipe
             }
         }
 
-        private IClientWriter _writerA = null;
-        private IClientWriter _writerB = null;
+        private IWriter _writerA = null;
+        private IWriter _writerB = null;
 
 
-        public IClientWriter WriterA
+        public IWriter WriterA
         {
             get => _writerA;
             set
@@ -47,7 +47,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 _writerA = value;
             }
         }
-        public IClientWriter WriterB
+        public IWriter WriterB
         {
             get => _writerB;
             set
@@ -57,7 +57,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 _writerB = value;
             }
         }
-        public ClientWriterPair(IClientWriter writerA, IClientWriter writerB)
+        public ClientWriterPair(IWriter writerA, IWriter writerB)
         {
             Throw.IfNull(() => writerA);
             Throw.IfNull(() => writerB);

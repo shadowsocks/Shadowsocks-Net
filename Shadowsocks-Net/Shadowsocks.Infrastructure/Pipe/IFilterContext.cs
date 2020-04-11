@@ -5,12 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Shadowsocks.Infrastructure.Pipe
 {
-    public interface IClientFilter : IClientObject, IComparer<IClientFilter>
+    /// <summary>
+    /// Filter context for Reading / Writing.
+    /// </summary>
+    public interface IFilterContext
     {
+        ReadOnlyMemory<byte> Memory { get; }
     }
 }

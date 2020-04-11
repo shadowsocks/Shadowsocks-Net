@@ -12,7 +12,5 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
     public interface IPipe
     {
-        IClientReader Reader { get; }
-        IClientWriter Writer { get; }
     }
 }

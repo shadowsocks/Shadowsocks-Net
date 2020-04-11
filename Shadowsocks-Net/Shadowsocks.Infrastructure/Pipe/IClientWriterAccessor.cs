@@ -11,6 +11,6 @@ namespace Shadowsocks.Infrastructure.Pipe
     using Sockets;
     public interface IClientWriterAccessor
     {
-        IClientWriter this[IClient client] { get; }
+        IWriter this[IClient client] { get; }
     }
 }

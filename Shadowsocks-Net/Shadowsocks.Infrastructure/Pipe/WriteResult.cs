@@ -20,14 +20,14 @@ namespace Shadowsocks.Infrastructure.Pipe
 {
 
     /// <summary>
-    /// Represnet the writing result of <see cref="IClientWriter"/>.
+    /// Represnet the writing result of <see cref="IWriter"/>.
     /// </summary>
-    public struct ClientWriteResult
+    public struct WriteResult
     {
-        public ClientReadWriteResult Result;
+        public ReadWriteResult Result;
         public int Written;
 
-        public ClientWriteResult(ClientReadWriteResult result, int written)
+        public WriteResult(ReadWriteResult result, int written)
         {
             Result = result;
             Written = written;
