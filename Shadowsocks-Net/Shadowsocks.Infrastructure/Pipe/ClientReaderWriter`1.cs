@@ -71,16 +71,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 FilterChain.Add(filter);
             }
         }
-
-        /// <summary>
-        /// Execute filters.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        protected abstract ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken);
-
-
+       
 
 
     }

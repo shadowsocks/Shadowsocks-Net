@@ -81,7 +81,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="data"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected override ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
+        protected ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
         {
             SmartBuffer prevFilterMemory = null;
             bool @continue = true;
