@@ -106,7 +106,7 @@ class TestClientFilter : ClientFilter
 
 ##### Steps to create filter
 
-1. Choose the properly `Category` and `Priority`, which determine the order of the filter in the filter chain. 
+1. Choose the proper `Category` and `Priority`, which determine the order of the filter in the filter chain. 
 The framework has preseted several categories:
 ```c#
     public enum ClientFilterCategory
