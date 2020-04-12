@@ -99,7 +99,36 @@ class TestClientFilter : ClientFilter
     }
 }
 ```
+<br/>
 
+##### 创建过滤器的步骤
+
+1. 选择合适的`Category`和`Priority`，他们决定了过滤器在过滤器链中的顺序。框架预置了几个`Category`：
+```c#
+    public enum ClientFilterCategory
+    {
+        Obfuscation = 1,
+        Cipher = 2,
+        Encapsulation = 3,
+        Custom = 4
+    }
+```
+
+2. 继承`ClientFilter`
+```c#
+    public abstract class ClientFilter
+    {
+        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
+    }
+```
+
+3. 将过滤器添加至管道
+```c#
+    DuplexPipe.AddFilter(IClient client, ClientFilter filter);
+```
+
+一个典型的例子：[UdpEncapsulationFilter.cs](Shadowsocks-Net/Shadowsocks/Local/UdpEncapsulationFilter.cs)。
 <br/>
 
 #### 对TCP或UDP之外协议的支持

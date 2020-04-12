@@ -102,7 +102,38 @@ class TestClientFilter : ClientFilter
     }
 }
 ```
+<br/>
 
+##### Steps to create filter
+
+1. Choose the properly `Category` and `Priority`, which determine the order of the filter in the filter chain. 
+The framework has preseted several categories:
+```c#
+    public enum ClientFilterCategory
+    {
+        Obfuscation = 1,
+        Cipher = 2,
+        Encapsulation = 3,
+        Custom = 4
+    }
+```
+
+2. Inherit `ClientFilter`
+```c#
+    public abstract class ClientFilter
+    {
+        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
+    }
+```
+
+3. Add filter to pipe
+```c#
+    DuplexPipe.AddFilter(IClient client, ClientFilter filter);
+```
+
+A typical case: [UdpEncapsulationFilter.cs](Shadowsocks-Net/Shadowsocks/Local/UdpEncapsulationFilter.cs).
+<br/>
 <br/>
 
 #### Support for protocols other than TCP or UDP
