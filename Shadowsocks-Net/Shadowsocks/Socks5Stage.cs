@@ -1,4 +1,8 @@
-﻿using System;
+﻿/*
+ * Shadowsocks-Net https://github.com/shadowsocks/Shadowsocks-Net
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 
