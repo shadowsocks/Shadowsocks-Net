@@ -64,13 +64,13 @@ class MyCipher : IShadowsocksAeadCipher
 Obfuscation is similar to encryption, in Shadowsocks-Net, it works as a filter. The logic of obfuscation can be more complicated than encryption.
 But as the other parts have been encapsulated, now only need to focus on reading and writing the network stream, and implement a `ClientFilter`.
 ```c#
-public interface IClientReaderFilter : IClientFilter
+public interface IClientReaderFilter
 {
     ClientFilterResult AfterReading(ClientFilterContext filterContext);
 }
 ```
 ```c#
-public interface IClientWriterFilter : IClientFilter
+public interface IClientWriterFilter
 {
     ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
 }

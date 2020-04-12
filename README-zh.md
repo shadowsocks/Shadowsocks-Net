@@ -62,13 +62,13 @@ class MyCipher : IShadowsocksAeadCipher
 混淆同加密一样，在Shadowsocks-Net中都是通过管道过滤器来工作的。相对于加密，混淆的逻辑可能更复杂。
 但由于其他部分已被封装，现在只需关注网络流的读写，实现自己的过滤器`ClientFilter`即可。
 ```c#
-public interface IClientReaderFilter : IClientFilter
+public interface IClientReaderFilter
 {
     ClientFilterResult AfterReading(ClientFilterContext filterContext);
 }
 ```
 ```c#
-public interface IClientWriterFilter : IClientFilter
+public interface IClientWriterFilter
 {
     ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
 }
