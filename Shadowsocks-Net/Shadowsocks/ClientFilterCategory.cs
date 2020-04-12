@@ -6,14 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Shadowsocks.Infrastructure.Pipe
+namespace Shadowsocks
 {
-    public enum ClientFilterCategory //: int
+    public enum ClientFilterCategory
     {
         Obfuscation = 1,
         Cipher = 2,
         Encapsulation = 3,
         Custom = 4
     }
-
 }

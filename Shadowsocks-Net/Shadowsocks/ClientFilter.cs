@@ -12,15 +12,17 @@ using System.Threading.Tasks;
 using Argument.Check;
 using Microsoft.Extensions.Logging;
 
-namespace Shadowsocks.Infrastructure.Pipe
+namespace Shadowsocks
 {
-    using Sockets;
+    using Infrastructure;
+    using Infrastructure.Pipe;
+    using Infrastructure.Sockets;
 
     /// <summary>
     /// ClientFilter processes data read from and write to clients.
     /// Note: Except for processing data, there should not be too much logic here.
     /// </summary>
-    public abstract class ClientFilter : IClientReaderFilter, IClientWriterFilter, IClientObject, IComparer<ClientFilter>
+    public abstract class ClientFilter : IClientFilter
     {
         /// <summary>
         /// The client applies to.
@@ -34,7 +36,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         /// <summary>
         /// Smaller value higher priority.
-        /// When sorting filters, categories will be considered first, then priority. see <see cref="Compare(ClientFilter, ClientFilter)"/>.
+        /// When sorting filters, categories will be considered first, then priority. see <see cref="Compare(IFilter, IFilter)"/>.
         /// </summary>
         public byte Priority { get; protected set; }
 
@@ -46,8 +48,8 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// </summary>        
         /// <param name="category"></param>
         /// <param name="priority"></param>
-        public ClientFilter(ClientFilterCategory category, byte priority, ILogger logger=null)
-        {            
+        public ClientFilter(ClientFilterCategory category, byte priority, ILogger logger = null)
+        {
             Category = category;
             Priority = priority;
 
@@ -57,16 +59,13 @@ namespace Shadowsocks.Infrastructure.Pipe
         public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
         public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
 
-
-        public int Compare(ClientFilter x, ClientFilter y)
-        {
-            int c = (int)x.Category.CompareTo((int)y.Category);
-            return c != 0 ? c : x.Priority.CompareTo(y.Priority);
-        }
-
         public int Compare(IFilter x, IFilter y)
         {
-            return this.Compare(x as ClientFilter, y as ClientFilter);
+            var a = x as ClientFilter;
+            var b = y as ClientFilter;
+
+            int r = a.Category.CompareTo(b.Category);
+            return r != 0 ? r : a.Priority.CompareTo(b.Priority);
         }
     }
 }

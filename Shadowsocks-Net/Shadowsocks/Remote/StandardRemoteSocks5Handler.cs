@@ -60,7 +60,7 @@ namespace Shadowsocks.Remote
                (pipe) =>
                {
                    var cipher = _remoteServerConfig.CreateCipher(_logger);
-                   ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                   IClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
                    pipe.AddFilter(client, cipherFilter);
                },
                async (targetIPEndPoint) =>
@@ -111,7 +111,7 @@ namespace Shadowsocks.Remote
                 (pipe) =>
                 {
                     var cipher = _remoteServerConfig.CreateCipher(_logger);
-                    ClientFilter cipherFilter = new Cipher.UdpCipherFilter(cipher, _logger);
+                    IClientFilter cipherFilter = new Cipher.UdpCipherFilter(cipher, _logger);
                     pipe.AddFilter(client, cipherFilter);
                 },
                 async (targetIPEndPoint) =>
@@ -121,7 +121,7 @@ namespace Shadowsocks.Remote
                 async (request, pipe, targetClient, targetSsAddr) =>
                 {
                     pipe.ClientB = targetClient;
-                    ClientFilter filterTarget1 = new UdpRelayEncapsulationFilter(_logger);
+                    IClientFilter filterTarget1 = new UdpRelayEncapsulationFilter(_logger);
                     pipe.AddFilter(targetClient, filterTarget1);
 
                     _logger?.LogInformation($"Writing payload before piping...");

@@ -101,7 +101,7 @@ namespace Shadowsocks.Http
 
                             var cipher = server.CreateCipher(_logger);
                             DuplexPipe pipe = new DuplexPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-                            ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                            IClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
                             pipe.AddFilter(relayClient, cipherFilter);
 
                             var writeResult = await pipe.GetWriter(relayClient).Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.

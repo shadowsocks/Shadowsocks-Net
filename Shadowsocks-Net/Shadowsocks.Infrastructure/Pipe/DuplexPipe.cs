@@ -200,7 +200,7 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
 
-        public DuplexPipe AddFilter(IClient client, ClientFilter filter)//TODO lock
+        public DuplexPipe AddFilter(IClient client, IClientFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
             Throw.IfNull(() => client);
@@ -217,7 +217,7 @@ namespace Shadowsocks.Infrastructure.Pipe
 
             return this;
         }
-        public void AddFilter(IClient client, IEnumerable<ClientFilter> filters)//TODO lock
+        public void AddFilter(IClient client, IEnumerable<IClientFilter> filters)//TODO lock
         {
             foreach (var f in filters)
             {

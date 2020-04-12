@@ -14,9 +14,11 @@ using System.Linq;
 using Argument.Check;
 
 
-namespace Shadowsocks.Infrastructure.Pipe
+namespace Shadowsocks
 {
-    using Sockets;
+    using Infrastructure;
+    using Infrastructure.Pipe;
+    using Infrastructure.Sockets;
     public class TestClientFilter : ClientFilter
     {
         public TestClientFilter(ILogger logger = null)

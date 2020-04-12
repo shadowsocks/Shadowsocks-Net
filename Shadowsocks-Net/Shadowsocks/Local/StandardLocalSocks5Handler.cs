@@ -145,7 +145,7 @@ namespace Shadowsocks.Local
                                 var cipher = server.CreateCipher(_logger);
 
                                 DuplexPipe pipe = new DuplexPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-                                ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                                IClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
                                 pipe.AddFilter(relayClient, cipherFilter);
 
                                 var writeResult = await pipe.GetWriter(relayClient).Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
@@ -227,8 +227,8 @@ namespace Shadowsocks.Local
             }
 
             DuplexPipe pipe = new DuplexPipe(client, relayClient, 1500, _logger);
-            ClientFilter filter = new Cipher.UdpCipherFilter(server.CreateCipher(_logger), _logger);
-            ClientFilter filter2 = new UdpEncapsulationFilter(_logger);
+            IClientFilter filter = new Cipher.UdpCipherFilter(server.CreateCipher(_logger), _logger);
+            IClientFilter filter2 = new UdpEncapsulationFilter(_logger);
             pipe.AddFilter(relayClient, filter)
                  .AddFilter(relayClient, filter2);
 
