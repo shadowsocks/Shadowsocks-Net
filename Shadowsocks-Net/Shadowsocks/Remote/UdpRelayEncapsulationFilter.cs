@@ -39,10 +39,9 @@ namespace Shadowsocks.Remote
     class UdpRelayEncapsulationFilter : ClientFilter
     {
 
-        public UdpRelayEncapsulationFilter(IClient udpClient, ILogger logger = null)
-               : base(udpClient, ClientFilterCategory.Encapsulation, 0)
-        {
-            _logger = logger;
+        public UdpRelayEncapsulationFilter(ILogger logger = null)
+               : base(ClientFilterCategory.Encapsulation, 0, logger)
+        {            
         }
         public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
         {

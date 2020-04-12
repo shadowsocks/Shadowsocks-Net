@@ -19,10 +19,9 @@ namespace Shadowsocks.Infrastructure.Pipe
     using Sockets;
     public class TestClientFilter : ClientFilter
     {
-        public TestClientFilter(IClient client, ILogger logger = null)
-                 : base(client, ClientFilterCategory.Custom, 0)
-        {
-            _logger = logger;
+        public TestClientFilter(ILogger logger = null)
+                 : base(ClientFilterCategory.Custom, 0, logger)
+        {            
         }
         public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
         {

@@ -21,20 +21,19 @@ namespace Shadowsocks.Cipher
     public class UdpCipherFilter : ClientFilter
     {
         IShadowsocksStreamCipher _cipher = null;
-        public UdpCipherFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
-               : base(tcpClient, ClientFilterCategory.Cipher, 0)
+        public UdpCipherFilter(IShadowsocksStreamCipher cipher, ILogger logger = null)
+               : base(ClientFilterCategory.Cipher, 0, logger)
         {
             _cipher = Throw.IfNull(() => cipher);
-            _logger = logger;
         }
         public override ClientFilterResult AfterReading(ClientFilterContext ctx)
-        {          
+        {
             if (!ctx.Memory.IsEmpty)
             {
                 var bufferPlain = _cipher.DecryptUdp(ctx.Memory);
                 if (null != bufferPlain && bufferPlain.SignificantLength > 0)
                 {
-                    return new ClientFilterResult(this.Client, bufferPlain, true);                    
+                    return new ClientFilterResult(this.Client, bufferPlain, true);
                 }
                 else { _logger?.LogError($"CipherUdpFilter AfterReading no plain data."); }
             }
@@ -52,7 +51,7 @@ namespace Shadowsocks.Cipher
             }
             else { _logger?.LogError($"CipherUdpFilter BeforeWriting filterContext.Memory.IsEmpty"); }
 
-            return  new ClientFilterResult(this.Client, null, false);
+            return new ClientFilterResult(this.Client, null, false);
         }
     }
 }

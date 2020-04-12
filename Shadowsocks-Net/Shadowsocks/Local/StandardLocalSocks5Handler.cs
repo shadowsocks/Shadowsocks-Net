@@ -145,8 +145,8 @@ namespace Shadowsocks.Local
                                 var cipher = server.CreateCipher(_logger);
 
                                 DuplexPipe pipe = new DuplexPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-                                Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-                                pipe.AddClientFilter(cipherFilter);
+                                ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                                pipe.AddFilter(relayClient, cipherFilter);
 
                                 var writeResult = await pipe.GetWriter(relayClient).Write(ssaddr.RawMemory, cancellationToken);//C. send target addr to ss-remote.
                                 _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
@@ -227,9 +227,10 @@ namespace Shadowsocks.Local
             }
 
             DuplexPipe pipe = new DuplexPipe(client, relayClient, 1500, _logger);
-            ClientFilter filter = new Cipher.UdpCipherFilter(relayClient, server.CreateCipher(_logger), _logger);
-            ClientFilter filter2 = new UdpEncapsulationFilter(relayClient, _logger);
-            pipe.AddClientFilter(filter).AddClientFilter(filter2);
+            ClientFilter filter = new Cipher.UdpCipherFilter(server.CreateCipher(_logger), _logger);
+            ClientFilter filter2 = new UdpEncapsulationFilter(_logger);
+            pipe.AddFilter(relayClient, filter)
+                 .AddFilter(relayClient, filter2);
 
             PipeClient(pipe, cancellationToken);
 
@@ -245,7 +246,7 @@ namespace Shadowsocks.Local
             }
             pipe.StartPipe(cancellationToken);
         }
-        
+
 
 
         private void Pipe_OnBroken(object sender, PipeBrokenEventArgs e)

@@ -101,8 +101,8 @@ namespace Shadowsocks.Http
 
                             var cipher = server.CreateCipher(_logger);
                             DuplexPipe pipe = new DuplexPipe(client, relayClient, Defaults.ReceiveBufferSize, _logger);
-                            Cipher.TcpCipherFilter cipherFilter = new Cipher.TcpCipherFilter(relayClient, cipher, _logger);
-                            pipe.AddClientFilter(cipherFilter);
+                            ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                            pipe.AddFilter(relayClient, cipherFilter);
 
                             var writeResult = await pipe.GetWriter(relayClient).Write(relayRequst.SignificantMemory, cancellationToken);//C. send target addr (& http header) to ss-remote.
                             _logger?.LogInformation($"Send target addr {writeResult.Written} bytes. {writeResult.Result}.");
@@ -136,7 +136,7 @@ namespace Shadowsocks.Http
 
         void PipeClient(DuplexPipe pipe, CancellationToken cancellationToken)
         {
-           
+
             pipe.OnBroken += this.Pipe_OnBroken;
             lock (_pipesReadWriteLock)
             {

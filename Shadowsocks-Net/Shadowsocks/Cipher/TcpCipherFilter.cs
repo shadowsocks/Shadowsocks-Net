@@ -21,11 +21,10 @@ namespace Shadowsocks.Cipher
     public class TcpCipherFilter : ClientFilter
     {
         IShadowsocksStreamCipher _cipher = null;
-        public TcpCipherFilter(IClient tcpClient, IShadowsocksStreamCipher cipher, ILogger logger = null)
-               : base(tcpClient, ClientFilterCategory.Cipher, 0)
+        public TcpCipherFilter(IShadowsocksStreamCipher cipher, ILogger logger = null)
+               : base(ClientFilterCategory.Cipher, 0, logger)
         {
-            _cipher = Throw.IfNull(() => cipher);
-            _logger = logger;
+            _cipher = Throw.IfNull(() => cipher);            
         }
         public override ClientFilterResult AfterReading(ClientFilterContext ctx)
         {

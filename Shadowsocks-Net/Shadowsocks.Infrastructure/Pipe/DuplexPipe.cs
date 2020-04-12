@@ -200,25 +200,28 @@ namespace Shadowsocks.Infrastructure.Pipe
         }
 
 
-        public DuplexPipe AddClientFilter(ClientFilter filter)//TODO lock
+        public DuplexPipe AddFilter(IClient client, ClientFilter filter)//TODO lock
         {
             Throw.IfNull(() => filter);
+            Throw.IfNull(() => client);
 
-            if ((null == ClientA && null == ClientB) || (filter.Client != ClientA && filter.Client != ClientB))
+            if ((null == ClientA && null == ClientB) || (client != ClientA && client != ClientB))
             {
                 throw new InvalidOperationException("no matched client for this filter.");
             }
 
-            (GetReader(filter.Client) as ClientReader)?.AddFilter(filter);
-            (GetWriter(filter.Client) as ClientWriter)?.AddFilter(filter);
+            filter.Client = client;
+
+            (GetReader(client) as ClientReader)?.AddFilter(filter);
+            (GetWriter(client) as ClientWriter)?.AddFilter(filter);
 
             return this;
         }
-        public void AddClientFilter(IEnumerable<ClientFilter> filters)//TODO lock
+        public void AddFilter(IClient client, IEnumerable<ClientFilter> filters)//TODO lock
         {
             foreach (var f in filters)
             {
-                AddClientFilter(f);
+                AddFilter(client, f);
             }
         }
 

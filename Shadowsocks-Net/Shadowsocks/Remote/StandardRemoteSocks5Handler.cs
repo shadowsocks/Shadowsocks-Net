@@ -57,26 +57,25 @@ namespace Shadowsocks.Remote
             if (null == client) { return; }
 
             await HandleClient(client, Defaults.ReceiveBufferSize,
-               (p) =>
-               {                  
+               (pipe) =>
+               {
                    var cipher = _remoteServerConfig.CreateCipher(_logger);
-                   var cipherFilter = new Cipher.TcpCipherFilter(client, cipher, _logger);
-                   p.ClientA = client;
-                   p.AddClientFilter(cipherFilter);                  
+                   ClientFilter cipherFilter = new Cipher.TcpCipherFilter(cipher, _logger);
+                   pipe.AddFilter(client, cipherFilter);
                },
                async (targetIPEndPoint) =>
-               {                  
+               {
                    return await TcpClient1.ConnectAsync(targetIPEndPoint, _logger);
                },
-               async (request, p, targetClient, targetSsAddr) =>
-               {                   
-                   p.ClientB = targetClient;
+               async (request, pipe, targetClient, targetSsAddr) =>
+               {
+                   pipe.ClientB = targetClient;
 
                    if (request.SignificantLength > targetSsAddr.RawMemory.Length)//have some payload
                    {
                        _logger?.LogInformation($"Writing payload before piping...");
                        //await targetClient.WriteAsync(request.SignificantMemory.Slice(ssaddr.RawMemory.Length));
-                       await p.GetWriter(targetClient).Write(request.SignificantMemory.Slice(targetSsAddr.RawMemory.Length), cancellationToken);
+                       await pipe.GetWriter(targetClient).Write(request.SignificantMemory.Slice(targetSsAddr.RawMemory.Length), cancellationToken);
                    }
                    request.Dispose();
                },
@@ -109,25 +108,24 @@ namespace Shadowsocks.Remote
 
 
             await HandleClient(client, 1500,
-                (p) =>
+                (pipe) =>
                 {
                     var cipher = _remoteServerConfig.CreateCipher(_logger);
-                    Cipher.UdpCipherFilter cipherFilter = new Cipher.UdpCipherFilter(client, cipher, _logger);
-                    p.ClientA = client;
-                    p.AddClientFilter(cipherFilter);
+                    ClientFilter cipherFilter = new Cipher.UdpCipherFilter(cipher, _logger);
+                    pipe.AddFilter(client, cipherFilter);
                 },
                 async (targetIPEndPoint) =>
                 {
                     return await UdpClient1.ConnectAsync(targetIPEndPoint, _logger);
                 },
-                async (request, p, targetClient, targetSsAddr) =>
+                async (request, pipe, targetClient, targetSsAddr) =>
                 {
-                    p.ClientB = targetClient;
-                    UdpRelayEncapsulationFilter filterTarget1 = new UdpRelayEncapsulationFilter(targetClient, _logger);
-                    p.AddClientFilter(filterTarget1);
+                    pipe.ClientB = targetClient;
+                    ClientFilter filterTarget1 = new UdpRelayEncapsulationFilter(_logger);
+                    pipe.AddFilter(targetClient, filterTarget1);
 
                     _logger?.LogInformation($"Writing payload before piping...");
-                    await p.GetWriter(targetClient).Write(request.SignificantMemory, cancellationToken);
+                    await pipe.GetWriter(targetClient).Write(request.SignificantMemory, cancellationToken);
                     request.Dispose();
                 },
                 cancellationToken);
@@ -146,7 +144,7 @@ namespace Shadowsocks.Remote
             try
             {
                 DuplexPipe pipe = new DuplexPipe(pipeBufferSize, _logger);
-
+                pipe.ClientA = client;
                 pipeCreatedAction(pipe);///////////////////
 
 
@@ -205,10 +203,10 @@ namespace Shadowsocks.Remote
         }
 
 
-        void PipeClient(DuplexPipe p, CancellationToken cancellationToken, params ClientFilter[] addFilters)
+        void PipeClient(DuplexPipe p, CancellationToken cancellationToken)
         {
             p.OnBroken += Pipe_OnBroken;
-            p.AddClientFilter(addFilters);
+           
             lock (_pipesReadWriteLock)
             {
                 this._pipes.Add(p);

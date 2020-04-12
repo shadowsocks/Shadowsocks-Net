@@ -20,12 +20,12 @@ namespace Shadowsocks.Infrastructure.Pipe
     /// ClientFilter processes data read from and write to clients.
     /// Note: Except for processing data, there should not be too much logic here.
     /// </summary>
-    public abstract class ClientFilter : IClientReaderFilter, IClientWriterFilter, IComparer<ClientFilter>
+    public abstract class ClientFilter : IClientReaderFilter, IClientWriterFilter, IClientObject, IComparer<ClientFilter>
     {
         /// <summary>
         /// The client applies to.
         /// </summary>
-        public IClient Client { get; protected set; }
+        public IClient Client { get; set; }
 
         /// <summary>
         /// Filter category.
@@ -42,16 +42,16 @@ namespace Shadowsocks.Infrastructure.Pipe
         protected ILogger _logger = null;
 
         /// <summary>
-        /// Create a filter with a client, category and priority.
-        /// </summary>
-        /// <param name="client"></param>
+        /// Create a filter.
+        /// </summary>        
         /// <param name="category"></param>
         /// <param name="priority"></param>
-        public ClientFilter(IClient client, ClientFilterCategory category, byte priority)
-        {
-            Client = Throw.IfNull(() => client);
+        public ClientFilter(ClientFilterCategory category, byte priority, ILogger logger=null)
+        {            
             Category = category;
             Priority = priority;
+
+            _logger = logger;
         }
 
         public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
@@ -62,8 +62,8 @@ namespace Shadowsocks.Infrastructure.Pipe
         {
             int c = (int)x.Category.CompareTo((int)y.Category);
             return c != 0 ? c : x.Priority.CompareTo(y.Priority);
-        }      
-      
+        }
+
         public int Compare(IFilter x, IFilter y)
         {
             return this.Compare(x as ClientFilter, y as ClientFilter);

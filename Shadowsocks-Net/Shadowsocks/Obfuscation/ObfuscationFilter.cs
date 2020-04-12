@@ -22,10 +22,9 @@ namespace Shadowsocks.Obfuscation
 
     public class ObfuscationFilter : ClientFilter
     {
-        public ObfuscationFilter(IClient client, ILogger logger = null)
-               : base(client, ClientFilterCategory.Obfuscation, 0)
-        {
-            _logger = logger;
+        public ObfuscationFilter(ILogger logger = null)
+               : base(ClientFilterCategory.Obfuscation, 0, logger)
+        {            
         }
 
         public override ClientFilterResult AfterReading(ClientFilterContext filterContext)
