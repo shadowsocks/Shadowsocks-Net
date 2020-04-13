@@ -38,6 +38,9 @@ namespace Shadowsocks.Local
         [JsonPropertyName("method")]
         public string Cipher { set; get; }
 
+        [JsonPropertyName("tunnel")]
+        public string Tunnel { set; get; }
+
         [JsonPropertyName("obfs")]
         public string Obfuscator { set; get; }
 

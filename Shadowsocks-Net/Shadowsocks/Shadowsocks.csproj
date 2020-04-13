@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Diagnostics\" />
-    <Folder Include="Obfuscation\FakeHttp\" />
+    <Folder Include="Tunnel\Obfuscation\FakeHttp\" />
   </ItemGroup>
 
 </Project>
