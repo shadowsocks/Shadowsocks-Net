@@ -32,7 +32,7 @@ namespace Shadowsocks
             var p = newBuff.Memory.Span;
             p[0] = 0x12;
             p[1] = 0x34;
-            p[4] = 0xAB;
+            p[2] = 0xAB;
             p[3] = 0xCD;
             ctx.Memory.CopyTo(newBuff.Memory.Slice(4));
             newBuff.SignificantLength = ctx.Memory.Length + 4;
