@@ -86,10 +86,10 @@ class TestClientFilter : ClientFilter
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = new byte[data.Length + 4];
-        data[0] = 0x12;
-        data[1] = 0x34;
-        data[2] = 0xAB;
-        data[3] = 0xCD;
+        newData[0] = 0x12;
+        newData[1] = 0x34;
+        newData[2] = 0xAB;
+        newData[3] = 0xCD;
         Array.Copy(data, 0, newData, 4, data.Length);
         return new ClientFilterResult(ctx.Client, newData, ...);
     }
@@ -97,7 +97,7 @@ class TestClientFilter : ClientFilter
     public override ClientFilterResult AfterReading(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
-        byte[] newDat = data.Skip(4).ToArray();
+        byte[] newData = data.Skip(4).ToArray();
         return new ClientFilterResult(ctx.Client, newData, ...);
     }
 }
