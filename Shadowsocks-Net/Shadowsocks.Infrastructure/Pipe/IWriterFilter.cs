@@ -12,6 +12,6 @@ namespace Shadowsocks.Infrastructure.Pipe
         where TFilterContext : IFilterContext
         where TFilterResult : IFilterResult
     {
-        TFilterResult BeforeWriting(TFilterContext filterContext);
+        TFilterResult OnWriting(TFilterContext filterContext);
     }
 }

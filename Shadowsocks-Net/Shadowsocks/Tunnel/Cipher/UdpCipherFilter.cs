@@ -26,7 +26,7 @@ namespace Shadowsocks.Cipher
         {
             _cipher = Throw.IfNull(() => cipher);
         }
-        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+        public override ClientFilterResult OnReading(ClientFilterContext ctx)
         {
             if (!ctx.Memory.IsEmpty)
             {
@@ -42,7 +42,7 @@ namespace Shadowsocks.Cipher
             return new ClientFilterResult(this.Client, null, false);
         }
 
-        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        public override ClientFilterResult OnWriting(ClientFilterContext ctx)
         {
             if (!ctx.Memory.IsEmpty)
             {

@@ -43,7 +43,7 @@ namespace Shadowsocks.Remote
                : base(ClientFilterCategory.Encapsulation, 0, logger)
         {            
         }
-        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        public override ClientFilterResult OnWriting(ClientFilterContext ctx)
         {
             SmartBuffer toTarget = SmartBuffer.Rent(ctx.Memory.Length);
             if (ShadowsocksAddress.TryResolveLength(ctx.Memory, out int targetAddrLen))
@@ -58,7 +58,7 @@ namespace Shadowsocks.Remote
             }
         }
 
-        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+        public override ClientFilterResult OnReading(ClientFilterContext ctx)
         {
             SmartBuffer toSsLocal = SmartBuffer.Rent(1500);//TODO what if exceeds 1500? fragments or not?
 

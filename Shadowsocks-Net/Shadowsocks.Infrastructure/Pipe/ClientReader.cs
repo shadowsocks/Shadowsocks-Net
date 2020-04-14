@@ -92,7 +92,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 try
                 {
                     if (time > 0 && null == prevFilterMemory) { @continue = true; break; }
-                    var result = filter.AfterReading(new ClientFilterContext(Client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
+                    var result = filter.OnReading(new ClientFilterContext(Client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
                     time++;
                     prevFilterMemory?.Dispose();
                     prevFilterMemory = result.Buffer;

@@ -27,12 +27,12 @@ namespace Shadowsocks.Obfuscation
         {            
         }
 
-        public override ClientFilterResult AfterReading(ClientFilterContext filterContext)
+        public override ClientFilterResult OnReading(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }
 
-        public override ClientFilterResult BeforeWriting(ClientFilterContext filterContext)
+        public override ClientFilterResult OnWriting(ClientFilterContext filterContext)
         {
             throw new NotImplementedException();
         }
