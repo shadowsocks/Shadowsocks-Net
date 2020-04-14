@@ -37,7 +37,7 @@ Since Shadowsocks mainly implements socks5 protocol, the upper layer code is now
  Socks5 generally only do two things: 1. negotiation, 2. forwarding. Shadowsocks-Net tries to make developing Shadowsocks in C# more enjoyable and easier.
 <br/>
 
-_Master branch is a standard implementation of Shadowsocks. 
+_Master branch is a classical implementation of Shadowsocks. 
 The [pluggable-tunnel](https://github.com/shadowsocks/Shadowsocks-Net/tree/pluggable-tunnel) branch has a slightly different architecture,
 which gives flexibility to integrate multiplexed tunnels._
 
