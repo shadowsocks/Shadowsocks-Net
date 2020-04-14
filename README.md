@@ -35,6 +35,11 @@ aes-256-gcm, aes-192-gcm, aes-128-gcm, chacha20-ietf-poly1305, xchacha20-ietf-po
 Shadowsocks-Net encapsulates the network programming part simply so that the upper layer can focus on the socks5 protocol.
 Since Shadowsocks mainly implements socks5 protocol, the upper layer code is now very thin. 
  Socks5 generally only do two things: 1. negotiation, 2. forwarding. Shadowsocks-Net tries to make developing Shadowsocks in C# more enjoyable and easier.
+<br/>
+
+_Master branch is a standard implementation of Shadowsocks. 
+The [pluggable-tunnel](https://github.com/shadowsocks/Shadowsocks-Net/tree/pluggable-tunnel) branch has a slightly different architecture,
+which gives flexibility to integrate multiplexed tunnels._
 
 <br/>
 

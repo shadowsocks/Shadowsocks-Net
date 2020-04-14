@@ -36,6 +36,12 @@ Shadowsocks-Net对网络编程部分做了简单封装，使得上层可以专�
 
 <br/>
 
+_Master分支是标准的Shadowsocks实现。
+[pluggable-tunnel](https://github.com/shadowsocks/Shadowsocks-Net/tree/pluggable-tunnel) 分支有一个稍微不同的架构，
+提供了集成多路复用隧道的灵活性。_
+
+<br/>
+
 #### 添加加密算法的步骤
 
 1. 实现统一的加密接口`IShadowsocksAeadCipher`或者`IShadowsocksStreamCipher`
