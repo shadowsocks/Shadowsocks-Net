@@ -262,4 +262,4 @@ There is still a lot of code waiting to be added.
 [KCP]:https://github.com/skywind3000/kcp
 [libev版]:https://github.com/shadowsocks/shadowsocks-libev
 [shadowsocks-windows]: https://github.com/shadowsocks/shadowsocks-windows
-[shadowsocks_net_arch]: https://github.com/shadowsocks/Shadowsocks-Net/blob/master/ssarch.png?
+[shadowsocks_net_arch]: https://github.com/shadowsocks/Shadowsocks-Net/blob/master/ssarch.png
