@@ -13,15 +13,18 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
 using System.Text;
-using Shadowsocks.Infrastructure.Sockets;
 
-namespace Shadowsocks.Tunnel
+namespace Shadowsocks.Tunnel.ClassicalShadowsocks
 {
-    public sealed class StandardShadowsocksTunnelClient : ITunnel
+    using Infrastructure;
+    using Infrastructure.Sockets;
+    using Infrastructure.Pipe;
+
+    public sealed class TunnelLocal : ITunnel
     {
         //ip?
         //Server
-        public StandardShadowsocksTunnelClient()
+        public TunnelLocal()
         {
 
         }

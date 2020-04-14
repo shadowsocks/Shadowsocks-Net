@@ -10,11 +10,14 @@ using Microsoft.Extensions.Logging;
 using Argument.Check;
 using System.Text;
 using System.Net;
-using Shadowsocks.Infrastructure.Sockets;
 
-namespace Shadowsocks.Tunnel
+namespace Shadowsocks.Tunnel.ClassicalShadowsocks
 {
-    public sealed class StandardShadowsocksTunnelServer : ITunnelServer
+    using Infrastructure;
+    using Infrastructure.Sockets;
+    using Infrastructure.Pipe;
+
+    public sealed class TunnelRemote : IRemote
     {
         public IPEndPoint EndPoint => throw new NotImplementedException();
 

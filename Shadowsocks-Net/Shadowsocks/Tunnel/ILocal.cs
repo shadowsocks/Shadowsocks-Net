@@ -13,9 +13,9 @@ namespace Shadowsocks.Tunnel
     using Infrastructure;
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
-    public interface ITunnelServer : IServer
+    public interface ILocal 
     {
-        Task<IClient> AcceptTcp();
-        Task<IClient> AcceptUdp();
+        Task<IClient> ConnectTcp();
+        Task<IClient> ConnectUdp();
     }
 }
