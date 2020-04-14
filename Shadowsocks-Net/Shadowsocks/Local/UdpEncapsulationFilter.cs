@@ -58,7 +58,7 @@ namespace Shadowsocks.Local
         {
         }
 
-        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+        public override ClientFilterResult OnReading(ClientFilterContext ctx)
         {
             if (!ctx.Memory.IsEmpty)
             {
@@ -74,7 +74,7 @@ namespace Shadowsocks.Local
             return new ClientFilterResult(this.Client, null, false);
         }
 
-        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        public override ClientFilterResult OnWriting(ClientFilterContext ctx)
         {
             if (!ctx.Memory.IsEmpty)
             {

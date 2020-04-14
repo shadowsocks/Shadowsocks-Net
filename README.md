@@ -71,13 +71,13 @@ But as the other parts have been encapsulated, now only need to focus on reading
 ```c#
 public interface IClientReaderFilter
 {
-    ClientFilterResult AfterReading(ClientFilterContext filterContext);
+    ClientFilterResult OnReading(ClientFilterContext filterContext);
 }
 ```
 ```c#
 public interface IClientWriterFilter
 {
-    ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
+    ClientFilterResult OnWriting(ClientFilterContext filterContext);        
 }
 ```
 Encryption, obfuscation and UDP encapsulation are all implemented by filters in Shadowsocks-Net. Filters are pluggable. Therefore, filters can also be used to interpret custom protocols.
@@ -87,7 +87,7 @@ and correspondingly skips the first four bytes when receiving:
 ```c#
 class TestClientFilter : ClientFilter
 {
-    public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+    public override ClientFilterResult OnWriting(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = new byte[data.Length + 4];
@@ -99,7 +99,7 @@ class TestClientFilter : ClientFilter
         return new ClientFilterResult(ctx.Client, newData, ...);
     }
 
-    public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+    public override ClientFilterResult OnReading(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = data.Skip(4).ToArray();
@@ -127,8 +127,8 @@ The framework has preseted several categories:
 ```c#
     public abstract class ClientFilter
     {
-        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
-        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnWriting(ClientFilterContext filterContext);
     }
 ```
 

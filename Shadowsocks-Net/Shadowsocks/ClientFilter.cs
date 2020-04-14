@@ -56,8 +56,8 @@ namespace Shadowsocks
             _logger = logger;
         }
 
-        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
-        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnWriting(ClientFilterContext filterContext);
 
         public int Compare(IFilter x, IFilter y)
         {

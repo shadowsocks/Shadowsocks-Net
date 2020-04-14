@@ -25,7 +25,7 @@ namespace Shadowsocks
                  : base(ClientFilterCategory.Custom, 0, logger)
         {            
         }
-        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        public override ClientFilterResult OnWriting(ClientFilterContext ctx)
         {
             _logger?.LogInformation($"TestPipeFilter BeforeWriting data={ctx.Memory.ToArray().ToHexString()}");
             var newBuff = SmartBuffer.Rent(ctx.Memory.Length + 4);
@@ -39,7 +39,7 @@ namespace Shadowsocks
             return new ClientFilterResult(ctx.Client, newBuff, true);
         }
 
-        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+        public override ClientFilterResult OnReading(ClientFilterContext ctx)
         {
             _logger?.LogInformation($"TestPipeFilter AfterReading data={ctx.Memory.ToArray().ToHexString()}");
             var newBuff = SmartBuffer.Rent(ctx.Memory.Length - 4);

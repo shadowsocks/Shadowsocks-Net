@@ -26,7 +26,7 @@ namespace Shadowsocks.Cipher
         {
             _cipher = Throw.IfNull(() => cipher);            
         }
-        public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+        public override ClientFilterResult OnReading(ClientFilterContext ctx)
         {
             SmartBuffer bufferPlain = null;
             if (null != _cipher)
@@ -43,7 +43,7 @@ namespace Shadowsocks.Cipher
             return new ClientFilterResult(this.Client, bufferPlain, true);//TODO 2           
         }
 
-        public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+        public override ClientFilterResult OnWriting(ClientFilterContext ctx)
         {
             ClientFilterResult r = new ClientFilterResult(this.Client, null, false);
             if (null != _cipher)
