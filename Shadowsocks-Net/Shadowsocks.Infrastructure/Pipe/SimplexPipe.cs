@@ -31,9 +31,6 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         public virtual ClientWriter Writer { protected set; get; }
 
-
-
-
         protected ILogger _logger = null;
         public SimplexPipe(ClientReader clientReader, ClientWriter clientWriter, ILogger logger = null)
             : this(logger)
@@ -49,31 +46,37 @@ namespace Shadowsocks.Infrastructure.Pipe
 
         public virtual async ValueTask<PipeResult> Pipe(CancellationToken cancellationToken)
         {
+            var pr = await Pipe(this.Reader, this.Writer, cancellationToken, this._logger);
+            return pr;
+        }
+
+        public static async ValueTask<PipeResult> Pipe(ClientReader reader, ClientWriter writer, CancellationToken cancellationToken, ILogger logger = null)
+        {
             PipeResult rt = new PipeResult { Broken = false, BrokenCause = PipeBrokenCause.Empty };
-            var readerResult = await Reader.Read(cancellationToken);
+            var readerResult = await reader.Read(cancellationToken);
             if (Failed == readerResult.Result)
             {
                 return new PipeResult { Broken = true, BrokenCause = PipeBrokenCause.Exception };
             }
             if (BrokeByFilter == readerResult.Result)
             {
-                _logger?.LogInformation($"Pipe broke by Reader filter:[{Reader.Client.EndPoint}].");
+                logger?.LogInformation($"Pipe broke by Reader filter:[{reader.Client.EndPoint}].");
                 return new PipeResult { Broken = true, BrokenCause = PipeBrokenCause.FilterBreak };
             }
 
-            if (readerResult.Read > 0)//happens sometimes, [AfterReading] filter may not return data.
+            if (readerResult.Read > 0)//happens sometimes, [OnReading] filter may not return data.
             {
-                var writeResult = await Writer.Write(readerResult.Memory.SignificantMemory, cancellationToken);
+                var writeResult = await writer.Write(readerResult.Memory.SignificantMemory, cancellationToken);
                 if (Failed == writeResult.Result)
                 {
                     return new PipeResult { Broken = true, BrokenCause = PipeBrokenCause.Exception };
                 }
                 if (BrokeByFilter == writeResult.Result)
                 {
-                    _logger?.LogInformation($"Pipe broke by Writer filter: [{Writer.Client.EndPoint}].");
+                    logger?.LogInformation($"Pipe broke by Writer filter: [{writer.Client.EndPoint}].");
                     return new PipeResult { Broken = true, BrokenCause = PipeBrokenCause.FilterBreak };
                 }
-                _logger?.LogInformation($"Pipe [{Reader.Client.EndPoint}] => [{Writer.Client.EndPoint}] {writeResult.Written} bytes.");
+                logger?.LogInformation($"Pipe [{reader.Client.EndPoint}] => [{writer.Client.EndPoint}] {writeResult.Written} bytes.");
                 //ReportPiping(new PipingEventArgs { Bytes = writeResult.Written, Origin = ClientA.EndPoint, Destination = ClientB.EndPoint });
 
                 rt = new PipeResult { Broken = false, BrokenCause = PipeBrokenCause.Empty, BytesPiped = writeResult.Written };
@@ -83,8 +86,6 @@ namespace Shadowsocks.Infrastructure.Pipe
 
             return rt;
         }
-
-
 
     }
 }
