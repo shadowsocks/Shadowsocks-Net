@@ -17,7 +17,7 @@ namespace Shadowsocks.Infrastructure.Pipe
     public readonly struct ClientFilterContext : IFilterContext, IClientObject
     {
         public readonly IClient Client { get; }
-        public readonly ReadOnlyMemory<byte> Memory { get; }
+        public readonly ReadOnlyMemory<byte> Memory { get; }//TODO zero-copy filter
 
         public ClientFilterContext(IClient client, ReadOnlyMemory<byte> memory = default)
         {
