@@ -20,12 +20,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj" />
     <ProjectReference Include="..\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shadowsocks.Tunnel\Shadowsocks.Tunnel.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Diagnostics\" />
     <Folder Include="Tunnel\Obfuscation\FakeHttp\" />
-    <Folder Include="Tunnel\Multiplexing\" />
   </ItemGroup>
 
 </Project>

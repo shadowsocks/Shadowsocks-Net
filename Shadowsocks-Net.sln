@@ -31,6 +31,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Cryptography", "Shadowsocks-Net\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj", "{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks.Tunnel", "Shadowsocks-Net\Shadowsocks.Tunnel\Shadowsocks.Tunnel.csproj", "{3D3007BF-10A8-480A-B1C3-C6DA8DF59068}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tunnels", "Tunnels", "{A0FFEB0B-B2A6-4779-AEDB-B8F2606107C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks.Tunnel.Websocket", "Shadowsocks-Net\Tunnels\Shadowsocks.Tunnel.Websocket\Shadowsocks.Tunnel.Websocket.csproj", "{273FDF57-6BD7-4701-8C61-3DBA9AE0A018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks.Tunnel.Quic", "Shadowsocks-Net\Tunnels\Shadowsocks.Tunnel.Quic\Shadowsocks.Tunnel.Quic.csproj", "{31B09ACF-863C-4D56-BC7F-0E1F0B780F00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +69,18 @@ Global
 		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D3007BF-10A8-480A-B1C3-C6DA8DF59068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D3007BF-10A8-480A-B1C3-C6DA8DF59068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D3007BF-10A8-480A-B1C3-C6DA8DF59068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D3007BF-10A8-480A-B1C3-C6DA8DF59068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{273FDF57-6BD7-4701-8C61-3DBA9AE0A018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{273FDF57-6BD7-4701-8C61-3DBA9AE0A018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{273FDF57-6BD7-4701-8C61-3DBA9AE0A018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{273FDF57-6BD7-4701-8C61-3DBA9AE0A018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31B09ACF-863C-4D56-BC7F-0E1F0B780F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31B09ACF-863C-4D56-BC7F-0E1F0B780F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31B09ACF-863C-4D56-BC7F-0E1F0B780F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31B09ACF-863C-4D56-BC7F-0E1F0B780F00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +88,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5CB452A1-1984-44FD-82A3-CC305AF423A8} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
+		{273FDF57-6BD7-4701-8C61-3DBA9AE0A018} = {A0FFEB0B-B2A6-4779-AEDB-B8F2606107C1}
+		{31B09ACF-863C-4D56-BC7F-0E1F0B780F00} = {A0FFEB0B-B2A6-4779-AEDB-B8F2606107C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C637C6B6-CCCB-4A6F-80B2-0D8C25BB4CCC}

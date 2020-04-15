@@ -4,18 +4,24 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Buffers;
+using System.Linq;
+using System.IO;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
-using Shadowsocks.Infrastructure.Sockets;
+using System.Text;
 
-namespace Shadowsocks.Tunnel.TlsMultiplexing
+namespace Shadowsocks.Tunnel.Websocket
 {
-    class TunnelLocal : ITunnelLocal
+    using Infrastructure;
+    using Infrastructure.Sockets;
+    using Infrastructure.Pipe;
+
+    [Tunnel("Tunnel.Websocket")]
+    public class TunnelLocal : ITunnelLocal
     {
         public Task<IClient> ConnectTcp()
         {
