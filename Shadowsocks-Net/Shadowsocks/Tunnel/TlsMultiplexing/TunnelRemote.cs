@@ -11,11 +11,32 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
-
+using Shadowsocks.Infrastructure.Sockets;
 
 namespace Shadowsocks.Tunnel.TlsMultiplexing
 {
-    class TunnelRemote
+    class TunnelRemote : IRemote
     {
+        public IPEndPoint EndPoint => throw new NotImplementedException();
+
+        public Task<IClient> AcceptTcp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IClient> AcceptUdp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Listen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void StopListen()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

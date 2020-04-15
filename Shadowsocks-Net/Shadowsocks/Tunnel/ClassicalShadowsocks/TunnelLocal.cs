@@ -20,7 +20,7 @@ namespace Shadowsocks.Tunnel.ClassicalShadowsocks
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
 
-    public sealed class TunnelLocal : ITunnel
+    public sealed class TunnelLocal : ILocal
     {
         //ip?
         //Server

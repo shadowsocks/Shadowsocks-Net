@@ -11,10 +11,20 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Argument.Check;
+using Shadowsocks.Infrastructure.Sockets;
 
 namespace Shadowsocks.Tunnel.TlsMultiplexing
 {
-    class TunnelLocal
+    class TunnelLocal : ILocal
     {
+        public Task<IClient> ConnectTcp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IClient> ConnectUdp()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace Shadowsocks.Tunnel
     using Infrastructure;
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
-    public interface ILocal 
+    public interface ILocal :ITunnel
     {
         Task<IClient> ConnectTcp();
         Task<IClient> ConnectUdp();
