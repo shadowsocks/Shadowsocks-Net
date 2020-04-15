@@ -68,7 +68,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 }
             }
             int read = null != received ? received.SignificantLength : 0;
-            _logger?.LogInformation($"{read} bytes left after [AfterReading] filtering.");
+            _logger?.LogInformation($"{read} bytes left after [OnReading] filtering.");
 
             return new ReadResult(Succeeded, received, read);
         }
@@ -103,7 +103,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 catch (Exception ex)
                 {
                     @continue = false;
-                    _logger?.LogError(ex, $"PipeReader ExecuteFilter_AfterReading [{Client.EndPoint.ToString()}].");
+                    _logger?.LogError(ex, $"PipeReader ExecuteFilter_OnReading [{Client.EndPoint.ToString()}].");
                 }
             }
             return new ClientFilterResult(Client, prevFilterMemory, @continue);

@@ -70,13 +70,13 @@ class MyCipher : IShadowsocksAeadCipher
 ```c#
 public interface IClientReaderFilter
 {
-    ClientFilterResult AfterReading(ClientFilterContext filterContext);
+    ClientFilterResult OnReading(ClientFilterContext filterContext);
 }
 ```
 ```c#
 public interface IClientWriterFilter
 {
-    ClientFilterResult BeforeWriting(ClientFilterContext filterContext);        
+    ClientFilterResult OnWriting(ClientFilterContext filterContext);        
 }
 ```
 Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器实现的。过滤器是可插拔模块。所以也可以使用过滤器来解析自定义协议。
@@ -85,7 +85,7 @@ Shadowsocks-Net中加密、混淆、对UDP转发的封包都是通过过滤器�
 ```c#
 class TestClientFilter : ClientFilter
 {
-    public override ClientFilterResult BeforeWriting(ClientFilterContext ctx)
+    public override ClientFilterResult OnWriting(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = new byte[data.Length + 4];
@@ -97,7 +97,7 @@ class TestClientFilter : ClientFilter
         return new ClientFilterResult(ctx.Client, newData, ...);
     }
 
-    public override ClientFilterResult AfterReading(ClientFilterContext ctx)
+    public override ClientFilterResult OnReading(ClientFilterContext ctx)
     {
         byte[] data = ctx.Memory.ToArray();
         byte[] newData = data.Skip(4).ToArray();
@@ -124,8 +124,8 @@ class TestClientFilter : ClientFilter
 ```c#
     public abstract class ClientFilter
     {
-        public abstract ClientFilterResult AfterReading(ClientFilterContext filterContext);
-        public abstract ClientFilterResult BeforeWriting(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnReading(ClientFilterContext filterContext);
+        public abstract ClientFilterResult OnWriting(ClientFilterContext filterContext);
     }
 ```
 
