@@ -15,5 +15,6 @@ namespace Shadowsocks.Tunnel
     using Infrastructure.Pipe;
     public interface IMultiplexTunnel : ITunnel
     {
+        //ConnectionPool<>
     }
 }
