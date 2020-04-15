@@ -15,7 +15,7 @@ using Shadowsocks.Infrastructure.Sockets;
 
 namespace Shadowsocks.Tunnel.TlsMultiplexing
 {
-    class TunnelLocal : ILocal
+    class TunnelLocal : ITunnelLocal
     {
         public Task<IClient> ConnectTcp()
         {

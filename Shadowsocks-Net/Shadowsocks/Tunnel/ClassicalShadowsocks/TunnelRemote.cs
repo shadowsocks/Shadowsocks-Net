@@ -17,7 +17,7 @@ namespace Shadowsocks.Tunnel.ClassicalShadowsocks
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
 
-    public sealed class TunnelRemote : IRemote
+    public sealed class TunnelRemote : ITunnelRemote
     {
         public IPEndPoint EndPoint => throw new NotImplementedException();
 

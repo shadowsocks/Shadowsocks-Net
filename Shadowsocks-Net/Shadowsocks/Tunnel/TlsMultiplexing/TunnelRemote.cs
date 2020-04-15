@@ -15,7 +15,7 @@ using Shadowsocks.Infrastructure.Sockets;
 
 namespace Shadowsocks.Tunnel.TlsMultiplexing
 {
-    class TunnelRemote : IRemote
+    class TunnelRemote : ITunnelRemote
     {
         public IPEndPoint EndPoint => throw new NotImplementedException();
 

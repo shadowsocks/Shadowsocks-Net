@@ -13,7 +13,7 @@ namespace Shadowsocks.Tunnel
     using Infrastructure;
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
-    public interface IRemote : IServer, ITunnel
+    public interface ITunnelRemote : ITunnel // IServer
     {
         Task<IClient> AcceptTcp();
         Task<IClient> AcceptUdp();

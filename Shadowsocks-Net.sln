@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		ssarch.png = ssarch.png
 		ssarch.svg = ssarch.svg
+		ssarchpt.png = ssarchpt.png
+		ssarchpt.svg = ssarchpt.svg
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Infrastructure", "Shadowsocks-Net\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj", "{7570133C-F669-41E2-9F79-EF5D4CAF4225}"
