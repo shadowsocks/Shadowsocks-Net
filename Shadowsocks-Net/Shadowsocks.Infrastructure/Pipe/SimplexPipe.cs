@@ -64,7 +64,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 return new PipeResult { Broken = true, BrokenCause = PipeBrokenCause.FilterBreak };
             }
 
-            if (readerResult.Read > 0)//happens sometimes, [AfterReading] filter may not return data.
+            if (readerResult.Read > 0)//happens sometimes, [OnReading] filter may not return data.
             {
                 var writeResult = await writer.Write(readerResult.Memory.SignificantMemory, cancellationToken);
                 if (Failed == writeResult.Result)

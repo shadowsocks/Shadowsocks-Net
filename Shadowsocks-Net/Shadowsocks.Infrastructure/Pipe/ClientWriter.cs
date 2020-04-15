@@ -71,7 +71,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                     toWrite = null != filterResultBuffer ? filterResultBuffer.SignificantMemory : ReadOnlyMemory<byte>.Empty;
                 }
             }
-            _logger?.LogInformation($"{toWrite.Length} bytes left after [BeforeWriting] filtering.");
+            _logger?.LogInformation($"{toWrite.Length} bytes left after [OnWriting] filtering.");
             if (!toWrite.IsEmpty)
             {
                 int written = await Client.WriteAsync(toWrite, cancellationToken);
@@ -113,7 +113,7 @@ namespace Shadowsocks.Infrastructure.Pipe
                 catch (Exception ex)
                 {
                     @continue = false;
-                    _logger?.LogError(ex, $"ExecuteFilter_BeforeWriting [{Client.EndPoint.ToString()}].");
+                    _logger?.LogError(ex, $"ExecuteFilter_OnWriting [{Client.EndPoint.ToString()}].");
                 }
             }
             return new ClientFilterResult(Client, prevFilterMemory, @continue);

@@ -35,9 +35,9 @@ namespace Shadowsocks.Cipher
                 {
                     return new ClientFilterResult(this.Client, bufferPlain, true);
                 }
-                else { _logger?.LogError($"CipherUdpFilter AfterReading no plain data."); }
+                else { _logger?.LogError($"CipherUdpFilter OnReading no plain data."); }
             }
-            else { _logger?.LogError($"CipherUdpFilter AfterReading filterContext.Memory.IsEmpty"); }
+            else { _logger?.LogError($"CipherUdpFilter OnReading filterContext.Memory.IsEmpty"); }
 
             return new ClientFilterResult(this.Client, null, false);
         }
@@ -49,7 +49,7 @@ namespace Shadowsocks.Cipher
                 var bufferCipher = _cipher.EncryptUdp(ctx.Memory);
                 return new ClientFilterResult(this.Client, bufferCipher, true);
             }
-            else { _logger?.LogError($"CipherUdpFilter BeforeWriting filterContext.Memory.IsEmpty"); }
+            else { _logger?.LogError($"CipherUdpFilter OnWriting filterContext.Memory.IsEmpty"); }
 
             return new ClientFilterResult(this.Client, null, false);
         }

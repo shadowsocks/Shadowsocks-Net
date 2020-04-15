@@ -37,7 +37,7 @@ namespace Shadowsocks.Cipher
                 }
                 else
                 {
-                    _logger?.LogError($"AeadCipherTcpFilter AfterReading filterContext.Memory.IsEmpty");
+                    _logger?.LogError($"AeadCipherTcpFilter OnReading filterContext.Memory.IsEmpty");
                 }
             }
             return new ClientFilterResult(this.Client, bufferPlain, true);//TODO 2           
@@ -55,7 +55,7 @@ namespace Shadowsocks.Cipher
                 }
                 else
                 {
-                    _logger?.LogError($"AeadCipherTcpFilter BeforeWriting filterContext.Memory.IsEmpty");
+                    _logger?.LogError($"AeadCipherTcpFilter OnWriting filterContext.Memory.IsEmpty");
                 }
             }
             return r;
