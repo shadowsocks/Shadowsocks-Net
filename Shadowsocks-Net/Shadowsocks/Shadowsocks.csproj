@@ -21,6 +21,8 @@
     <ProjectReference Include="..\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj" />
     <ProjectReference Include="..\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
     <ProjectReference Include="..\Shadowsocks.Tunnel\Shadowsocks.Tunnel.csproj" />
+    <ProjectReference Include="..\Tunnels\Shadowsocks.Tunnel.Quic\Shadowsocks.Tunnel.Quic.csproj" />
+    <ProjectReference Include="..\Tunnels\Shadowsocks.Tunnel.Websocket\Shadowsocks.Tunnel.Websocket.csproj" />
   </ItemGroup>
 
   <ItemGroup>
