@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Tunnel.Quic", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Tunnel.Kcp", "Shadowsocks-Net\Tunnels\Shadowsocks.Tunnel.Kcp\Shadowsocks.Tunnel.Kcp.csproj", "{7DCD4312-878A-46A9-A813-9DF6677070E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Tunnel.Obfuscation", "Shadowsocks-Net\Tunnels\Shadowsocks.Tunnel.Obfuscation\Shadowsocks.Tunnel.Obfuscation.csproj", "{56773A89-EB74-4DB1-95F2-B76BEF5B2103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Tunnel.Obfuscation", "Shadowsocks-Net\Shadowsocks.Tunnel.Obfuscation\Shadowsocks.Tunnel.Obfuscation.csproj", "{56773A89-EB74-4DB1-95F2-B76BEF5B2103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
