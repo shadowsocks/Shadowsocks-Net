@@ -14,14 +14,14 @@ using Microsoft.Extensions.Logging;
 using Argument.Check;
 using System.Text;
 
-namespace Shadowsocks.Tunnel.Websocket
+namespace Shadowsocks.Tunnel.Tls
 {
     using Infrastructure;
     using Infrastructure.Sockets;
     using Infrastructure.Pipe;
 
-    [Tunnel("Tunnel.Websocket")]
-    public class TunnelLocal : ITunnelLocal
+    [Tunnel("Tunnel.Tls")]
+    public class TunnelRemote : ITunnelLocal
     {
         public Task<IClient> ConnectTcp()
         {

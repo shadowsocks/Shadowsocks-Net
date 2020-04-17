@@ -14,21 +14,23 @@ using Microsoft.Extensions.Logging;
 using Argument.Check;
 using System.Text;
 
-namespace Shadowsocks.Tunnel.Websocket
+namespace Shadowsocks.Tunnel.Tls
 {
     using Infrastructure;
     using Infrastructure.Sockets;
-    using Infrastructure.Pipe;
-
-    [Tunnel("Tunnel.Websocket")]
-    public class TunnelRemote : ITunnelLocal
+    public class TlsServer : Server<TlsClient>
     {
-        public Task<IClient> ConnectTcp()
+        public override Task<TlsClient> Accept()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IClient> ConnectUdp()
+        public override void Listen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void StopListen()
         {
             throw new NotImplementedException();
         }

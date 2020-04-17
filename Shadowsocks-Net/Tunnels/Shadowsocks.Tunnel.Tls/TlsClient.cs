@@ -7,17 +7,24 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Shadowsocks.Infrastructure.Sockets
+
+namespace Shadowsocks.Tunnel.Tls
 {
+    using Infrastructure;
+    using Infrastructure.Sockets;
+
     /// <summary>
-    /// Clients use KCP protocol.
+    /// Clients use SSL.
     /// </summary>
-    public class KcpClient : IClient
+    public class TlsClient : IClient
     {
+
+        SslStream sslStream = null;
         public IPEndPoint LocalEndPoint => throw new NotImplementedException();
 
         public IPEndPoint EndPoint => throw new NotImplementedException();
@@ -37,21 +44,6 @@ namespace Shadowsocks.Infrastructure.Sockets
         public ValueTask<int> WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
-        }
-
-        protected virtual void FireClosing()
-        {
-            try
-            {
-                if (null != Closing)
-                {
-                    Closing(this, new ClientEventArgs(this));
-                }
-            }
-            catch// (Exception ex)
-            {
-                //_logger?.LogError(ex, "ClientBase error fire Closing.");
-            }
         }
     }
 }
