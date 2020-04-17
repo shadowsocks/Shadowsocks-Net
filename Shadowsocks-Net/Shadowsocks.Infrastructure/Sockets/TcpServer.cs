@@ -19,15 +19,13 @@ namespace Shadowsocks.Infrastructure.Sockets
 {
     public sealed class TcpServer : Server<TcpClient1>
     {
-        ILogger _logger = null;
         ServerConfig _config = null;
         TcpListener _listener = null;
 
-
         public TcpServer(ServerConfig serverConfig, ILogger logger = null)
+            : base(logger)
         {
             this._config = Throw.IfNull(() => serverConfig);
-            this._logger = logger;
         }
 
         ~TcpServer()
@@ -41,7 +39,7 @@ namespace Shadowsocks.Infrastructure.Sockets
         {
             if (IsRunning) { return; }
             StopListen();
-           
+
             try
             {
                 InitializeListener();
@@ -57,7 +55,7 @@ namespace Shadowsocks.Infrastructure.Sockets
                 IsRunning = false;
                 _logger?.LogError($"TcpServer socket listen failed {se.SocketErrorCode}, {se.Message}.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 IsRunning = false;
                 _logger?.LogError(ex, $"TcpServer socket listen failed.");
@@ -142,7 +140,7 @@ namespace Shadowsocks.Infrastructure.Sockets
             if (null == _listener)
             {
                 this.EndPoint = this._config.BindPoint;
-               
+
                 _listener = new TcpListener(this.EndPoint);
                 _listener.ExclusiveAddressUse = false;
             }
