@@ -19,15 +19,13 @@ namespace Shadowsocks.Infrastructure.Sockets
 {
     public sealed class TcpServer : Server<TcpClient1>
     {
-        ILogger _logger = null;
         ServerConfig _config = null;
         TcpListener _listener = null;
 
-
         public TcpServer(ServerConfig serverConfig, ILogger logger = null)
+            : base(logger)
         {
             this._config = Throw.IfNull(() => serverConfig);
-            this._logger = logger;
         }
 
         ~TcpServer()

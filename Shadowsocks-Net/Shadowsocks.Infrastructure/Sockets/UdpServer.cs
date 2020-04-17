@@ -26,20 +26,19 @@ namespace Shadowsocks.Infrastructure.Sockets
         /// </summary>
         public const int CLIENT_ACTIVE_TIMEOUT = 30 * 1000;
 
-        ILogger _logger = null;
         ServerConfig _config = null;
         UdpClient _listenerClient = null;
 
         LruCache<Locker<UdpClient2>> _clientLockers = null;
         FixedSizeBuffer.BufferPool _bufferPool = null;
+
         public UdpServer(ServerConfig serverConfig, ILogger logger = null)
+            : base(logger)
         {
             this._config = Throw.IfNull(() => serverConfig);
-            this._logger = logger;
 
             this._clientLockers = new LruCache<Locker<UdpClient2>>();
             this._bufferPool = new FixedSizeBuffer.BufferPool(1500, 10 * Defaults.MaxNumClient, 5);
-
         }
         ~UdpServer()
         {
