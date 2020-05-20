@@ -1,0 +1,5 @@
+Argument.Check
+Microsoft.Extensions.Logging
+Microsoft.IO.RecyclableMemoryStream
+System.Memory
+System.Text.Json

@@ -1,0 +1,12 @@
+Argument.Check
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Configuration.Abstractions
+Microsoft.Extensions.Configuration.CommandLine
+Microsoft.Extensions.Configuration.Json
+Microsoft.Extensions.Logging.Console
+Microsoft.Extensions.Logging.Debug
+Microsoft.Extensions.Options.ConfigurationExtensions
+Microsoft.Extensions.Logging
+System.Text.Encoding
+System.Text.Encoding.Extensions
+NLog.Extensions.Logging

@@ -1,0 +1,6 @@
+Argument.Check
+Microsoft.Extensions.Caching.Memory
+Microsoft.Extensions.Logging
+System.Memory
+System.Runtime.CompilerServices.Unsafe
+System.Text.Json

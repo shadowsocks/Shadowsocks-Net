@@ -1,0 +1,29 @@
+source https://api.nuget.org/v3/index.json
+
+nuget Argument.Check ~> 1
+nuget coverlet.collector ~> 1
+nuget MaterialDesignThemes ~> 3
+nuget Microsoft.Extensions.Caching.Memory ~> 3
+nuget Microsoft.Extensions.Configuration ~> 3
+nuget Microsoft.Extensions.Configuration.Abstractions ~> 3
+nuget Microsoft.Extensions.Configuration.CommandLine ~> 3
+nuget Microsoft.Extensions.Configuration.Json ~> 3
+nuget Microsoft.Extensions.Logging ~> 3
+nuget Microsoft.Extensions.Logging.Console ~> 3
+nuget Microsoft.Extensions.Logging.Debug ~> 3
+nuget Microsoft.Extensions.Options.ConfigurationExtensions
+nuget Microsoft.IO.RecyclableMemoryStream ~> 1
+nuget Microsoft.NET.Test.Sdk ~> 16
+nuget Microsoft.Xaml.Behaviors.Wpf ~> 1
+nuget MSTest.TestAdapter ~> 2
+nuget MSTest.TestFramework ~> 2
+nuget NLog.Extensions.Logging ~> 1
+nuget Prism.DryIoc ~> 7
+nuget QRCoder ~> 1
+nuget System.Drawing.Common ~> 4
+nuget System.Memory ~> 4
+nuget System.Runtime.CompilerServices.Unsafe ~> 4
+nuget System.Text.Encoding ~> 4
+nuget System.Text.Encoding.Extensions ~> 4
+nuget System.Text.Json ~> 4
+nuget System.Windows.Forms.DataVisualization
