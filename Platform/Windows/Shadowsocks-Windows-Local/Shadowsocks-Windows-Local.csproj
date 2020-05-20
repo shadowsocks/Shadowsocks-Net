@@ -1,5 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -15,15 +15,12 @@
     <AssemblyName>shadowsocks-net-local</AssemblyName>
     <ApplicationIcon>Resource\ss-icon-128x128.ico</ApplicationIcon>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\Shadowsocks-Windows-Local-Design\IconCache.cs" Link="IconCache.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\IconGenerator.cs" Link="IconGenerator.cs" />
@@ -43,11 +40,9 @@
     <Compile Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.Designer.cs" Link="Ui\UCSystrayIconEditor.Designer.cs" />
     <Compile Include="..\Shadowsocks-Windows-Local-Design\WinformEx.cs" Link="WinformEx.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="..\Shadowsocks-Windows-Local-Design\TODO.txt" Link="TODO.txt" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Properties\Messages.resx" Link="Properties\Messages.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Properties\Messages.zh-CN.resx" Link="Properties\Messages.zh-CN.resx" />
@@ -63,25 +58,15 @@
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.resx" Link="Ui\UCSystrayIconEditor.resx" />
     <EmbeddedResource Include="..\Shadowsocks-Windows-Local-Design\Ui\UCSystrayIconEditor.zh-CN.resx" Link="Ui\UCSystrayIconEditor.zh-CN.resx" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Ui\" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="..\Shadowsocks-Windows-Local-Design\App.config" Link="App.config" />
     <None Include="..\Shadowsocks-Windows-Local-Design\Properties\Settings.settings" Link="Properties\Settings.settings" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="QRCoder" Version="1.3.6" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
-    <PackageReference Include="System.Windows.Forms.DataVisualization" Version="1.0.0-prerelease.20110.1" />
+    <ProjectReference Include="..\..\..\Stdlib\Shadowsocks\Shadowsocks.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\Shadowsocks\Shadowsocks.csproj" />
-  </ItemGroup>
-
+  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
 </Project>

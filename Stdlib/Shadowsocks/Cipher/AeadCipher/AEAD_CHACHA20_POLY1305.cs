@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Shadowsocks-Net https://github.com/shadowsocks/Shadowsocks-Net
  */
 
@@ -16,7 +16,7 @@ using Argument.Check;
 
 namespace Shadowsocks.Cipher.AeadCipher
 {
-    [Cipher("chacha20-ietf-poly1305")]
+    [Cipher("chacha20-ietf-poly1305", isDefault: true)]
     public class AEAD_CHACHA20_POLY1305 : AeadChaChaPoly1305
     {
         public AEAD_CHACHA20_POLY1305(string password, ILogger logger = null)

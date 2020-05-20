@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Stdlib\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj" />
+    <ProjectReference Include="..\..\Stdlib\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Stdlib\Shadowsocks\Shadowsocks.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

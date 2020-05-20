@@ -3,9 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks", "Shadowsocks-Net\Shadowsocks\Shadowsocks.csproj", "{98E254E6-56C8-442D-BCE2-D4DEBF88FC61}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{4E96E9FC-C477-4BCF-87CF-814939AC8A39}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowsocksTest", "Shadowsocks-Net\ShadowsocksTest\ShadowsocksTest.csproj", "{407960E1-7A71-4378-89D5-87B2D957F851}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{506187E4-E054-4A9C-A4ED-B93674113CEF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		build.cmd = build.cmd
+		LICENSE = LICENSE
+		README-zh.md = README-zh.md
+		README.md = README.md
+		ssarch.png = ssarch.png
+		ssarch.svg = ssarch.svg
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stdlib", "Stdlib", "{F770C906-3492-482C-B15C-D3F51F83BBD6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32C976DB-ACFB-4850-8C1B-63C9060B0D3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platform", "Platform", "{99A321BB-45CE-4ACA-91AB-FC38207FC3B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linux", "Linux", "{2D4F0C2E-F093-4589-A316-0D7586AC3F7D}"
 EndProject
@@ -17,30 +35,41 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debian", "Debian", "{C8E8CC30-7021-45A6-9F80-300260876B16}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Linux-Local", "Shadowsocks-Net\Linux\Shadowsocks-Linux-Local\Shadowsocks-Linux-Local.csproj", "{732EC982-D6D1-4403-A9E6-2682F79FBDBF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{5C6CA5C0-8CDB-4193-8759-C79FA0F6AB89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Linux-Remote", "Shadowsocks-Net\Linux\Shadowsocks-Linux-Remote\Shadowsocks-Linux-Remote.csproj", "{C729898E-6A04-41BF-B80E-5DCBDC84AA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks", "Stdlib\Shadowsocks\Shadowsocks.csproj", "{98E254E6-56C8-442D-BCE2-D4DEBF88FC61}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crossplatform-Local", "Shadowsocks-Net\Minimal\Shadowsocks-Minimal-CrossPlatform-Local\Shadowsocks-Minimal-Crossplatform-Local.csproj", "{5CB452A1-1984-44FD-82A3-CC305AF423A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Infrastructure", "Stdlib\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj", "{7570133C-F669-41E2-9F79-EF5D4CAF4225}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crossplatform-Remote", "Shadowsocks-Net\Minimal\Shadowsocks-Minimal-CrossPlatform-Remote\Shadowsocks-Minimal-Crossplatform-Remote.csproj", "{238C2D73-8648-42B9-A7A1-15D6A0B013C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Cryptography", "Stdlib\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj", "{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks-Windows-Local-Design", "Shadowsocks-Net\Windows\Shadowsocks-Windows-Local-Design\Shadowsocks-Windows-Local-Design.csproj", "{770BA706-B176-4FB0-A270-09A10B84FC20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowsocksTest", "Tests\ShadowsocksTest\ShadowsocksTest.csproj", "{407960E1-7A71-4378-89D5-87B2D957F851}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{506187E4-E054-4A9C-A4ED-B93674113CEF}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README-zh.md = README-zh.md
-		README.md = README.md
-		ssarch.png = ssarch.png
-		ssarch.svg = ssarch.svg
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Linux-Local", "Platform\Linux\Shadowsocks-Linux-Local\Shadowsocks-Linux-Local.csproj", "{732EC982-D6D1-4403-A9E6-2682F79FBDBF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Infrastructure", "Shadowsocks-Net\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj", "{7570133C-F669-41E2-9F79-EF5D4CAF4225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Linux-Remote", "Platform\Linux\Shadowsocks-Linux-Remote\Shadowsocks-Linux-Remote.csproj", "{C729898E-6A04-41BF-B80E-5DCBDC84AA7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Windows-Local", "Shadowsocks-Net\Windows\Shadowsocks-Windows-Local\Shadowsocks-Windows-Local.csproj", "{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crossplatform-Local", "Platform\Minimal\Shadowsocks-Minimal-CrossPlatform-Local\Shadowsocks-Minimal-Crossplatform-Local.csproj", "{5CB452A1-1984-44FD-82A3-CC305AF423A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks.Cryptography", "Shadowsocks-Net\Shadowsocks.Cryptography\Shadowsocks.Cryptography.csproj", "{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Minimal-Crossplatform-Remote", "Platform\Minimal\Shadowsocks-Minimal-CrossPlatform-Remote\Shadowsocks-Minimal-Crossplatform-Remote.csproj", "{238C2D73-8648-42B9-A7A1-15D6A0B013C1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks-Windows-Local", "Platform\Windows\Shadowsocks-Windows-Local\Shadowsocks-Windows-Local.csproj", "{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shadowsocks-Windows-Local-Design", "Platform\Windows\Shadowsocks-Windows-Local-Design\Shadowsocks-Windows-Local-Design.csproj", "{770BA706-B176-4FB0-A270-09A10B84FC20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Net.UI", "UI\Shadowsocks.Net.UI\Shadowsocks.Net.UI.csproj", "{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{D17AA5CC-B519-43DF-93FB-C43420FC7556}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Net.UI.WPF.ConfigModule", "UI\WPF\Shadowsocks.Net.UI.WPF.ConfigModule\Shadowsocks.Net.UI.WPF.ConfigModule.csproj", "{A84AC7E8-D920-41EC-9D83-EF813AE98F36}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Net.UI.WPF.QRCodeModule", "UI\WPF\Shadowsocks.Net.UI.WPF.QRCodeModule\Shadowsocks.Net.UI.WPF.QRCodeModule.csproj", "{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Net.UI.WPF", "UI\WPF\Shadowsocks.Net.UI.WPF\Shadowsocks.Net.UI.WPF.csproj", "{455D01E9-13B2-4381-AB53-6C447E0B2789}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shadowsocks.Net.UI.WPF.Infrastructure", "UI\WPF\Shadowsocks.Net.UI.WPF.Infrastructure\Shadowsocks.Net.UI.WPF.Infrastructure.csproj", "{DA283933-99EB-40BB-9926-4B16187A349D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Module", "Module", "{78AB4091-311D-4E5F-ADEA-B417C115670D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +81,14 @@ Global
 		{98E254E6-56C8-442D-BCE2-D4DEBF88FC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98E254E6-56C8-442D-BCE2-D4DEBF88FC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98E254E6-56C8-442D-BCE2-D4DEBF88FC61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{407960E1-7A71-4378-89D5-87B2D957F851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{407960E1-7A71-4378-89D5-87B2D957F851}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{407960E1-7A71-4378-89D5-87B2D957F851}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -72,35 +109,61 @@ Global
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{770BA706-B176-4FB0-A270-09A10B84FC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{770BA706-B176-4FB0-A270-09A10B84FC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{770BA706-B176-4FB0-A270-09A10B84FC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{770BA706-B176-4FB0-A270-09A10B84FC20}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7570133C-F669-41E2-9F79-EF5D4CAF4225}.Release|Any CPU.Build.0 = Release|Any CPU
 		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{770BA706-B176-4FB0-A270-09A10B84FC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{770BA706-B176-4FB0-A270-09A10B84FC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{770BA706-B176-4FB0-A270-09A10B84FC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{770BA706-B176-4FB0-A270-09A10B84FC20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A84AC7E8-D920-41EC-9D83-EF813AE98F36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A84AC7E8-D920-41EC-9D83-EF813AE98F36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A84AC7E8-D920-41EC-9D83-EF813AE98F36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A84AC7E8-D920-41EC-9D83-EF813AE98F36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455D01E9-13B2-4381-AB53-6C447E0B2789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455D01E9-13B2-4381-AB53-6C447E0B2789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455D01E9-13B2-4381-AB53-6C447E0B2789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455D01E9-13B2-4381-AB53-6C447E0B2789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA283933-99EB-40BB-9926-4B16187A349D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA283933-99EB-40BB-9926-4B16187A349D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA283933-99EB-40BB-9926-4B16187A349D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA283933-99EB-40BB-9926-4B16187A349D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2D4F0C2E-F093-4589-A316-0D7586AC3F7D} = {99A321BB-45CE-4ACA-91AB-FC38207FC3B5}
+		{52A8B730-A55A-42EA-85E2-BBE04CF799A5} = {99A321BB-45CE-4ACA-91AB-FC38207FC3B5}
+		{8FAAAE16-7395-4A05-ABAA-93D3EFF826E1} = {2D4F0C2E-F093-4589-A316-0D7586AC3F7D}
 		{35584978-D3F9-417B-A3D1-4B156F739B09} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
 		{C8E8CC30-7021-45A6-9F80-300260876B16} = {2D4F0C2E-F093-4589-A316-0D7586AC3F7D}
+		{98E254E6-56C8-442D-BCE2-D4DEBF88FC61} = {F770C906-3492-482C-B15C-D3F51F83BBD6}
+		{7570133C-F669-41E2-9F79-EF5D4CAF4225} = {F770C906-3492-482C-B15C-D3F51F83BBD6}
+		{D12EAD12-A05B-4608-B63B-A6B1D9EEA9D0} = {F770C906-3492-482C-B15C-D3F51F83BBD6}
+		{407960E1-7A71-4378-89D5-87B2D957F851} = {32C976DB-ACFB-4850-8C1B-63C9060B0D3E}
 		{732EC982-D6D1-4403-A9E6-2682F79FBDBF} = {2D4F0C2E-F093-4589-A316-0D7586AC3F7D}
 		{C729898E-6A04-41BF-B80E-5DCBDC84AA7F} = {2D4F0C2E-F093-4589-A316-0D7586AC3F7D}
 		{5CB452A1-1984-44FD-82A3-CC305AF423A8} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
 		{238C2D73-8648-42B9-A7A1-15D6A0B013C1} = {8FAAAE16-7395-4A05-ABAA-93D3EFF826E1}
-		{770BA706-B176-4FB0-A270-09A10B84FC20} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
 		{92C98235-752A-4ABD-A0C1-FC0B65B1A9E1} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
+		{770BA706-B176-4FB0-A270-09A10B84FC20} = {52A8B730-A55A-42EA-85E2-BBE04CF799A5}
+		{DA999F46-6FEE-4BB4-AA53-1DF426B89BEB} = {5C6CA5C0-8CDB-4193-8759-C79FA0F6AB89}
+		{D17AA5CC-B519-43DF-93FB-C43420FC7556} = {5C6CA5C0-8CDB-4193-8759-C79FA0F6AB89}
+		{A84AC7E8-D920-41EC-9D83-EF813AE98F36} = {78AB4091-311D-4E5F-ADEA-B417C115670D}
+		{1B05ED65-94EB-4A57-B7D7-C9B3BD5E240F} = {78AB4091-311D-4E5F-ADEA-B417C115670D}
+		{455D01E9-13B2-4381-AB53-6C447E0B2789} = {D17AA5CC-B519-43DF-93FB-C43420FC7556}
+		{DA283933-99EB-40BB-9926-4B16187A349D} = {D17AA5CC-B519-43DF-93FB-C43420FC7556}
+		{78AB4091-311D-4E5F-ADEA-B417C115670D} = {D17AA5CC-B519-43DF-93FB-C43420FC7556}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C637C6B6-CCCB-4A6F-80B2-0D8C25BB4CCC}
