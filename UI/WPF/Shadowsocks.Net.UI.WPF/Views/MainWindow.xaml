@@ -1,0 +1,57 @@
+<Window x:Class="Shadowsocks.Net.UI.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:base="clr-namespace:Shadowsocks.Net.UI.WPF.Infrastructure;assembly=Shadowsocks.Net.UI.WPF.Infrastructure"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:prism="http://prismlibrary.com/"
+        mc:Ignorable="d"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{base:I18N ''}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Medium" TextElement.FontSize="13"
+        Height="480" Width="800"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Icon="/Resources/shadowsocks.ico">
+    <materialDesign:DialogHost x:Name="RootDialog" Identifier="RootDialog">
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding IsChecked, ElementName=MenuToggleButton}">
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <DockPanel MinWidth="200">
+                    <Grid DockPanel.Dock="Top">
+                        <ToggleButton Width="32" Height="32" Margin="8" HorizontalAlignment="Right"
+                              IsChecked="{Binding IsChecked, ElementName=MenuToggleButton}" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                    </Grid>
+
+                    <StackPanel Margin="8">
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <materialDesign:ColorZone materialDesign:ShadowAssist.ShadowDepth="Depth2" Grid.Row="0" Padding="8" Mode="PrimaryMid">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ToggleButton x:Name="MenuToggleButton" Grid.Column="0" Width="32" Height="32" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHamburgerToggleButton}" />
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" FontSize="18" Text="{base:I18N 'Shadowsocks'}" />
+                        <materialDesign:PopupBox Grid.Column="2" VerticalAlignment="Center" PlacementMode="BottomAndAlignRightEdges">
+                        </materialDesign:PopupBox>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1" />
+            </Grid>
+        </materialDesign:DrawerHost>
+    </materialDesign:DialogHost>
+</Window>

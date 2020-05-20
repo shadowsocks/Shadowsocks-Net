@@ -1,0 +1,26 @@
+<UserControl x:Class="Shadowsocks.Net.UI.WPF.ConfigModule.Views.ConfigDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Shadowsocks.Net.UI.WPF.ConfigModule.Views"
+             xmlns:base="clr-namespace:Shadowsocks.Net.UI.WPF.Infrastructure;assembly=Shadowsocks.Net.UI.WPF.Infrastructure"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel Orientation="Vertical">
+        <ContentControl x:Name="ServerConfigControl" prism:RegionManager.RegionName="ServerConfigRegion" prism:RegionManager.RegionContext="{Binding ServerConfigClone}" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+                    <Setter Property="Margin" Value="8" />
+                </Style>
+            </StackPanel.Resources>
+
+            <Button Content="{base:I18N 'OK'}" Command="{Binding OKCommand}" CommandParameter="{Binding ElementName=ServerConfigControl}" />
+            <Button Content="{base:I18N 'Cancel'}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
+            <Button Content="{base:I18N 'Apply'}" Command="{Binding ApplyCommand}" CommandParameter="{Binding ElementName=ServerConfigControl}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

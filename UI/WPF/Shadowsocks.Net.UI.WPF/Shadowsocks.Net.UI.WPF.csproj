@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\shadowsocks.ico</ApplicationIcon>
+    <AssemblyName>Shadowsocks.Net.UI.WPF</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Utilities\**" />
+    <EmbeddedResource Remove="Utilities\**" />
+    <None Remove="Utilities\**" />
+    <Page Remove="Utilities\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\shadowsocks.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shadowsocks.Net.UI.WPF.ConfigModule\Shadowsocks.Net.UI.WPF.ConfigModule.csproj" />
+    <ProjectReference Include="..\Shadowsocks.Net.UI.WPF.Infrastructure\Shadowsocks.Net.UI.WPF.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shadowsocks.Net.UI.WPF.QRCodeModule\Shadowsocks.Net.UI.WPF.QRCodeModule.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
+</Project>
