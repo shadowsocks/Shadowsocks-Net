@@ -92,16 +92,17 @@ namespace Shadowsocks.Infrastructure.Pipe
         /// <param name="data"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
+        ClientFilterResult ExecuteFilter(ReadOnlyMemory<byte> data, CancellationToken cancellationToken)
         {
             SmartBuffer prevFilterMemory = null;
             bool @continue = true;
             int time = 0;
+
             foreach (var filter in FilterChain)
             {
                 try
                 {
-                    if (time > 0 && null == prevFilterMemory) { @continue = true; break; }
+                    if (time > 0 && null == prevFilterMemory) { @continue = false; break; }
                     var result = filter.OnWriting(new ClientFilterContext(Client, null == prevFilterMemory ? data : prevFilterMemory.SignificantMemory));
                     time++;
                     prevFilterMemory?.Dispose();

@@ -43,7 +43,7 @@ namespace Shadowsocks_Minimal_Crossplatform_Local
             {
                 builder
                     .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning)
+                    .AddFilter("System", LogLevel.Warning)//.AddConfiguration(config)
                     .AddConsole();  //.AddNLog(config);
             });
 
