@@ -39,7 +39,7 @@ namespace Shadowsocks_Minimal_Crossplatform_Remote
 
             var loggerFactory = LoggerFactory.Create(builder =>
             {
-                builder
+                builder//.AddConfiguration(config)
                     .AddFilter("Microsoft", LogLevel.Warning)
                     .AddFilter("System", LogLevel.Warning)
                     .AddConsole();  //.AddNLog(config);

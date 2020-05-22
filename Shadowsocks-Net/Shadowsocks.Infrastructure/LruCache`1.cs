@@ -34,7 +34,7 @@ namespace Shadowsocks.Infrastructure
             var option = new MemoryCacheOptions();
             option.CompactionPercentage = .7D;
 
-            option.ExpirationScanFrequency = TimeSpan.FromSeconds(30);//<-
+            option.ExpirationScanFrequency = expirationScanFrequency;
             _cache = new MemoryCache(option);
 
         }

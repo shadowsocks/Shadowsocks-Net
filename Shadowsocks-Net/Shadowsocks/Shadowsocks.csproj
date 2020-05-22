@@ -22,7 +22,7 @@
     <ProjectReference Include="..\Shadowsocks.Infrastructure\Shadowsocks.Infrastructure.csproj" />
     <ProjectReference Include="..\Shadowsocks.Tunnel\Shadowsocks.Tunnel.csproj" />
     <ProjectReference Include="..\Tunnels\Shadowsocks.Tunnel.Quic\Shadowsocks.Tunnel.Quic.csproj" />
-    <ProjectReference Include="..\Tunnels\Shadowsocks.Tunnel.Websocket\Shadowsocks.Tunnel.Tls.csproj" />
+    <ProjectReference Include="..\Tunnels\Shadowsocks.Tunnel.Tls\Shadowsocks.Tunnel.Tls.csproj" />
   </ItemGroup>
 
   <ItemGroup>
