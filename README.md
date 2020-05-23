@@ -5,7 +5,7 @@ Coming soon...
 
 This branch considers Shadowsocks into three parts: the local part of the proxy server (ss-local), the remote part of the proxy server (ss-remote), and the secure tunnel between them.
 
-ss-local provides SOCKS5 proxy service to clients, ss-remote dose forwarding / relaying, the secure tunnel is responsible for the secure communication between ss-local and ss-remote:
+ss-local provides SOCKS5 proxy service to clients, ss-remote does forwarding / relaying, the secure tunnel is responsible for the secure communication between ss-local and ss-remote:
 <center>
 
 ![arch][shadowsocks_net_arch_pt]
