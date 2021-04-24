@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <RootNamespace>Shadowsocks_Windows_Local</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <PackageId>Shadowsocks-Net</PackageId>

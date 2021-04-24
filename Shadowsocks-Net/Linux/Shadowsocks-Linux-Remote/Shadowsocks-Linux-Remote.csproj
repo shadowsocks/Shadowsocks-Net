@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>Shadowsocks_Linux_Remote</RootNamespace>    
     <AssemblyName>shadowsocks-net-remote</AssemblyName>
     <!--<PublishTrimmed>true</PublishTrimmed>-->

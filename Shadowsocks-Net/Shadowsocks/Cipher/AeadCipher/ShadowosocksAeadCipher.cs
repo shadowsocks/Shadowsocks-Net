@@ -345,7 +345,7 @@ namespace Shadowsocks.Cipher.AeadCipher
         {
             //Throw.IfNull(() => materKey);
             //Throw.IfNull(() => salt);
-            //Throw.IfNull(() => info);
+            //Throw.IfNull(() => info);            
             var k = HKDF.DeriveKey(HashAlgorithmName.SHA1, materKey, subKeyLength, salt, info);
             Buffer.BlockCopy(k, 0, subkeyBuffer, 0, k.Length);
         }
