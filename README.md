@@ -176,7 +176,7 @@ then Shadowsocks-Net uses KCP as the transport layer protocol.
 
 ## Compile
 #### Environment and dependence
-Visual Studio 2019 Community, .NET Framework 4.6 (temporarily used to design winform), .NET Standard 2.1 & .NET Core 3.1.
+Visual Studio 2019 Community, .NET Framework 4.6 (temporarily used to design winform), .NET Standard 2.1 & .NET 5.0.
 #### How to compile
 Simply build the entire solution in Visual Studio. 
 <br/>This project is currently written 100% in C#, the core is .NET Standard 2.1 class library.

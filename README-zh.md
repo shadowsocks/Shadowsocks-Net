@@ -170,7 +170,7 @@ public interface IServer<TClient> : IServer
 
 ## 编译
 #### 编译环境
-Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform），.NET Standard 2.1 & .NET Core 3.1。
+Visual Studio 2019 Community， .NET Framework 4.6（暂时用来设计winform），.NET Standard 2.1 & .NET Core 5.0。
 #### 如何编译
 在Visual Studio中生成整个解决方案即可。整个工程目前是100% C#，核心是.NET Standard 2.1的类库。
 <br/>
